@@ -1,26 +1,67 @@
-.main-slide {
-  width: 100%;
-  height:500px;
-  background-color: beige;
+/* 폰트설정 */
+@font-face {
+  font-family: "simpleFont";
+  src: url("./font/PretendardVariable.woff2") format("truetype");
 }
-.main-project {
+p {
+  font-family: "simpleFont";
+}
+/* nav바 */
+.NavbarContainer {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr;
+}
+.myNavbar {
+  height: 50px;
+}
+
+/* nav바 아이템 간격조정 */
+.navItem {
+  margin-left: 30px;
+}
+
+/* 메인 소개*/
+.mainIntro {
   width: 100%;
- 
-  background-color: rgb(186, 103, 39);
+  height: 850px;
+  background-color: #f2f2f2;
+  text-align: center;
+  padding: 1px;
+  padding-top: 50px;
+}
+.mainIntroText {
+  font-size: 60px;
+  font-weight: 900;
+  margin-top: 100px;
+}
+.mainAnimation {
+  transition: all 3s;
+  opacity:0;
+}
+.secondIntro {
+  background-color: white;
+}
+/* 시작하기 버튼 */
+.startBtn {
+  height: 50px;
+  width: 150px;
+  border-radius: 40px;
+  margin-top: 50px;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
-
+/* 프로젝트 리스트 넘어가는거 */
 .product {
   display: flex;
   padding: 10px;
   z-index: 5;
 }
 .thumbnail {
-  background-image: url('https://via.placeholder.com/350');
+  background-image: url("https://via.placeholder.com/350");
   max-width: 200px;
   width: 100%;
   border-radius: 10px;
@@ -39,7 +80,7 @@
   color: grey;
   font-size: 13px;
 }
-
+/*캐러셀*/
 .slidercontents {
   height: 480px;
   background-image: url(../public/slider_one.png);
@@ -49,11 +90,47 @@
   display: flex;
   align-items: center;
 }
-.slidercontents img{
+.slidercontents img {
   height: 50%;
 }
 .wrapText {
   margin-left: 12%;
+}
+
+/* 로그인.js  */
+.loginBox {
+  padding: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.loginTxt {
+  font-size: 40px;
+}
+
+.input-container .form-control {
+  width: 100%;
+  max-width: none; /* 부트스트랩의 최대 너비 설정 무시 */
+  padding: 10px; /* 내부 여백 설정 */
+  font-size: 16px; /* 폰트 크기 설정 */
+  min-width: 300px; /* 입력 칸의 최소 가로 길이 설정 */
+}
+
+.input-container {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 11768px) {
+  .input-container .form-control {
+    max-width: 100%; /* 작은 화면에서 최대 너비는 100% */
+  }
+}
+.signupAndFindPwd {
+  margin-top: 30px;
+}
+.main-project {
+  width: 100%;
+  background-color: rgb(186, 103, 39);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -73,9 +150,6 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
 
 @keyframes App-logo-spin {
   from {
