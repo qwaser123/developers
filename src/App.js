@@ -3,6 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import logoImg from "./img/devLogo.PNG";
 import Footer from "./pages/Footer.js";
 import MyLogin from "./pages/Login";
+import MyProjectWrite from "./pages/ProjectWrite";
+import ProjectPage from "./pages/ProjectMain";
 import { db } from "./index.js";
 import "firebase/firestore";
 import firebase from "firebase/app"; // 필요한 Firebase 모듈을 추가로 import할 수 있습니다.
@@ -23,13 +25,13 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 
 function App() {
   let navigate = useNavigate();
-  //텍스트 스크롤 애니메이션 
+  //텍스트 스크롤 애니메이션
   useEffect(() => {
     let observer = new IntersectionObserver((e) => {
       e.forEach((box) => {
         if (box.isIntersecting) {
           box.target.style.opacity = 1;
-          box.target.style.transform = 'translateY(-50px)';
+          box.target.style.transform = "translateY(-50px)";
         }
       });
     });
@@ -57,66 +59,70 @@ function App() {
             <>
               <div className="mainIntro">
                 <div className="mainAnimation">
-                <p className="mainIntroText">
-                  사이드 프로젝트를
-                  <br />
-                  구하는 가장 <br />
-                  쉽고 빠른 방법 
-{/*이거 한줄씩 나오게 할까 */}
-                </p>
+                  <p className="mainIntroText">
+                    사이드 프로젝트를
+                    <br />
+                    구하는 가장 <br />
+                    쉽고 빠른 방법
+                    {/*이거 한줄씩 나오게 할까 */}
+                  </p>
 
-                <Button
-                  className="startBtn"
-                  variant="dark"
-                  onClick={() => {
-                    navigate("/login");
-                  }}
-                >
-                  지금 시작하기
-                </Button>
-              </div></div>
+                  <Button
+                    className="startBtn"
+                    variant="dark"
+                    onClick={() => {
+                      navigate("/login");
+                    }}
+                  >
+                    지금 시작하기
+                  </Button>
+                </div>
+              </div>
               <div className="mainIntro secondIntro">
-              <div className="mainAnimation">
-                <p className="mainIntroText">Project</p>
+                <div className="mainAnimation">
+                  <p className="mainIntroText">Project</p>
 
-                <Button
-                  className="startBtn"
-                  variant="dark"
-                  onClick={() => {
-                    navigate("/login");
-                  }}
-                >
-                  지금 시작하기
-                </Button>
-              </div></div>
+                  <Button
+                    className="startBtn"
+                    variant="dark"
+                    onClick={() => {
+                      navigate("/login");
+                    }}
+                  >
+                    지금 시작하기
+                  </Button>
+                </div>
+              </div>
               <div className="mainIntro">
-              <div className="mainAnimation">
-                <p className="mainIntroText">Community</p>
+                <div className="mainAnimation">
+                  <p className="mainIntroText">Community</p>
 
-                <Button
-                  className="startBtn"
-                  variant="dark"
-                  onClick={() => {
-                    navigate("/login");
-                  }}
-                >
-                  지금 시작하기
-                </Button>
-              </div></div>
+                  <Button
+                    className="startBtn"
+                    variant="dark"
+                    onClick={() => {
+                      navigate("/login");
+                    }}
+                  >
+                    지금 시작하기
+                  </Button>
+                </div>
+              </div>
               <div className="mainIntro secondIntro">
-              <div className="mainAnimation">
-                <p className="mainIntroText">User</p>
+                <div className="mainAnimation">
+                  <p className="mainIntroText">User</p>
 
-                <Button
-                  className="startBtn"
-                  variant="dark"
-                  onClick={() => {
-                    navigate("/login");
-                  }}
-                >
-                  지금 시작하기
-                </Button>
-              </div></div>
+                  <Button
+                    className="startBtn"
+                    variant="dark"
+                    onClick={() => {
+                      navigate("/login");
+                    }}
+                  >
+                    지금 시작하기
+                  </Button>
+                </div>
+              </div>
               <div className="main-project">
                 <ProjectList></ProjectList>
               </div>
@@ -124,11 +130,12 @@ function App() {
             </>
           }
         />
-
+        <Route path="/project/projectWrite" element={<MyProjectWrite/>}></Route>
         <Route path="/main" element={<div>로그인후 메인페이지</div>} />
+        <Route path="/project" element={<ProjectPage />} />
         <Route path="/login" element={<MyLogin />} />
         <Route path="/signup" element={<div>회원가입페이지</div>} />
-        <Route path="*" element={<div>없는페이지임</div>} />
+        <Route path="*" element={<div>경로가 올바르지 않습니다</div>} />
       </Routes>
     </div>
   );
@@ -149,7 +156,14 @@ function MyNav(props) {
           </Navbar.Brand>
 
           <Nav className="me-auto">
-            <Nav.Link className="navItem">Project</Nav.Link>
+            <Nav.Link
+              className="navItem"
+              onClick={() => {
+                props.navigate("/project");
+              }}
+            >
+              Project
+            </Nav.Link>
             <Nav.Link className="navItem">Community</Nav.Link>
             <Nav.Link className="navItem">Users</Nav.Link>
 
@@ -174,34 +188,6 @@ function MyNav(props) {
         </Container>
       </Navbar>
     </>
-  );
-}
-
-//캐러셀
-function UncontrolledExample() {
-  return (
-    <Carousel>
-      <Carousel.Item>
-        <div className="slidercontents">
-          <div className="wrapText"></div>
-        </div>
-      </Carousel.Item>
-      <Carousel.Item>
-        <div className="slidercontents2">
-          <div className="wrapText">
-            <h1>Organic fresh fruits for your health</h1>
-            <div className="d-none d-md-block">
-              <p>
-                Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                Mauris eleifend sagittis mollis. Nulla finibus arcu eu tortor
-                gravida aliquet
-              </p>
-            </div>
-            <button>SHOP NOW</button>
-          </div>
-        </div>
-      </Carousel.Item>
-    </Carousel>
   );
 }
 

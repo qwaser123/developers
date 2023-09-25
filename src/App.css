@@ -159,3 +159,20 @@ p {
     transform: rotate(360deg);
   }
 }
+
+.inputTitle  {
+  border:none;
+  outline: none;
+  width: 100%;
+}
+.projectWriteMainContainer {
+width:100% ;
+padding: 50px;
+}
+.projectWriteMainCenter {
+  width: 50%;
+  margin: auto;
+}
+.projectWriteMainCenter p, .ProjectSendBtn  {
+  margin-top: 70px;
+}
