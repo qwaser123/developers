@@ -4,9 +4,17 @@ import { useState } from "react";
 
 export default function MyProjectWrite() {
   const [formData, setFormData] = useState({});
+  let [textLen, setTextLen] = useState({
+    제목: "",
+    부제목: "",
+    포지션: "",
+    소개: "",
+  });
+
   return (
     <div className="projectWriteMainContainer">
       <div className="projectWriteMainCenter">
+
         <p>제목</p>
         <input
           type="text"
@@ -21,8 +29,21 @@ export default function MyProjectWrite() {
               ...data,
               제목: value,
             }));
+            if (value === null) {
+              setTextLen((data) => ({
+                ...data,
+                제목: false,
+              }));
+            }
+            else {
+                setTextLen((data) => ({
+                    ...data,
+                    제목: "true",
+                  }));
+            }
           }}
         ></input>
+
         <p>부제목</p>
         <input
           type="text"
@@ -37,21 +58,38 @@ export default function MyProjectWrite() {
               ...data,
               부제목: value,
             }));
+            if (value.length < 50) {
+                setTextLen((data) => ({
+                  ...data,
+                  부제목: false,
+                }));
+              } else {
+                setTextLen((data) => ({
+                    ...data,
+                    부제목: true,
+                  }));
+              }
           }}
         ></input>
-        <p>모집 포지션</p>
-        <input type="checkbox" id="position1"/>
-        <label for="position1"><span>프론트엔드</span></label>
-        <input type="checkbox" id="position2"/>
-        <label for="position2" className="checkboxMargin"><span>백엔드</span></label>
-        <input type="checkbox" id="position3"/>
-        <label for="position3" className="checkboxMargin"><span>UI/UX</span></label>
-        <input type="checkbox" id="position4"/>
-        <label for="position4" className="checkboxMargin"><span>기획</span></label>
-        
-          
 
-         
+        <p>모집 포지션</p>
+        <input type="checkbox" id="position1" />
+        <label for="position1">
+          <span>프론트엔드</span>
+        </label>
+        <input type="checkbox" id="position2" />
+        <label for="position2" className="checkboxMargin">
+          <span>백엔드</span>
+        </label>
+        <input type="checkbox" id="position3" />
+        <label for="position3" className="checkboxMargin">
+          <span>UI/UX</span>
+        </label>
+        <input type="checkbox" id="position4" />
+        <label for="position4" className="checkboxMargin">
+          <span>기획</span>
+        </label>
+
         <p>소개</p>
         <textarea
           type="text"
@@ -66,6 +104,17 @@ export default function MyProjectWrite() {
               ...data,
               소개: value,
             }));
+            if (value.length < 150) {
+                setTextLen((data) => ({
+                  ...data,
+                  소개: false,
+                }));
+              } else {
+                setTextLen((data) => ({
+                    ...data,
+                    소개: true,
+                  }));
+              }
           }}
         ></textarea>
         <Button
@@ -73,7 +122,17 @@ export default function MyProjectWrite() {
           type="submit"
           className="ProjectSendBtn"
           onClick={() => {
-            db.collection("List").add(formData);
+            if (textLen.제목 == false) {
+              alert("제목을 입력해주세요 ");
+            } else if (textLen.부제목 == false) {
+              alert("부제목은 50자 이상 입력해주세요 ");
+            } 
+            else if (textLen.소개 == false) {
+              alert("소개칸은 150자 이상 입력해주세요 ");
+            } 
+            else {
+              db.collection("List").add(formData);
+            }
           }}
         >
           {" "}
