@@ -1,7 +1,19 @@
 import { Carousel } from "react-bootstrap";
 import {  useNavigate } from "react-router-dom";
+import { db } from "../index.js";
+import { useEffect, useState } from "react";
+
 export default function ProjectPage() {
   let navigate = useNavigate();
+
+  useEffect(()=> {
+    db.collection('List').get().then((snapshot)=> {
+      snapshot.forEach((doc)=> {
+          console.log(doc.data());
+      })
+    })
+  })
+
   return (
     <>
 
@@ -18,6 +30,7 @@ export default function ProjectPage() {
       >
         글작성
       </button>
+      
     </>
   );
 }
@@ -48,4 +61,17 @@ function Slider() {
       </Carousel.Item>
     </Carousel>
   );
+}
+
+function ListOfProject() {
+  let [contents, setContents] = useState({});
+  return(
+    <div>
+      {db.collection('List').get().then((snapshot)=> {
+        snapshot.forEach((doc)=> {
+            console.log(doc);
+        })
+      })}
+    </div>
+  )
 }

@@ -4,7 +4,7 @@ import "firebase/firestore";
 import { db } from "../index.js";
 import firebase from "firebase/app"; // 필요한 Firebase 모듈을 추가로 import할 수 있습니다.
 import "firebase/auth";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 
 export default function MyLogin() {
   const [email, setEmail] = useState("");

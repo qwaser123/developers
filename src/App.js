@@ -47,7 +47,7 @@ function App() {
       });
     };
   });
-
+ 
   return (
     <div className="App">
       <MyNav navigate={navigate}></MyNav>
@@ -210,7 +210,7 @@ function ProjectList() {
   );
 }
 
-// db.collection('product').doc('상품3').set({제목 : '변기'} )
+
 
 // db.collection("product")
 //               .get()
