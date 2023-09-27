@@ -1,9 +1,11 @@
 import { Button } from "react-bootstrap";
 import { db } from "../index.js";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function MyProjectWrite() {
   const [formData, setFormData] = useState({});
+  let navigate = useNavigate();
   let [textLen, setTextLen] = useState({
     제목: "",
     부제목: "",
@@ -132,6 +134,8 @@ export default function MyProjectWrite() {
             } 
             else {
               db.collection("List").add(formData);
+              alert('등록 완료')
+              navigate('/project')
             }
           }}
         >
