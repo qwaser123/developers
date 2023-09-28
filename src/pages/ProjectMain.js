@@ -5,16 +5,25 @@ import { useEffect, useState } from "react";
 
 export default function ProjectPage() {
   let navigate = useNavigate();
-
+  let [projectInfo, setProjectInfo] = useState({
+    제목: "",
+    부제목: "",
+    소개: "",
+  });
   useEffect(() => {
     db.collection("List")
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
-          console.log(doc.data());
+          console.log(doc.data().제목);
+          console.log(doc.data().부제목);
+          console.log(doc.data().소개);
+          setProjectInfo((data)=> ({
+            ...data, 제목: doc.data().제목, 부제목: doc.data().부제목, 소개: doc.data().소개,
+          }));
         });
       });
-  });
+  }, [projectInfo]);
 
   return (
     <>
@@ -28,7 +37,9 @@ export default function ProjectPage() {
       >
         글작성
       </button>
-      <ListOfProject/>
+        <p>{projectInfo.제목}</p>
+        <p>{projectInfo.부제목}</p>
+        <p>{projectInfo.소개}</p>
       
     </>
   );
@@ -56,19 +67,6 @@ function ListOfProject() {
   let [contents, setContents] = useState({});
   return (
     <div>
-      {db
-        .collection("List")
-        .get()
-        .then((snapshot) => {
-          snapshot.map((doc) => {
-            console.log(doc);
-            return (
-              <div>
-                <p>doc.data</p>
-              </div>
-            );
-          });
-        })}
     </div>
   );
 }
