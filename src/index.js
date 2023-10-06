@@ -1,13 +1,13 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import firebase from "firebase/app";
-import "firebase/firestore";
-import { BrowserRouter } from "react-router-dom";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import { BrowserRouter } from 'react-router-dom';
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
@@ -28,13 +28,13 @@ reportWebVitals();
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 var firebaseConfig = {
-  apiKey: "AIzaSyAx-cRJFQgukcFWp2U0K1W4ixTjv46Q2OI",
-  authDomain: "gradproject-949d8.firebaseapp.com",
-  projectId: "gradproject-949d8",
-  storageBucket: "gradproject-949d8.appspot.com",
-  messagingSenderId: "154827914730",
-  appId: "1:154827914730:web:2059538495046b585e4693",
-  measurementId: "G-1C1X0N8JW2"
+  apiKey: 'AIzaSyAx-cRJFQgukcFWp2U0K1W4ixTjv46Q2OI',
+  authDomain: 'gradproject-949d8.firebaseapp.com',
+  projectId: 'gradproject-949d8',
+  storageBucket: 'gradproject-949d8.appspot.com',
+  messagingSenderId: '154827914730',
+  appId: '1:154827914730:web:2059538495046b585e4693',
+  measurementId: 'G-1C1X0N8JW2',
 };
 
 // Initialize Firebase

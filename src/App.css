@@ -1,10 +1,10 @@
 /* 폰트설정 */
 @font-face {
-  font-family: "simpleFont";
-  src: url("./font/PretendardVariable.woff2") format("truetype");
+  font-family: 'simpleFont';
+  src: url('./font/PretendardVariable.woff2') format('truetype');
 }
 p {
-  font-family: "simpleFont";
+  font-family: 'simpleFont';
 }
 /* nav바 */
 .NavbarContainer {
@@ -37,7 +37,7 @@ p {
 }
 .mainAnimation {
   transition: all 3s;
-  opacity:0;
+  opacity: 0;
 }
 .secondIntro {
   background-color: white;
@@ -61,7 +61,7 @@ p {
   z-index: 5;
 }
 .thumbnail {
-  background-image: url("https://via.placeholder.com/350");
+  background-image: url('https://via.placeholder.com/350');
   max-width: 200px;
   width: 100%;
   border-radius: 10px;
@@ -135,7 +135,8 @@ p {
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    -webkit-animation: App-logo-spin infinite 20s linear;
+            animation: App-logo-spin infinite 20s linear;
   }
 }
 
@@ -150,6 +151,14 @@ p {
   color: white;
 }
 
+@-webkit-keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 @keyframes App-logo-spin {
   from {
@@ -160,14 +169,14 @@ p {
   }
 }
 
-.inputTitle  {
-  border:none;
+.inputTitle {
+  border: none;
   outline: none;
   width: 100%;
 }
 .projectWriteMainContainer {
-width:100% ;
-padding: 50px;
+  width: 100%;
+  padding: 50px;
 }
 .projectWriteMainCenter {
   width: 50%;
@@ -177,23 +186,40 @@ padding: 50px;
   font-size: 20px;
   font-weight: bold;
 }
-.projectWriteMainCenter p, .ProjectSendBtn  {
+.projectWriteMainCenter p,
+.ProjectSendBtn {
   margin-top: 70px;
 }
 .introduce {
   height: 200px;
+}
+.projectWriteMainCenter ::-webkit-input-placeholder {
+  color: grey;
+  opacity: 0.7;
+}
+.projectWriteMainCenter ::-moz-placeholder {
+  color: grey;
+  opacity: 0.7;
+}
+.projectWriteMainCenter :-ms-input-placeholder {
+  color: grey;
+  opacity: 0.7;
+}
+.projectWriteMainCenter ::-ms-input-placeholder {
+  color: grey;
+  opacity: 0.7;
 }
 .projectWriteMainCenter ::placeholder {
   color: grey;
   opacity: 0.7;
 }
 
-input[type="checkbox"] {
+input[type='checkbox'] {
   display: none;
 }
 
-input[type="checkbox"] + label::before {
-  content: "";
+input[type='checkbox'] + label::before {
+  content: '';
   display: inline-block;
   width: 20px;
   height: 20px;
@@ -202,15 +228,12 @@ input[type="checkbox"] + label::before {
   cursor: pointer;
   border-radius: 4px;
   vertical-align: middle;
-
 }
-input[type='checkbox']:checked + label::before{
+input[type='checkbox']:checked + label::before {
   background-image: url('img/checkbox.svg');
   background-repeat: no-repeat;
-
-  
 }
-input[type='checkbox'] + label >span {
+input[type='checkbox'] + label > span {
   vertical-align: middle;
   padding-left: 5px;
 }
