@@ -123,9 +123,7 @@ function App() {
                   </Button>
                 </div>
               </div>
-              <div className='main-project'>
-                
-              </div>
+              <div className='main-project'></div>
               <Footer></Footer>
             </>
           }
@@ -165,27 +163,29 @@ function MyNav(props) {
                 props.navigate('/project');
               }}
             >
-              Project
+              프로젝트
             </Nav.Link>
-            <Nav.Link className='navItem'>Community</Nav.Link>
-            <Nav.Link className='navItem'>Users</Nav.Link>
-
+            <Nav.Link className='navItem'>커뮤니티</Nav.Link>
+            <Nav.Link className='navItem'>유저</Nav.Link>
+          </Nav>
+          <Nav>
             <Nav.Link
               className='navItem'
+              style={{ fontWeight: 'bold' }}
+              onClick={() => {
+                props.navigate('/signup');
+              }}
+            >
+              새 글 쓰기
+            </Nav.Link>
+            <Nav.Link
+              className='navItem'
+              style={{ fontWeight: 'bold' }}
               onClick={() => {
                 props.navigate('/login');
               }}
             >
               Log in
-            </Nav.Link>
-
-            <Nav.Link
-              className='navItem'
-              onClick={() => {
-                props.navigate('/signup');
-              }}
-            >
-              Sign up
             </Nav.Link>
           </Nav>
         </Container>
@@ -194,6 +194,6 @@ function MyNav(props) {
   );
 }
 
-//TODO: 프로젝트리스트들 자동으로 넘어가게, footer 간단한걸로 변경 
+//TODO: 프로젝트리스트들 자동으로 넘어가게, footer 간단한걸로 변경
 
 export default App;
