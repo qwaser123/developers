@@ -8,7 +8,7 @@ export default function MyProjectWrite() {
   let navigate = useNavigate();
   let [textLen, setTextLen] = useState({
     제목: '',
-    부제목: '',
+    요약: '',
     포지션: '',
     소개: '',
   });
@@ -44,29 +44,29 @@ export default function MyProjectWrite() {
           }}
         ></input>
 
-        <p>부제목</p>
+        <p>요약</p>
         <input
           type='text'
-          name='부제목'
-          value={formData.부제목}
-          placeholder='프로젝트 부제목 '
+          name='요약'
+          value={formData.요약}
+          placeholder='프로젝트 요약 '
           className='inputTitle'
           id='subtitle'
           onChange={(e) => {
             let value = e.target.value;
             setFormData((data) => ({
               ...data,
-              부제목: value,
+              요약: value,
             }));
             if (value.length < 50) {
               setTextLen((data) => ({
                 ...data,
-                부제목: false,
+                요약: false,
               }));
             } else {
               setTextLen((data) => ({
                 ...data,
-                부제목: true,
+                요약: true,
               }));
             }
           }}
@@ -124,8 +124,8 @@ export default function MyProjectWrite() {
           onClick={() => {
             if (textLen.제목 == false) {
               alert('제목을 입력해주세요 ');
-            } else if (textLen.부제목 == false) {
-              alert('부제목은 50자 이상 입력해주세요 ');
+            } else if (textLen.요약 == false) {
+              alert('요약은 50자 이상 입력해주세요 ');
             } else if (textLen.소개 == false) {
               alert('소개칸은 150자 이상 입력해주세요 ');
             } else {

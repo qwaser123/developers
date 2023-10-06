@@ -83,5 +83,7 @@ export default function MyLogin() {
   );
 }
 
-//입력칸 누르면 placeholder 작아지면서 위로->
+//TODO: 입력칸 누르면 placeholder 작아지면서 위로->
 // translateY주고 포커스, 블러 이벤트 핸들러
+// LogIn, SignUp 오른쪽으로 옮기거나 프로필로 변경하기 
+

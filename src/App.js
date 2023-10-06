@@ -124,7 +124,7 @@ function App() {
                 </div>
               </div>
               <div className='main-project'>
-                <ProjectList></ProjectList>
+                
               </div>
               <Footer></Footer>
             </>
@@ -195,23 +195,5 @@ function MyNav(props) {
 }
 
 //TODO: 프로젝트리스트들 자동으로 넘어가게
-function ProjectList() {
-  return (
-    <>
-      <div className='container mt-3'>
-        <div className='product'>
-          <div className='thumbnail'>
-            <div className='flex-grow-1 p-4'>
-              <h5 className='title'>아기다스 신발</h5>
-              <p className='date'>2030년 1월 8일</p>
-              <p className='price'>20000원</p>
-              <p className='floatEnd'>?0</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
 
 export default App;

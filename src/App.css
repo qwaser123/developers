@@ -57,16 +57,20 @@ p {
 /* 프로젝트 리스트 넘어가는거 */
 .product {
   display: flex;
-  padding: 10px;
   z-index: 5;
+  float: left;
+  margin-left: 16px;
 }
 .thumbnail {
-  background-image: url('https://via.placeholder.com/350');
-  max-width: 200px;
+  background-color:  white;
+  max-width: 300px;
   width: 100%;
-  border-radius: 10px;
-  background-size: cover;
+  max-height: 300px;
+  height: 100%;
+  border-radius: 20px;
   background-position: center;
+  border: solid 1px #8c969f;
+  overflow:hidden ;
 }
 .product .price {
   font-size: 16px;
@@ -80,13 +84,31 @@ p {
   color: grey;
   font-size: 13px;
 }
+/* ProjectMain.js */
+.showProjectList {
+  width: 60%;
+  margin: auto;
+}
+.projectBox {
+  background-color: gray;
+  border-radius: 20px;
+  display: inline-block;
+  width: 60px;
+  height: 24px;
+  padding: 5px;
+  text-align: center;
+}
+.projectBox p {
+  font-size: 12px;
+}
 /*캐러셀*/
 .slidercontents {
   height: 300px;
   background-image: url(img/slider_one.png);
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 70% 100%;
+  background-size: 60% 100%;
+  background-color: #f8fafc;
   display: flex;
   align-items: center;
   padding-left: 100px;

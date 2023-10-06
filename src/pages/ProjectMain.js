@@ -1,46 +1,70 @@
-import { Carousel } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { db } from "../index.js";
-import { useEffect, useState } from "react";
+import { Carousel } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { db } from '../index.js';
+import { useEffect, useState } from 'react';
 
 export default function ProjectPage() {
   let navigate = useNavigate();
   let [projectInfo, setProjectInfo] = useState({
-    제목: "",
-    부제목: "",
-    소개: "",
+    제목: '',
+    요약: '',
+    소개: '',
   });
   useEffect(() => {
-    db.collection("List")
+    db.collection('List')
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
+          //FIXME: 왜 log가 무한반복되는지 
           console.log(doc.data().제목);
-          console.log(doc.data().부제목);
+          console.log(doc.data().요약);
           console.log(doc.data().소개);
-          setProjectInfo((data)=> ({
-            ...data, 제목: doc.data().제목, 부제목: doc.data().부제목, 소개: doc.data().소개,
+          setProjectInfo((data) => ({
+            ...data,
+            제목: doc.data().제목,
+            요약: doc.data().요약,
+            소개: doc.data().소개,
           }));
         });
       });
   }, [projectInfo]);
-
+  const projectInfoKeys = Object.keys(projectInfo);
   return (
     <>
       <div>
         <Slider />
       </div>
-      <button
-        onClick={() => {
-          navigate('projectWrite');
-        }}
-      >
-        글작성
-      </button>
-        <p>{projectInfo.제목}</p>
-        <p>{projectInfo.부제목}</p>
-        <p>{projectInfo.소개}</p>
-      
+
+      <div className='showProjectList'>
+        <button
+          onClick={() => {
+            navigate('projectWrite');
+          }}
+        >
+          글 작성하기
+        </button>
+
+        {/* TODO: 글자 수 넘어가면 ...으로 변경  */}
+        {projectInfoKeys.map((key, i) => (
+          <div className='container mt-3'>
+            <div className='product'>
+              <div className='thumbnail'>
+                <div className='flex-grow-1 p-4' key={key}>
+                  <div className='projectBox'>
+                    <p>프로젝트</p>
+                  </div>
+                  <h5 className='title'>
+                    {key} {projectInfo[key]}
+                  </h5>
+                  <p className='date'>{projectInfo.요약}</p>
+                  <p className='price'>{projectInfo.소개}</p>
+                  <p className='floatEnd'>?0</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </>
   );
 }
@@ -55,8 +79,8 @@ function Slider() {
         </div>
       </Carousel.Item>
       <Carousel.Item>
-        <div className="slidercontents">
-          <div className="wrapText"></div>
+        <div className='slidercontents'>
+          <div className='wrapText'></div>
         </div>
       </Carousel.Item>
     </Carousel>
@@ -65,8 +89,6 @@ function Slider() {
 
 function ListOfProject() {
   let [contents, setContents] = useState({});
-  return (
-    <div>
-    </div>
-  );
+  return <div></div>;
 }
+
