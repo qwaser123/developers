@@ -9,6 +9,9 @@ import { useNavigate } from 'react-router-dom';
 export default function MyLogin() {
   const [email, setEmail] = useState('');
   const [pwd, setPwd] = useState('');
+  const [isIdInput, setIsIdInput] = useState('');
+  const [isPwdInput, setIsPwdInput] = useState('');
+  //FIXME: 이메일, 비번이 비어있는지 확인하는걸 onchange메서드 안에 넣어놨더니 한 번 입력했다가 지워도 true가 됨.
   let navigate = useNavigate();
   return (
     <>
@@ -27,6 +30,11 @@ export default function MyLogin() {
               className='form-control large-width'
               onChange={(e) => {
                 setEmail(e.target.value);
+                if ({ email } == null) {
+                  setIsIdInput(false);
+                } else {
+                  setIsIdInput(true);
+                }
               }}
             />
           </InputGroup>
@@ -43,32 +51,55 @@ export default function MyLogin() {
               value={pwd}
               onChange={(e) => {
                 setPwd(e.target.value);
+                if ({ pwd } == null) {
+                  setIsPwdInput(false);
+                } else {
+                  setIsPwdInput(true);
+                }
               }}
             />
           </InputGroup>
         </div>
-        <div className="signupAndFindPwd">
-        <p>아직 회원이 아니신가요? <span style={{fontWeight:'bold'}} onClick={()=> {
-          navigate('/signup')
-        }}>가입하기 {'>'}  </span> </p>
-        <p style={{marginTop:'30px'}}>비밀번호를 잊으셨나요?  <span style={{fontWeight:'bold'}}>비밀번호 찾기 {'>'}  </span></p>
+        <div className='signupAndFindPwd'>
+          <p>
+            아직 회원이 아니신가요?{' '}
+            <span
+              style={{ fontWeight: 'bold', cursor: 'pointer' }}
+              onClick={() => {
+                navigate('/signup');
+              }}
+            >
+              가입하기 {'>'}{' '}
+            </span>{' '}
+          </p>
+          <p style={{ marginTop: '30px', cursor: 'pointer' }}>
+            비밀번호를 잊으셨나요?{' '}
+            <span style={{ fontWeight: 'bold' }}>비밀번호 찾기 {'>'} </span>
+          </p>
         </div>
         <Button
           variant='dark'
           id='login'
           style={{ width: '250px', marginTop: '20px' }}
           onClick={() => {
-            firebase
-              .auth()
-              .signInWithEmailAndPassword(email, pwd)
-              .then((result) => {
-                alert('로그인 성공');
-                navigate('/main');
-              })
-              .catch((error) => {
-                alert('로그인 실패');
-              });
+            if (isIdInput == false) {
+              alert('아이디 입력하시오');
+            } else if (isPwdInput == false) {
+              alert('비밀번호를 입력하시오');
+            } else {
+              firebase
+                .auth()
+                .signInWithEmailAndPassword(email, pwd)
+                .then((result) => {
+                  alert('로그인 성공');
+                  navigate('/main');
+                })
+                .catch((error) => {
+                  alert('로그인 실패');
+                });
+            }
 
+            //TODO: 이거 써먹어야 되는데
             firebase.auth().onAuthStateChanged((user) => {
               if (user) {
               }
@@ -85,5 +116,4 @@ export default function MyLogin() {
 
 //TODO: 입력칸 누르면 placeholder 작아지면서 위로->
 // translateY주고 포커스, 블러 이벤트 핸들러
-// LogIn, SignUp 오른쪽으로 옮기거나 프로필로 변경하기 
-
+// LogIn, SignUp 오른쪽으로 옮기거나 프로필로 변경하기
