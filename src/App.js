@@ -170,8 +170,7 @@ function MyNav(props) {
           </Nav>
           <Nav>
             <Nav.Link
-              className='navItem'
-              style={{ fontWeight: 'bold' }}
+              className='navItem rightNav'
               onClick={() => {
                 props.navigate('/project/projectWrite');
               }}
@@ -179,8 +178,7 @@ function MyNav(props) {
               새 글 쓰기
             </Nav.Link>
             <Nav.Link
-              className='navItem'
-              style={{ fontWeight: 'bold' }}
+              className='navItem rightNav'
               onClick={() => {
                 props.navigate('/login');
               }}
@@ -195,5 +193,6 @@ function MyNav(props) {
 }
 
 //TODO: 프로젝트리스트들 자동으로 넘어가게, footer 간단한걸로 변경
+// 새글쓰기 : UI생성 - 프로젝트 or 스터디 or 커뮤니티 
 
 export default App;

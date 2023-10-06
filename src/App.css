@@ -20,7 +20,11 @@ p {
 .navItem {
   margin-left: 30px;
 }
-
+.rightNav {
+  font-weight: bold !important;
+  color: black !important; 
+  /* TODO:important 안 쓰는 방법을 생각해보자 */
+}
 /* 메인 소개*/
 .mainIntro {
   width: 100%;

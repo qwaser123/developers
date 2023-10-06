@@ -11,7 +11,21 @@ export default function MyLogin() {
   const [pwd, setPwd] = useState('');
   const [isIdInput, setIsIdInput] = useState('');
   const [isPwdInput, setIsPwdInput] = useState('');
+  let [isEnter, setIsEnter] = useState('');
   //FIXME: 이메일, 비번이 비어있는지 확인하는걸 onchange메서드 안에 넣어놨더니 한 번 입력했다가 지워도 true가 됨.
+  window.addEventListener('keyup', (e) => {
+    if(e.key === 'Enter') {
+      if(isEnter == 0) {
+        e.preventDefault();
+        document.getElementById('login').click();
+        setIsEnter(1);
+        console.log(isEnter);
+      }
+     
+     
+    }
+   
+  });
   let navigate = useNavigate();
   return (
     <>
