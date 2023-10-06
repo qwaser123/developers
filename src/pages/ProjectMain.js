@@ -15,19 +15,19 @@ export default function ProjectPage() {
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
-          //FIXME: 왜 log가 무한반복되는지 
+          //FIXME: 왜 log가 무한반복되는지 -> 의존성 배열 잘못 입력해서 데이터가 계속 읽혀옴 
           console.log(doc.data().제목);
           console.log(doc.data().요약);
           console.log(doc.data().소개);
           setProjectInfo((data) => ({
             ...data,
             제목: doc.data().제목,
-            // 요약: doc.data().요약,
+            요약: doc.data().요약,
             // 소개: doc.data().소개,
           }));
         });
       });
-  }, [projectInfo]);
+  }, []); //
   const projectInfoKeys = Object.keys(projectInfo);
   return (
     <>
@@ -36,14 +36,7 @@ export default function ProjectPage() {
       </div>
 
       <div className='showProjectList'>
-        <button
-          onClick={() => {
-            navigate('projectWrite');
-          }}
-        >
-          글 작성하기
-        </button>
-
+    <h3 className='showProjectRank'>새로운 프로젝트 🎊</h3>
         {/* TODO: 글자 수 넘어가면 ...으로 변경  */}
         {projectInfoKeys.map((key, i) => (
           <div className='container mt-3'>
@@ -56,15 +49,17 @@ export default function ProjectPage() {
                   <h5 className='title'>
                     {key} {projectInfo[key]}
                   </h5>
-                  {/* <p className='date'>{projectInfo.요약}</p>
-                  <p className='price'>{projectInfo.소개}</p> */}
+                  <p className='date'>{projectInfo.요약}</p>
+                  {/* <p className='price'>{projectInfo.소개}</p> */}
                   <p className='floatEnd'>?0</p>
                 </div>
               </div>
             </div>
           </div>
         ))}
+        <h3 className='showProjectRank'> 인기 프로젝트 🔥</h3>
       </div>
+    
     </>
   );
 }

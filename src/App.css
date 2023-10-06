@@ -63,9 +63,9 @@ p {
 }
 .thumbnail {
   background-color:  white;
-  max-width: 300px;
+  max-width: 350px;
   width: 100%;
-  max-height: 300px;
+  max-height: 250px;
   height: 100%;
   border-radius: 20px;
   background-position: center;
@@ -83,6 +83,10 @@ p {
 .product .date {
   color: grey;
   font-size: 13px;
+}
+.showProjectRank {
+  clear: both;
+  padding-top:40px;
 }
 /* ProjectMain.js */
 .showProjectList {
@@ -113,9 +117,7 @@ p {
   align-items: center;
   padding-left: 100px;
 }
-.slidercontents img {
 
-}
 .wrapText {
   margin-left: 12%;
 }

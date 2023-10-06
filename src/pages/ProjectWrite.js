@@ -3,7 +3,6 @@ import { db } from '../index.js';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 
 export default function MyProjectWrite() {
   const [formData, setFormData] = useState({});

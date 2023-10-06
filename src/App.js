@@ -173,7 +173,7 @@ function MyNav(props) {
               className='navItem'
               style={{ fontWeight: 'bold' }}
               onClick={() => {
-                props.navigate('/signup');
+                props.navigate('/project/projectWrite');
               }}
             >
               새 글 쓰기
