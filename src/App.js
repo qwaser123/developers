@@ -194,6 +194,6 @@ function MyNav(props) {
   );
 }
 
-//TODO: 프로젝트리스트들 자동으로 넘어가게
+//TODO: 프로젝트리스트들 자동으로 넘어가게, footer 간단한걸로 변경 
 
 export default App;

@@ -208,30 +208,16 @@ p {
 .projectWriteMainCenter p {
   font-size: 20px;
   font-weight: bold;
-}
-.projectWriteMainCenter p,
-.ProjectSendBtn {
   margin-top: 70px;
+}
+.btngroup {
+  float: right;
+  margin-top: 40px;
 }
 .introduce {
   height: 200px;
 }
-.projectWriteMainCenter ::-webkit-input-placeholder {
-  color: grey;
-  opacity: 0.7;
-}
-.projectWriteMainCenter ::-moz-placeholder {
-  color: grey;
-  opacity: 0.7;
-}
-.projectWriteMainCenter :-ms-input-placeholder {
-  color: grey;
-  opacity: 0.7;
-}
-.projectWriteMainCenter ::-ms-input-placeholder {
-  color: grey;
-  opacity: 0.7;
-}
+
 .projectWriteMainCenter ::placeholder {
   color: grey;
   opacity: 0.7;

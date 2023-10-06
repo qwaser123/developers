@@ -22,8 +22,8 @@ export default function ProjectPage() {
           setProjectInfo((data) => ({
             ...data,
             제목: doc.data().제목,
-            요약: doc.data().요약,
-            소개: doc.data().소개,
+            // 요약: doc.data().요약,
+            // 소개: doc.data().소개,
           }));
         });
       });
@@ -56,8 +56,8 @@ export default function ProjectPage() {
                   <h5 className='title'>
                     {key} {projectInfo[key]}
                   </h5>
-                  <p className='date'>{projectInfo.요약}</p>
-                  <p className='price'>{projectInfo.소개}</p>
+                  {/* <p className='date'>{projectInfo.요약}</p>
+                  <p className='price'>{projectInfo.소개}</p> */}
                   <p className='floatEnd'>?0</p>
                 </div>
               </div>
@@ -92,3 +92,4 @@ function ListOfProject() {
   return <div></div>;
 }
 
+//TODO: 신규프로젝트, 인기프로젝트 넘어가는거 만들기 , 그 아래에 프로젝트 리스트, 무한스크롤 

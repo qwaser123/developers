@@ -2,6 +2,8 @@ import { Button } from 'react-bootstrap';
 import { db } from '../index.js';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 export default function MyProjectWrite() {
   const [formData, setFormData] = useState({});
@@ -90,6 +92,21 @@ export default function MyProjectWrite() {
           <span>기획</span>
         </label>
 
+        <p>기술 스택</p>
+        <Dropdown>
+          <Dropdown.Toggle variant='success' id='dropdown-basic' style={{backgroundColor: 'white', borderColor:'grey'}}>
+            <span style={{color:'black'}}>프로젝트 사용 스택</span>
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item href='#/action-1'>Action</Dropdown.Item>
+            <Dropdown.Item href='#/action-2'>Another action</Dropdown.Item>
+            <Dropdown.Item href='#/action-3'>Something else</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+        <p>모집 마감일</p>
+        <input type='date' />
+
         <p>소개</p>
         <textarea
           type='text'
@@ -104,7 +121,7 @@ export default function MyProjectWrite() {
               ...data,
               소개: value,
             }));
-            if (value.length < 150) {
+            if (value.length < 100) {
               setTextLen((data) => ({
                 ...data,
                 소개: false,
@@ -117,6 +134,10 @@ export default function MyProjectWrite() {
             }
           }}
         ></textarea>
+        <div className='btngroup'>
+        <Button variant="secondary" onClick={()=> {
+          navigate(-1)
+        }}>취소</Button>{' '}
         <Button
           variant='dark'
           type='submit'
@@ -127,7 +148,7 @@ export default function MyProjectWrite() {
             } else if (textLen.요약 == false) {
               alert('요약은 50자 이상 입력해주세요 ');
             } else if (textLen.소개 == false) {
-              alert('소개칸은 150자 이상 입력해주세요 ');
+              alert('소개칸은 100자 이상 입력해주세요 ');
             } else {
               db.collection('List').add(formData);
               alert('등록 완료');
@@ -138,7 +159,12 @@ export default function MyProjectWrite() {
           {' '}
           등록하기{' '}
         </Button>
+        </div>
+        
       </div>
     </div>
   );
 }
+
+//TODO: 마감일, 기술 스택 추가
+//좋아요 버튼 추가
