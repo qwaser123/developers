@@ -47,15 +47,11 @@ export default function MyLogin() {
             />
           </InputGroup>
         </div>
-        <div className='signupAndFindPwd'>
-          <p>
-            아직 회원이 아니신가요?{' '}
-            <span style={{ fontWeight: 'bold' }}>가입하기 {'>'} </span>{' '}
-          </p>
-          <p style={{ marginTop: '30px' }}>
-            비밀번호를 잊으셨나요?{' '}
-            <span style={{ fontWeight: 'bold' }}>비밀번호 찾기 {'>'} </span>
-          </p>
+        <div className="signupAndFindPwd">
+        <p>아직 회원이 아니신가요? <span style={{fontWeight:'bold'}} onClick={()=> {
+          navigate('/signup')
+        }}>가입하기 {'>'}  </span> </p>
+        <p style={{marginTop:'30px'}}>비밀번호를 잊으셨나요?  <span style={{fontWeight:'bold'}}>비밀번호 찾기 {'>'}  </span></p>
         </div>
         <Button
           variant='dark'
