@@ -6,11 +6,12 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 export default function MyProjectWrite() {
   const [formData, setFormData] = useState({});
+  const [isFrontend, setIsFrontend] = useState(false);
   let navigate = useNavigate();
   let [textLen, setTextLen] = useState({
     제목: '',
     요약: '',
-    포지션: '',
+    포지션: [],
     소개: '',
   });
 
@@ -59,7 +60,7 @@ export default function MyProjectWrite() {
               ...data,
               요약: value,
             }));
-            if (value.length < 50) {
+            if (value.length < 20) {
               setTextLen((data) => ({
                 ...data,
                 요약: false,
@@ -74,7 +75,13 @@ export default function MyProjectWrite() {
         ></input>
 
         <p>모집 포지션</p>
-        <input type='checkbox' id='position1' />
+        <input type='checkbox' id='position1' onClick={()=> {
+          setIsFrontend(!isFrontend);
+          console.log(isFrontend);
+          setFormData((data)=> ({
+            ...data, 포지션: 'a'
+          }))
+        }}/>
         <label for='position1'>
           <span>프론트엔드</span>
         </label>
@@ -98,9 +105,9 @@ export default function MyProjectWrite() {
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item href='#/action-1'>Action</Dropdown.Item>
-            <Dropdown.Item href='#/action-2'>Another action</Dropdown.Item>
-            <Dropdown.Item href='#/action-3'>Something else</Dropdown.Item>
+            <Dropdown.Item href='#/action-1'>Javascript</Dropdown.Item>
+            <Dropdown.Item href='#/action-2'>Java</Dropdown.Item>
+            <Dropdown.Item href='#/action-3'>vue</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
         <p>모집 마감일</p>
@@ -145,7 +152,7 @@ export default function MyProjectWrite() {
             if (textLen.제목 == false) {
               alert('제목을 입력해주세요 ');
             } else if (textLen.요약 == false) {
-              alert('요약은 50자 이상 입력해주세요 ');
+              alert('요약은 20자 이상 입력해주세요 ');
             } else if (textLen.소개 == false) {
               alert('소개칸은 100자 이상 입력해주세요 ');
             } else {
@@ -167,3 +174,4 @@ export default function MyProjectWrite() {
 
 //TODO: 마감일, 기술 스택 추가
 //좋아요 버튼 추가
+// usestate쓸 때 const와 let 차이 

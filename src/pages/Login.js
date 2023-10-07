@@ -124,11 +124,7 @@ export default function MyLogin() {
                 });
             }
 
-            //TODO: 이거 써먹어야 되는데
-            firebase.auth().onAuthStateChanged((user) => {
-              if (user) {
-              }
-            });
+           
           }}
         >
           로그인

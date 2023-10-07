@@ -15,7 +15,7 @@ export default function ProjectPage() {
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
-          //FIXME: 왜 log가 무한반복되는지 -> 의존성 배열 잘못 입력해서 데이터가 계속 읽혀옴 
+          // 왜 log가 무한반복되는지 -> 의존성 배열 잘못 입력해서 데이터가 계속 읽혀옴 
           console.log(doc.data().제목);
           console.log(doc.data().요약);
           console.log(doc.data().소개);
