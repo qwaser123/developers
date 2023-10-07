@@ -194,5 +194,6 @@ function MyNav(props) {
 
 //TODO: 프로젝트리스트들 자동으로 넘어가게, footer 간단한걸로 변경
 // 새글쓰기 : UI생성 - 프로젝트 or 스터디 or 커뮤니티 
+// nav바 호버 이벤트 확실하게. 아래에 색깔표시도 고려 
 
 export default App;

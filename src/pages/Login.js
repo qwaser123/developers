@@ -12,19 +12,18 @@ export default function MyLogin() {
   const [isIdInput, setIsIdInput] = useState('');
   const [isPwdInput, setIsPwdInput] = useState('');
   let [isEnter, setIsEnter] = useState('');
+  const [isEmailFocus, setIsEmailFocus] = useState('이메일');
+  const [isPwdFocus, setIsPwdFocus] = useState('암호');
   //FIXME: 이메일, 비번이 비어있는지 확인하는걸 onchange메서드 안에 넣어놨더니 한 번 입력했다가 지워도 true가 됨.
   window.addEventListener('keyup', (e) => {
-    if(e.key === 'Enter') {
-      if(isEnter == 0) {
+    if (e.key === 'Enter') {
+      if (isEnter == 0) {
         e.preventDefault();
         document.getElementById('login').click();
         setIsEnter(1);
         console.log(isEnter);
       }
-     
-     
     }
-   
   });
   let navigate = useNavigate();
   return (
@@ -36,12 +35,18 @@ export default function MyLogin() {
             <InputGroup.Text id='basic-addon1'>✉</InputGroup.Text>
             <Form.Control
               type='email'
-              placeholder='이메일'
+              placeholder={isEmailFocus}
               id='email'
               aria-label='email'
               aria-describedby='basic-addon1'
               value={email}
               className='form-control large-width'
+              onFocus={() => {
+                setIsEmailFocus('');
+              }}
+              onBlur={() => {
+                setIsEmailFocus('이메일');
+              }}
               onChange={(e) => {
                 setEmail(e.target.value);
                 if ({ email } == null) {
@@ -58,11 +63,17 @@ export default function MyLogin() {
             <InputGroup.Text id='basic-addon2'>🔑</InputGroup.Text>
             <Form.Control
               type='password'
-              placeholder='암호'
+              placeholder={isPwdFocus}
               aria-label='password'
               aria-describedby='basic-addon2'
               className='form-control large-width'
               value={pwd}
+              onFocus={() => {
+                setIsPwdFocus('');
+              }}
+              onBlur={() => {
+                setIsPwdFocus('암호');
+              }}
               onChange={(e) => {
                 setPwd(e.target.value);
                 if ({ pwd } == null) {
