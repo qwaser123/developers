@@ -158,11 +158,10 @@ function MyNav(props) {
       if (user) {
         setIsLogin(profileImg);
       } else {
-        setIsLogin(profileImg); //FIXME: 로그인 안 되어있을시 '로그인'텍스트로 변경
+        setIsLogin('Log in'); //FIXME: 로그인 안 되어있을시 '로그인'텍스트로 변경
       }
     });
   });
-
   return (
     <>
       <Navbar className='myNavbar'>
@@ -185,7 +184,9 @@ function MyNav(props) {
               프로젝트
             </Nav.Link>
             <Nav.Link className='navItem'>커뮤니티</Nav.Link>
-            <Nav.Link className='navItem'>유저</Nav.Link>
+            <Nav.Link className='navItem' onClick={()=> {
+              firebase.auth().signOut()
+            }}>유저</Nav.Link>
           </Nav>
           <Nav>
             <Nav.Link
@@ -203,8 +204,10 @@ function MyNav(props) {
               onClick={() => {
                 props.navigate('/login');
               }}
-            >
-              <img src={isLogin} alt='프로필' style={{ width: '30px' }} />
+            >{
+              isLogin == profileImg ?  <img src={isLogin} alt='프로필' style={{ width: '30px' }} /> : <p>{isLogin}</p>
+            }
+             
             </Nav.Link>
           </Nav>
         </Container>
