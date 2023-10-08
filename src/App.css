@@ -6,6 +6,9 @@
 p {
   font-family: 'simpleFont';
 }
+.cursorPointer {
+  cursor: pointer;
+}
 /* nav바 */
 .NavbarContainer {
   display: grid;
@@ -55,7 +58,7 @@ text-align: center;
   padding: 20px;
 }
 .white-bg-img {
-  width: 80%;
+  width: 70%;
   height: 32%;
   margin: auto;
   display: block;

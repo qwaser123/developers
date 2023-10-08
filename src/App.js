@@ -5,7 +5,7 @@ import 'firebase/auth';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logoImg from './img/devLogo.PNG';
-import penImg from './img/pencil.png'
+import penImg from './img/pencil.png';
 import Footer from './pages/Footer.js';
 import MyLogin from './pages/Login';
 import MyProjectWrite from './pages/ProjectWrite';
@@ -51,7 +51,9 @@ function App() {
   });
   return (
     <div className='App'>
-      {isModal == true ? <Modal isModal={isModal} setIsModal={setIsModal}/> : null}
+      {isModal == true ? (
+        <Modal navigate={navigate} isModal={isModal} setIsModal={setIsModal} />
+      ) : null}
       <MyNav
         setIsModal={setIsModal}
         isModal={isModal}
@@ -213,15 +215,31 @@ function MyNav(props) {
 function Modal(props) {
   return (
     <>
-      <div className='black-bg' onClick={()=> {
-        props.setIsModal(!props.isModal);
-      }}>
-        <div className='white-bg'>
-          <img src={logoImg} alt='연필' className='white-bg-img'/>
+      <div
+        className='black-bg'
+        onClick={() => {
+          props.setIsModal(!props.isModal);
+        }}
+      >
+        <div className='white-bg' onClick={(e) => e.stopPropagation()}>
+          {' '}
+          {/*이벤트 버블링 막음*/}
+          <img src={logoImg} alt='연필' className='white-bg-img' />
           <h4>글 유형을 골라주세요</h4>
-          <div className='white-bg-box'><p>사이드 프로젝트</p></div>
-          <div className='white-bg-box'> <p>커뮤니티</p></div>
-         
+          <div className='white-bg-box'>
+            <p
+              className='cursorPointer'
+              onClick={() => {
+                props.navigate('/project/projectWrite');
+              }}
+            >
+              사이드 프로젝트
+            </p>
+          </div>
+          <div className='white-bg-box'>
+            {' '}
+            <p className='cursorPointer'>커뮤니티</p>
+          </div>
         </div>
       </div>
     </>
