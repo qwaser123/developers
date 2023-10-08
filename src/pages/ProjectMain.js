@@ -33,7 +33,6 @@ export default function ProjectPage() {
       });
   }, []);
   console.log(projectInfo);
-  //FIXME: 추가가 아니라 덮어쓰기가 되고 있음.
   const projectInfoKeys = Object.keys(projectInfo);
   return (
     <>

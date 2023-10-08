@@ -118,7 +118,7 @@ export default function MyLogin() {
                 .signInWithEmailAndPassword(email, pwd)
                 .then((result) => {
                   alert('로그인 성공');
-                  navigate('/main');
+                  navigate('/project');
                 })
                 .catch((error) => {
                   alert('로그인 실패');
