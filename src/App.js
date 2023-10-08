@@ -226,15 +226,14 @@ function Modal(props) {
           {/*이벤트 버블링 막음*/}
           <img src={logoImg} alt='연필' className='white-bg-img' />
           <h4>글 유형을 골라주세요</h4>
-          <div className='white-bg-box'>
-            <p
-              className='cursorPointer'
-              onClick={() => {
-                props.navigate('/project/projectWrite');
-              }}
-            >
-              사이드 프로젝트
-            </p>
+          <div
+            className='white-bg-box cursorPointer'
+            onClick={() => {
+              props.navigate('/project/projectWrite');
+              props.setIsModal(!props.isModal);
+            }}
+          >
+            <p>사이드 프로젝트</p>
           </div>
           <div className='white-bg-box'>
             {' '}
