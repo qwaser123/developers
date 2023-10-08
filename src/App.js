@@ -5,6 +5,7 @@ import 'firebase/auth';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logoImg from './img/devLogo.PNG';
+import penImg from './img/pencil.png'
 import Footer from './pages/Footer.js';
 import MyLogin from './pages/Login';
 import MyProjectWrite from './pages/ProjectWrite';
@@ -50,8 +51,12 @@ function App() {
   });
   return (
     <div className='App'>
-      <Modal isModal={isModal} />
-      <MyNav navigate={navigate}></MyNav>
+      {isModal == true ? <Modal isModal={isModal} setIsModal={setIsModal}/> : null}
+      <MyNav
+        setIsModal={setIsModal}
+        isModal={isModal}
+        navigate={navigate}
+      ></MyNav>
 
       <Routes>
         <Route
@@ -146,8 +151,6 @@ function App() {
 //nav바
 function MyNav(props) {
   const [isLogin, setIsLogin] = useState('Log in');
-
-  const [toggleModal, setToggleModal] = useState(false);
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -187,6 +190,7 @@ function MyNav(props) {
               className='navItem rightNav'
               onClick={() => {
                 props.setIsModal(!props.isModal);
+                // props.navigate('project/projectWrite');
               }}
             >
               새 글 쓰기
@@ -209,9 +213,15 @@ function MyNav(props) {
 function Modal(props) {
   return (
     <>
-      <div className={`black-bg ${props.isModal ? 'showtModal' : ''}`}>
+      <div className='black-bg' onClick={()=> {
+        props.setIsModal(!props.isModal);
+      }}>
         <div className='white-bg'>
-          <h4>로그인</h4>
+          <img src={logoImg} alt='연필' className='white-bg-img'/>
+          <h4>글 유형을 골라주세요</h4>
+          <div className='white-bg-box'><p>사이드 프로젝트</p></div>
+          <div className='white-bg-box'> <p>커뮤니티</p></div>
+         
         </div>
       </div>
     </>
@@ -222,7 +232,3 @@ function Modal(props) {
 // nav바 호버 이벤트 확실하게. 아래에 색깔표시도 고려
 //FIXME: navigate오류 ->useeffect 잘못 썼음
 export default App;
-
-// onClick={() => {
-//   props.navigate('/project/projectWrite');
-// }}

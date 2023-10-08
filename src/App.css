@@ -26,12 +26,39 @@ p {
   /* TODO:important 안 쓰는 방법을 생각해보자 */
 }
 .black-bg {
-  display: none;
-  opacity: 0;
+width: 100%;
+height: 100%;
+position: fixed;
+z-index: 5;
+background: rgba(0, 0, 0, 0.5);
+padding: 30px;
 }
-.showModal {
+.white-bg {
+ background: white;
+ width: 24%;
+ height: 44%;
+ padding: 30px;
+ border-radius: 10px;
+ margin: auto;
+ margin-top: 240px;
+}
+.white-bg h4 {
+text-align: center;
+}
+.white-bg-box {
+  margin: auto;
+  margin-top: 20px;
+  width: 90%;
+  height: 20%;
+  border: 1px solid #b7b7b7;
+  border-radius: 4px;
+  padding: 20px;
+}
+.white-bg-img {
+  width: 80%;
+  height: 32%;
+  margin: auto;
   display: block;
-  opacity: 1;
 }
 /* 메인 소개*/
 .mainIntro {
