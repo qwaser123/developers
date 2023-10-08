@@ -5,12 +5,8 @@ import { useEffect, useState } from 'react';
 
 export default function ProjectPage() {
   let navigate = useNavigate();
-  let [projectInfo, setProjectInfo] = useState({
-    제목: '',
-    요약: '',
-    소개: '',
-  }); //projectinfo 안에 객체 형태로
-  //useEffect안에 db조회 넣어놓은 이유 - html이 랜더링 된 후 실행되기 때문 -> 속도 빠름
+  const [projectInfo, setProjectInfo] = useState(null); // 초기값을 null로 설정
+
   useEffect(() => {
     db.collection('List')
       .get()
@@ -25,14 +21,17 @@ export default function ProjectPage() {
             소개: doc.data().소개,
           };
         });
-        // 기존 객체와 새 객체를 병합하여 업데이트
-        setProjectInfo((prevData) => ({
-          ...prevData,
-          ...newData,
-        }));
+        // 데이터 로딩이 완료되면 state 업데이트
+        setProjectInfo(newData);
       });
   }, []);
-  console.log(projectInfo);
+
+  if (projectInfo === null) {
+    // 데이터 로딩 중에는 아무것도 렌더링하지 않음
+    return null;
+  }
+  
+
   const projectInfoKeys = Object.keys(projectInfo);
   return (
     <>
@@ -42,7 +41,7 @@ export default function ProjectPage() {
       <div className='showProjectList'>
         <h3 className='showProjectRank'>새로운 프로젝트 🎊</h3>
         {/* TODO: 글자 수 넘어가면 ...으로 변경 */}
-        {Object.keys(projectInfo).map((key) => (
+        {projectInfoKeys.map((key) => (
           <div className=' mt-4' key={key}>
             <div className='product'>
               <div className='thumbnail'>
@@ -53,7 +52,7 @@ export default function ProjectPage() {
                   <h5 className='title'>{projectInfo[key].제목}</h5>
                   <p className='date'>{projectInfo[key].요약}</p>
                   {/* <p className='price'>{projectInfo[key].소개}</p> */}
-                  <p className='floatEnd'>?0</p>
+                  <p className='floatEnd'>?1</p>
                 </div>
               </div>
             </div>
