@@ -1,3 +1,7 @@
+import { db } from './index.js';
+import 'firebase/firestore';
+import firebase from 'firebase/app'; // 필요한 Firebase 모듈을 추가로 import할 수 있습니다.
+import 'firebase/auth';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logoImg from './img/devLogo.PNG';
@@ -5,10 +9,6 @@ import Footer from './pages/Footer.js';
 import MyLogin from './pages/Login';
 import MyProjectWrite from './pages/ProjectWrite';
 import ProjectPage from './pages/ProjectMain';
-import { db } from './index.js';
-import 'firebase/firestore';
-import firebase from 'firebase/app'; // 필요한 Firebase 모듈을 추가로 import할 수 있습니다.
-import 'firebase/auth';
 import profileImg from './img/profileImg.png';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
@@ -24,6 +24,7 @@ import {
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
 function App() {
+  const [isModal, setIsModal] = useState(false);
   let navigate = useNavigate();
   //텍스트 스크롤 애니메이션
   useEffect(() => {
@@ -47,9 +48,9 @@ function App() {
       });
     };
   });
-
   return (
     <div className='App'>
+      <Modal isModal={isModal} />
       <MyNav navigate={navigate}></MyNav>
 
       <Routes>
@@ -146,18 +147,16 @@ function App() {
 function MyNav(props) {
   const [isLogin, setIsLogin] = useState('Log in');
 
-  useEffect(()=> {
+  const [toggleModal, setToggleModal] = useState(false);
+  useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setIsLogin(profileImg);
-        console.log(profileImg);
       } else {
-        setIsLogin();
+        setIsLogin(profileImg); //FIXME: 로그인 안 되어있을시 '로그인'텍스트로 변경
       }
-    })
-  }
-
-  );
+    });
+  });
 
   return (
     <>
@@ -187,7 +186,7 @@ function MyNav(props) {
             <Nav.Link
               className='navItem rightNav'
               onClick={() => {
-                props.navigate('/project/projectWrite');
+                props.setIsModal(!props.isModal);
               }}
             >
               새 글 쓰기
@@ -207,9 +206,23 @@ function MyNav(props) {
     </>
   );
 }
-
+function Modal(props) {
+  return (
+    <>
+      <div className={`black-bg ${props.isModal ? 'showtModal' : ''}`}>
+        <div className='white-bg'>
+          <h4>로그인</h4>
+        </div>
+      </div>
+    </>
+  );
+}
 //TODO: 프로젝트리스트들 자동으로 넘어가게, footer 간단한걸로 변경
 // 새글쓰기 : UI생성 - 프로젝트 or 스터디 or 커뮤니티
 // nav바 호버 이벤트 확실하게. 아래에 색깔표시도 고려
 //FIXME: navigate오류 ->useeffect 잘못 썼음
 export default App;
+
+// onClick={() => {
+//   props.navigate('/project/projectWrite');
+// }}

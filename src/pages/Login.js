@@ -1,30 +1,40 @@
-import { useState } from 'react';
-import { Form, InputGroup, Button } from 'react-bootstrap';
 import 'firebase/firestore';
 import { db } from '../index.js';
 import firebase from 'firebase/app'; // 필요한 Firebase 모듈을 추가로 import할 수 있습니다.
 import 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Form, InputGroup, Button } from 'react-bootstrap';
 
 export default function MyLogin() {
   const [email, setEmail] = useState('');
   const [pwd, setPwd] = useState('');
-  const [isIdInput, setIsIdInput] = useState('');
-  const [isPwdInput, setIsPwdInput] = useState('');
+  const [isInput, setIsInput] = useState(false); //TODO: 이메일 ,비번 null 값 검사 -> 다른 데서도 props해서 가져다 쓰면?
   let [isEnter, setIsEnter] = useState('');
   const [isEmailFocus, setIsEmailFocus] = useState('이메일');
-  const [isPwdFocus, setIsPwdFocus] = useState('암호');
+  const [isPwdFocus, setIsPwdFocus] = useState('암호'); // 굳이 이메일, pwd 포커스를 나눠야 할까. 하나로 할 수 없을까
   //FIXME: 이메일, 비번이 비어있는지 확인하는걸 onchange메서드 안에 넣어놨더니 한 번 입력했다가 지워도 true가 됨.
   window.addEventListener('keyup', (e) => {
+    //엔터키 입력 시 버튼 클릭
     if (e.key === 'Enter') {
       if (isEnter == 0) {
         e.preventDefault();
         document.getElementById('login').click();
         setIsEnter(1);
-        console.log(isEnter);
+      
       }
     }
   });
+//email, pwd null 값 검사
+  useEffect(()=> {
+    if (email == '') {
+        setIsInput('emailNull')
+    } else if (pwd == '') {
+      setIsInput('pwdNull')
+    } else {
+      setIsInput(true)
+    }
+  }, [email, pwd])
   let navigate = useNavigate();
   return (
     <>
@@ -49,11 +59,6 @@ export default function MyLogin() {
               }}
               onChange={(e) => {
                 setEmail(e.target.value);
-                if ({ email } == null) {
-                  setIsIdInput(false);
-                } else {
-                  setIsIdInput(true);
-                }
               }}
             />
           </InputGroup>
@@ -76,11 +81,7 @@ export default function MyLogin() {
               }}
               onChange={(e) => {
                 setPwd(e.target.value);
-                if ({ pwd } == null) {
-                  setIsPwdInput(false);
-                } else {
-                  setIsPwdInput(true);
-                }
+               
               }}
             />
           </InputGroup>
@@ -107,9 +108,9 @@ export default function MyLogin() {
           id='login'
           style={{ width: '250px', marginTop: '20px' }}
           onClick={() => {
-            if (isIdInput == false) {
-              alert('아이디 입력하시오');
-            } else if (isPwdInput == false) {
+            if (isInput == 'emailNull') {
+              alert('이메일을 입력하시오');
+            } else if (isInput == 'pwdNull') {
               alert('비밀번호를 입력하시오');
             } else {
               firebase

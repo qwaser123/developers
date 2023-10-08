@@ -6,8 +6,10 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 export default function MyProjectWrite() {
   const [formData, setFormData] = useState({});
+  //TODO: formData로 따로 만들게 아니라 project info를 props해오면 더 깔끔하지않을까?
   const [isFrontend, setIsFrontend] = useState(false);
   let navigate = useNavigate();
+  //입력된 텍스트 null값 검사 
   let [textLen, setTextLen] = useState({
     제목: '',
     요약: '',
@@ -27,7 +29,7 @@ export default function MyProjectWrite() {
           className='inputTitle'
           id='title'
           onChange={(e) => {
-            let value = e.target.value;
+            let value = e.target.value; // == this.value?
             setFormData((data) => ({
               ...data,
               제목: value,
@@ -142,7 +144,7 @@ export default function MyProjectWrite() {
         ></textarea>
         <div className='btngroup'>
         <Button variant="secondary" onClick={()=> {
-          navigate(-1)
+          navigate(-1) //뒤로가기
         }}>취소</Button>{' '}
         <Button
           variant='dark'
@@ -156,7 +158,7 @@ export default function MyProjectWrite() {
             } else if (textLen.소개 == false) {
               alert('소개칸은 100자 이상 입력해주세요 ');
             } else {
-              db.collection('List').add(formData);
+              db.collection('List').add(formData); //List라는 컬렉션에 formData 데이터 추가 
               alert('등록 완료');
               navigate('/project');
             }

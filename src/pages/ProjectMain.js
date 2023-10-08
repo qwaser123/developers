@@ -9,13 +9,14 @@ export default function ProjectPage() {
     제목: '',
     요약: '',
     소개: '',
-  });
+  }); //projectinfo 안에 객체 형태로 
+  //useEffect안에 db조회 넣어놓은 이유 - html이 랜더링 된 후 실행되기 때문 -> 속도 빠름 
   useEffect(() => {
     db.collection('List')
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
-          // 왜 log가 무한반복되는지 -> 의존성 배열 잘못 입력해서 데이터가 계속 읽혀옴 
+          //TODO: 왜 데이터가 무한 조회되는지 -> dependency를 [projectinfo]로 해놨더니 변경될 때마다 계속 조회됨 -> 근데 왜? -> return으로 해결해보자. return은 unmount될 때 실행됨
           console.log(doc.data().제목);
           console.log(doc.data().요약);
           console.log(doc.data().소개);
@@ -27,7 +28,10 @@ export default function ProjectPage() {
           }));
         });
       });
-  }, []); //
+      return()=> {
+
+      }
+  }, []);
   const projectInfoKeys = Object.keys(projectInfo);
   return (
     <>
@@ -39,7 +43,7 @@ export default function ProjectPage() {
     <h3 className='showProjectRank'>새로운 프로젝트 🎊</h3>
         {/* TODO: 글자 수 넘어가면 ...으로 변경  */}
         {projectInfoKeys.map((key, i) => (
-          <div className='container mt-3'>
+          <div className=' mt-4'> {/*container */}
             <div className='product'>
               <div className='thumbnail'>
                 <div className='flex-grow-1 p-4' key={key}>
