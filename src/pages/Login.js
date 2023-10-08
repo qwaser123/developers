@@ -14,17 +14,17 @@ export default function MyLogin() {
   const [isEmailFocus, setIsEmailFocus] = useState('이메일');
   const [isPwdFocus, setIsPwdFocus] = useState('암호'); // 굳이 이메일, pwd 포커스를 나눠야 할까. 하나로 할 수 없을까
   //FIXME: 이메일, 비번이 비어있는지 확인하는걸 onchange메서드 안에 넣어놨더니 한 번 입력했다가 지워도 true가 됨.
-  window.addEventListener('keyup', (e) => {
-    //엔터키 입력 시 버튼 클릭
-    if (e.key === 'Enter') {
-      if (isEnter == 0) {
-        e.preventDefault();
-        document.getElementById('login').click();
-        setIsEnter(1);
+  // window.addEventListener('keyup', (e) => {
+  //   //엔터키 입력 시 버튼 클릭
+  //   if (e.key === 'Enter') {
+  //     if (isEnter == 0) {
+  //       e.preventDefault();
+  //       document.getElementById('login').click();
+  //       setIsEnter(1);
       
-      }
-    }
-  });
+  //     }
+  //   }
+  // });
 //email, pwd null 값 검사
   useEffect(()=> {
     if (email == '') {

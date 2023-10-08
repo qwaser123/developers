@@ -9,52 +9,51 @@ export default function ProjectPage() {
     제목: '',
     요약: '',
     소개: '',
-  }); //projectinfo 안에 객체 형태로 
-  //useEffect안에 db조회 넣어놓은 이유 - html이 랜더링 된 후 실행되기 때문 -> 속도 빠름 
+  }); //projectinfo 안에 객체 형태로
+  //useEffect안에 db조회 넣어놓은 이유 - html이 랜더링 된 후 실행되기 때문 -> 속도 빠름
   useEffect(() => {
     db.collection('List')
       .get()
       .then((snapshot) => {
+        const newData = {};
+
         snapshot.forEach((doc) => {
-          //TODO: 왜 데이터가 무한 조회되는지 -> dependency를 [projectinfo]로 해놨더니 변경될 때마다 계속 조회됨 -> 근데 왜? -> return으로 해결해보자. return은 unmount될 때 실행됨
-          console.log(doc.data().제목);
-          console.log(doc.data().요약);
-          console.log(doc.data().소개);
-          setProjectInfo((data) => ({
-            ...data,
+          // 새 데이터를 새 객체에 추가
+          newData[doc.id] = {
             제목: doc.data().제목,
             요약: doc.data().요약,
-            // 소개: doc.data().소개,
-          }));
+            소개: doc.data().소개,
+          };
         });
+        // 기존 객체와 새 객체를 병합하여 업데이트
+        setProjectInfo((prevData) => ({
+          ...prevData,
+          ...newData,
+        }));
       });
-      return()=> {
-
-      }
   }, []);
+  console.log(projectInfo);
+  //FIXME: 추가가 아니라 덮어쓰기가 되고 있음.
   const projectInfoKeys = Object.keys(projectInfo);
   return (
     <>
       <div>
         <Slider />
       </div>
-
       <div className='showProjectList'>
-    <h3 className='showProjectRank'>새로운 프로젝트 🎊</h3>
-        {/* TODO: 글자 수 넘어가면 ...으로 변경  */}
-        {projectInfoKeys.map((key, i) => (
-          <div className=' mt-4'> {/*container */}
+        <h3 className='showProjectRank'>새로운 프로젝트 🎊</h3>
+        {/* TODO: 글자 수 넘어가면 ...으로 변경 */}
+        {Object.keys(projectInfo).map((key) => (
+          <div className=' mt-4' key={key}>
             <div className='product'>
               <div className='thumbnail'>
-                <div className='flex-grow-1 p-4' key={key}>
+                <div className='flex-grow-1 p-4'>
                   <div className='projectBox'>
                     <p>프로젝트</p>
                   </div>
-                  <h5 className='title'>
-                    {key} {projectInfo[key]}
-                  </h5>
-                  <p className='date'>{projectInfo.요약}</p>
-                  {/* <p className='price'>{projectInfo.소개}</p> */}
+                  <h5 className='title'>{projectInfo[key].제목}</h5>
+                  <p className='date'>{projectInfo[key].요약}</p>
+                  {/* <p className='price'>{projectInfo[key].소개}</p> */}
                   <p className='floatEnd'>?0</p>
                 </div>
               </div>
@@ -63,7 +62,6 @@ export default function ProjectPage() {
         ))}
         <h3 className='showProjectRank'> 인기 프로젝트 🔥</h3>
       </div>
-    
     </>
   );
 }
@@ -91,4 +89,4 @@ function ListOfProject() {
   return <div></div>;
 }
 
-//TODO: 신규프로젝트, 인기프로젝트 넘어가는거 만들기 , 그 아래에 프로젝트 리스트, 무한스크롤 
+//TODO: 신규프로젝트, 인기프로젝트 넘어가는거 만들기 , 그 아래에 프로젝트 리스트, 무한스크롤
