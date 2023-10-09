@@ -84,16 +84,19 @@ p {
 .mainIntroText {
   font-size: 60px;
   font-weight: 900;
-  margin-top: 100px;
+  margin-top: 150px;
 }
-.mainIntroLeft {
-  width: 60%;
-margin: auto;
-float: left;
-}
+
 .mainAnimation {
   transition: all 3s;
   opacity: 0;
+  width: 60%;
+  margin: auto;
+}
+
+.mainIntroLeft {
+  float: left;
+  text-align: left;
 }
 .secondIntro {
   background-color: white;

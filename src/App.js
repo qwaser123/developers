@@ -91,14 +91,11 @@ function App() {
                 <div className='mainAnimation'>
                   <div className='mainIntroLeft'>
                     <p className='mainIntroText'>Project</p>
-                    <p>
-                      {' '}
-                      이제 불필요한 고민 시간은 줄이고 필요한 업무에만
-                      집중하세요. <br/>AI로 완전히 새로워진 생산성 향상을 경험하세요.
-                      <br/>
-                      오랜 기간 문서를 고민해 온 한컴이 선보이는 새로운 AI 업무
-                      경험, 한컴독스에서 가장 먼저 만나보세요.
+                    <p style={{fontSize:'30px'}}>
+                    사이드 프로젝트를 위한 팀원 모집 서비스. 
                     </p>
+                    <p style={{fontSize:'20px'}}>아이디어를 현실로 만들기 위한 파트너를 찾아보세요. </p>
+                    <p style={{fontSize:'15px'}}>함께 프로젝트를 시작하세요! </p>
                     <Button
                       className='startBtn'
                       variant='dark'
@@ -108,7 +105,14 @@ function App() {
                     >
                       자세히 보기
                     </Button>
-                    <img src={mainIntroProject} alt='mainIntro 프로젝트 소개' style={{width:'50%'}}/>
+                  </div>
+                  <div className='mainIntroRight' style={{ display: 'flex', alignItems: 'center' }}>
+                    {' '}
+                    <img
+                      src={mainIntroProject}
+                      alt='mainIntro 프로젝트 소개'
+                      style={{ width: '50%', marginTop: '150px', marginLeft: '150px' }}
+                    />
                   </div>
                 </div>
               </div>

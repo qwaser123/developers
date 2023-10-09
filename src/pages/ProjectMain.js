@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { db } from '../index.js';
 import { useEffect, useState } from 'react';
 import UnityImg from '../img/Unity.jpg';
+import UnityImg1 from '../img/Unity1.jpg';
 
 export default function ProjectPage() {
   let navigate = useNavigate();
@@ -102,12 +103,13 @@ function ProjectFiltering() {
 }
 function ListOfProject(props) {
   let { id } = useParams();
-  return props.projectInfoKeys.map((key) => (
+  return props.projectInfoKeys.map((key, i) => (
     <div className=' mt-4' key={key}>
       <div
         className='product'
         onClick={() => {
-          props.navigate('/project/detail/id');
+          props.navigate(`/project/detail/${id}`);
+
         }}
       >
         <div className='thumbnail'>
