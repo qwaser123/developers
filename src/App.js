@@ -184,9 +184,14 @@ function MyNav(props) {
               프로젝트
             </Nav.Link>
             <Nav.Link className='navItem'>커뮤니티</Nav.Link>
-            <Nav.Link className='navItem' onClick={()=> {
-              firebase.auth().signOut()
-            }}>유저</Nav.Link>
+            <Nav.Link
+              className='navItem'
+              onClick={() => {
+                firebase.auth().signOut();
+              }}
+            >
+              유저
+            </Nav.Link>
           </Nav>
           <Nav>
             <Nav.Link
@@ -204,10 +209,12 @@ function MyNav(props) {
               onClick={() => {
                 props.navigate('/login');
               }}
-            >{
-              isLogin == profileImg ?  <img src={isLogin} alt='프로필' style={{ width: '30px' }} /> : <p>{isLogin}</p>
-            }
-             
+            >
+              {isLogin == profileImg ? (
+                <img src={isLogin} alt='프로필' style={{ width: '30px' }} />
+              ) : (
+                <p>{isLogin}</p>
+              )}
             </Nav.Link>
           </Nav>
         </Container>
@@ -216,15 +223,26 @@ function MyNav(props) {
   );
 }
 function Modal(props) {
+  let [fade, setFade] = useState('');
+  useEffect(() => {
+    // 처음 렌더링 시에 클래스를 추가합니다.
+    setFade('end');
+
+
+
+    // 컴포넌트가 언마운트 될 때 타이머를 정리합니다.
+   
+  }, []);
+
   return (
     <>
       <div
         className='black-bg'
-        onClick={() => {
+        onClick={(e) => {
           props.setIsModal(!props.isModal);
         }}
       >
-        <div className='white-bg' onClick={(e) => e.stopPropagation()}>
+        <div className={`white-bg start ${fade}`} onClick={(e) => e.stopPropagation()}>
           {' '}
           {/*이벤트 버블링 막음*/}
           <img src={logoImg} alt='연필' className='white-bg-img' />

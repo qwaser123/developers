@@ -28,6 +28,16 @@ p {
   color: black !important;
   /* TODO:important 안 쓰는 방법을 생각해보자 */
 }
+.start {
+  opacity: 0;
+  transform: translateY(0);
+}
+  .end {
+  opacity: 1;
+  transform: translateY(-50px);
+  transition: all 1s;
+  
+  }
 .black-bg {
   width: 100%;
   height: 100%;
@@ -35,6 +45,7 @@ p {
   z-index: 5;
   background: rgba(0, 0, 0, 0.5);
   padding: 30px;
+
 }
 .white-bg {
   background: white;
@@ -106,7 +117,7 @@ p {
 .product .thumbnail {
   background-color: white;
   width: 260px;
-  height: 200px;
+  height: 300px;
   border-radius: 20px;
   background-position: center;
   border: solid 2px #c8c9c9;
@@ -137,7 +148,7 @@ p {
   margin: auto;
 }
 .projectBox {
-  background-color: gray;
+  background-color: rgb(235, 235, 235);
   border-radius: 20px;
   display: inline-block;
   width: 60px;
@@ -145,6 +156,7 @@ p {
   padding: 5px;
   text-align: center;
 }
+
 .projectBox p {
   font-size: 12px;
 }
