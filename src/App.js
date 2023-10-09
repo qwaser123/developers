@@ -5,6 +5,7 @@ import 'firebase/auth';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logoImg from './img/devLogo.PNG';
+import mainIntroProject from './img/mainIntroProject.PNG';
 import penImg from './img/pencil.png';
 import Footer from './pages/Footer.js';
 import MyLogin from './pages/Login';
@@ -88,17 +89,27 @@ function App() {
               </div>
               <div className='mainIntro secondIntro'>
                 <div className='mainAnimation'>
-                  <p className='mainIntroText'>Project</p>
-
-                  <Button
-                    className='startBtn'
-                    variant='dark'
-                    onClick={() => {
-                      navigate('/login');
-                    }}
-                  >
-                    지금 시작하기
-                  </Button>
+                  <div className='mainIntroLeft'>
+                    <p className='mainIntroText'>Project</p>
+                    <p>
+                      {' '}
+                      이제 불필요한 고민 시간은 줄이고 필요한 업무에만
+                      집중하세요. <br/>AI로 완전히 새로워진 생산성 향상을 경험하세요.
+                      <br/>
+                      오랜 기간 문서를 고민해 온 한컴이 선보이는 새로운 AI 업무
+                      경험, 한컴독스에서 가장 먼저 만나보세요.
+                    </p>
+                    <Button
+                      className='startBtn'
+                      variant='dark'
+                      onClick={() => {
+                        navigate('/login');
+                      }}
+                    >
+                      자세히 보기
+                    </Button>
+                    <img src={mainIntroProject} alt='mainIntro 프로젝트 소개' style={{width:'50%'}}/>
+                  </div>
                 </div>
               </div>
               <div className='mainIntro'>
@@ -142,6 +153,7 @@ function App() {
         ></Route>
         <Route path='/main' element={<div>로그인후 메인페이지</div>} />
         <Route path='/project' element={<ProjectPage />} />
+        <Route path='/project/detail/:id' element={<ProjectPage />} />
         <Route path='/login' element={<MyLogin />} />
         <Route path='/signup' element={<div>회원가입페이지</div>} />
         <Route path='*' element={<div>경로가 올바르지 않습니다</div>} />
@@ -228,10 +240,7 @@ function Modal(props) {
     // 처음 렌더링 시에 클래스를 추가합니다.
     setFade('end');
 
-
-
     // 컴포넌트가 언마운트 될 때 타이머를 정리합니다.
-   
   }, []);
 
   return (
@@ -242,7 +251,10 @@ function Modal(props) {
           props.setIsModal(!props.isModal);
         }}
       >
-        <div className={`white-bg start ${fade}`} onClick={(e) => e.stopPropagation()}>
+        <div
+          className={`white-bg start ${fade}`}
+          onClick={(e) => e.stopPropagation()}
+        >
           {' '}
           {/*이벤트 버블링 막음*/}
           <img src={logoImg} alt='연필' className='white-bg-img' />

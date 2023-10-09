@@ -1,7 +1,8 @@
 import { Carousel } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { db } from '../index.js';
 import { useEffect, useState } from 'react';
+import UnityImg from '../img/Unity.jpg'
 
 export default function ProjectPage() {
   let navigate = useNavigate();
@@ -19,6 +20,7 @@ export default function ProjectPage() {
             제목: doc.data().제목,
             요약: doc.data().요약,
             소개: doc.data().소개,
+            스택: doc.data().스택
           };
         });
         // 데이터 로딩이 완료되면 state 업데이트
@@ -40,12 +42,22 @@ export default function ProjectPage() {
       <div className='showProjectList'>
         <h3 className='showProjectRank'>새로운 프로젝트 🎊</h3>
         {/* TODO: 컴포넌트 쓸 때마다 props로 넘겨줘야 하는 건가? */}
-        <ListOfProject projectInfo={projectInfo} projectInfoKeys={projectInfoKeys}/>
+        <ListOfProject
+          projectInfo={projectInfo}
+          projectInfoKeys={projectInfoKeys}
+          navigate={navigate}
+        />
         <h3 className='showProjectRank'> 인기 프로젝트 🔥</h3>
-        <ListOfProject projectInfo={projectInfo} projectInfoKeys={projectInfoKeys}/>
+        <ListOfProject
+          projectInfo={projectInfo}
+          projectInfoKeys={projectInfoKeys}
+        />
         <h3 className='showProjectRank'> 전체 프로젝트 </h3>
-        <ProjectFiltering/>
-          <ListOfProject projectInfo={projectInfo} projectInfoKeys={projectInfoKeys}/>
+        <ProjectFiltering />
+        <ListOfProject
+          projectInfo={projectInfo}
+          projectInfoKeys={projectInfoKeys}
+        />
       </div>
     </>
   );
@@ -88,26 +100,33 @@ function ProjectFiltering() {
   );
 }
 function ListOfProject(props) {
-  
- return(
-  props.projectInfoKeys.map((key) => (
+ let {id} = useParams();
+  return props.projectInfoKeys.map((key) => (
     <div className=' mt-4' key={key}>
-      <div className='product'>
+      <div className='product' onClick={()=> {
+      props.navigate('/project/detail/id')
+      }}>
         <div className='thumbnail'>
-          <div className='flex-grow-1 p-4'>
-            <div className='projectBox'>
-              <p>프로젝트</p>
+          <div className='flex-grow-1'>
+            <div className='thumbnailImg'>
+              <img src={UnityImg} alt='썸네일 이미지' style={{width:'100%'}}/>
             </div>
-            <h5 className='title'>{props.projectInfo[key].제목}</h5>
-            <p className='date'>{props.projectInfo[key].요약}</p>
-            {/* <p className='price'>{projectInfo[key].소개}</p> */}
-            <p className='floatEnd'>?1</p>
+            <div className='thumbnailInfo'>
+              
+              {/* <div className='projectBox'>
+                <p>프로젝트</p>
+              </div> */}
+              <h5 className='title'>{props.projectInfo[key].제목}</h5>
+              <p className='date'>{props.projectInfo[key].요약}</p>
+              <p className='price'>{props.projectInfo[key].스택}</p>
+              <hr></hr>
+              <p className='floatEnd'>조회수 좋아요수 댓글수 </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  ))
- )
+  ));
 }
 
 //TODO: 신규프로젝트, 인기프로젝트 넘어가는거 만들기 , 그 아래에 프로젝트 리스트, 무한스크롤

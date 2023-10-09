@@ -101,17 +101,19 @@ export default function MyProjectWrite() {
         </label>
 
         <p>기술 스택</p>
-        <Dropdown>
-          <Dropdown.Toggle variant='success' id='dropdown-basic' style={{backgroundColor: 'white', borderColor:'grey'}}>
-            <span style={{color:'black'}}>프로젝트 사용 스택</span>
-          </Dropdown.Toggle>
+        <select name='language' id='language' onChange={(e)=> {
+          let value = e.target.value;
+          setFormData((data) => ({
+            ...data, 
+            스택 : value
+          }))
+        }}>
+        <option value='javascript'>JavaScript</option>
+        <option value='python'>Python</option>
+        <option value='c++'>C++</option>
+        <option value='java'>Java</option>
+      </select>
 
-          <Dropdown.Menu>
-            <Dropdown.Item href='#/action-1'>Javascript</Dropdown.Item>
-            <Dropdown.Item href='#/action-2'>Java</Dropdown.Item>
-            <Dropdown.Item href='#/action-3'>vue</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
         <p>모집 마감일</p>
         <input type='date' />
 
