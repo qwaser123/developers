@@ -20,7 +20,8 @@ export default function ProjectPage() {
             제목: doc.data().제목,
             요약: doc.data().요약,
             소개: doc.data().소개,
-            스택: doc.data().스택
+            스택: doc.data().스택,
+            마감일 : doc.data().마감일
           };
         });
         // 데이터 로딩이 완료되면 state 업데이트
@@ -119,8 +120,10 @@ function ListOfProject(props) {
               <h5 className='title'>{props.projectInfo[key].제목}</h5>
               <p className='date'>{props.projectInfo[key].요약}</p>
               <p className='price'>{props.projectInfo[key].스택}</p>
+              
               <hr></hr>
-              <p className='floatEnd'>조회수 좋아요수 댓글수 </p>
+              <p className='price'>마감일| {props.projectInfo[key].마감일}</p>
+              {/* <p className='floatEnd'>조회수 좋아요수 댓글수 </p> */}
             </div>
           </div>
         </div>

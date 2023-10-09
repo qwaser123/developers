@@ -115,7 +115,14 @@ export default function MyProjectWrite() {
       </select>
 
         <p>모집 마감일</p>
-        <input type='date' />
+        <input type='date' id='projectDate'
+        onChange={(e)=> {
+          let value = e.target.value;
+          setFormData((data)=>({
+            ...data,
+            마감일: value
+          }))
+        }}/>
 
         <p>소개</p>
         <textarea
@@ -176,6 +183,6 @@ export default function MyProjectWrite() {
   );
 }
 
-//TODO: 마감일, 기술 스택 추가
+//TODO: 
 //좋아요 버튼 추가
 // usestate쓸 때 const와 let 차이 
