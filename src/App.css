@@ -164,11 +164,9 @@ float: left;
 /* .projectBox {
   background-color: rgb(235, 235, 235);
   border-radius: 20px;
-  display: inline-block;
-  width: 60px;
+  width: 40px;
   height: 24px;
   padding: 5px;
-  text-align: center;
 } */
 
 .projectBox p {

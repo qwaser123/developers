@@ -2,12 +2,17 @@ import { Button } from 'react-bootstrap';
 import { db } from '../index.js';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Select from 'react-select';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { stackOptions } from '../components/data.js';
+
+
 
 export default function MyProjectWrite() {
   const [formData, setFormData] = useState({});
   //TODO: formData로 따로 만들게 아니라 project info를 props해오면 더 깔끔하지않을까?
   const [isFrontend, setIsFrontend] = useState(false);
+
   let navigate = useNavigate();
   //입력된 텍스트 null값 검사 
   let [textLen, setTextLen] = useState({
@@ -101,19 +106,23 @@ export default function MyProjectWrite() {
         </label>
 
         <p>기술 스택</p>
-        <select name='language' id='language' onChange={(e)=> {
-          let value = e.target.value;
-          setFormData((data) => ({
-            ...data, 
-            스택 : value
-          }))
-        }}>
-        <option value='javascript'>JavaScript</option>
-        <option value='python'>Python</option>
-        <option value='c++'>C++</option>
-        <option value='java'>Java</option>
-      </select>
 
+      <Select
+    defaultValue={[stackOptions[2]]}
+    isMulti
+    name="stackOption"
+    options={stackOptions}
+    className="basic-multi-select"
+    classNamePrefix="select"
+    onChange={(selectedOptions) => {
+      const selectedValues = selectedOptions.map((option) => option.value);
+      console.log(selectedValues);
+      setFormData((data) => ({
+        ...data, 
+        스택 : selectedValues +' '
+      }))
+    }}
+  />
         <p>모집 마감일</p>
         <input type='date' id='projectDate'
         onChange={(e)=> {
