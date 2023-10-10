@@ -133,6 +133,14 @@ export default function MyProjectWrite() {
           }))
         }}/>
 
+<p>썸네일</p> 
+<input type='file' accept='image/*' onChange={(e)=> {
+  let value = e.target.value;
+  setFormData((data)=>({
+    ...data,
+    썸네일: value
+  }))
+}}/>
         <p>소개</p>
         <textarea
           type='text'

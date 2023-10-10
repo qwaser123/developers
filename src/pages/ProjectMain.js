@@ -116,7 +116,7 @@ function ListOfProject(props) {
           <div className='flex-grow-1'>
             <div className='thumbnailImg'>
               <img
-                src={UnityImg}
+                src={props.projectInfo[key].썸네일}
                 alt='썸네일 이미지'
                 style={{ width: '100%' }}
               />
