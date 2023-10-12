@@ -24,8 +24,9 @@ import {
   Form,
   InputGroup,
 } from 'react-bootstrap';
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-
 
 function App() {
   const [isModal, setIsModal] = useState(false);
@@ -93,11 +94,15 @@ function App() {
                 <div className='mainAnimation'>
                   <div className='mainIntroLeft'>
                     <p className='mainIntroText'>Project</p>
-                    <p style={{fontSize:'30px'}}>
-                    사이드 프로젝트를 위한 팀원 모집 서비스. 
+                    <p style={{ fontSize: '30px' }}>
+                      사이드 프로젝트를 위한 팀원 모집 서비스.
                     </p>
-                    <p style={{fontSize:'20px'}}>아이디어를 현실로 만들기 위한 파트너를 찾아보세요. </p>
-                    <p style={{fontSize:'15px'}}>함께 프로젝트를 시작하세요! </p>
+                    <p style={{ fontSize: '20px' }}>
+                      아이디어를 현실로 만들기 위한 파트너를 찾아보세요.{' '}
+                    </p>
+                    <p style={{ fontSize: '15px' }}>
+                      함께 프로젝트를 시작하세요!{' '}
+                    </p>
                     <Button
                       className='startBtn'
                       variant='dark'
@@ -108,12 +113,19 @@ function App() {
                       자세히 보기
                     </Button>
                   </div>
-                  <div className='mainIntroRight' style={{ display: 'flex', alignItems: 'center' }}>
+                  <div
+                    className='mainIntroRight'
+                    style={{ display: 'flex', alignItems: 'center' }}
+                  >
                     {' '}
                     <img
                       src={mainIntroProject}
                       alt='mainIntro 프로젝트 소개'
-                      style={{ width: '50%', marginTop: '150px', marginLeft: '150px' }}
+                      style={{
+                        width: '50%',
+                        marginTop: '150px',
+                        marginLeft: '150px',
+                      }}
                     />
                   </div>
                 </div>
@@ -159,7 +171,7 @@ function App() {
         ></Route>
         <Route path='/main' element={<div>로그인후 메인페이지</div>} />
         <Route path='/project' element={<ProjectPage />} />
-        <Route path='/project/detail/:id' element={<ProjectDetail/>} />
+        <Route path='/project/detail/:id' element={<ProjectDetail />} />
         <Route path='/login' element={<MyLogin />} />
         <Route path='/signup' element={<div>회원가입페이지</div>} />
         <Route path='*' element={<div>경로가 올바르지 않습니다</div>} />
@@ -171,6 +183,7 @@ function App() {
 //nav바
 function MyNav(props) {
   const [isLogin, setIsLogin] = useState('Log in');
+  let [profileDropdown, setProfileDropdown] = useState(false);
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -202,14 +215,7 @@ function MyNav(props) {
               프로젝트
             </Nav.Link>
             <Nav.Link className='navItem'>커뮤니티</Nav.Link>
-            <Nav.Link
-              className='navItem'
-              onClick={() => {
-                firebase.auth().signOut();
-              }}
-            >
-              유저
-            </Nav.Link>
+            <Nav.Link className='navItem'>유저</Nav.Link>
           </Nav>
           <Nav>
             <Nav.Link
@@ -221,18 +227,61 @@ function MyNav(props) {
             >
               새 글 쓰기
             </Nav.Link>
-            <Nav.Link
-              className='navItem rightNav'
-              id='loginProfile'
-              onClick={() => {
-                props.navigate('/login');
-              }}
-            >
+            <Nav.Link className='navItem rightNav' id='loginProfile'>
               {isLogin == profileImg ? (
-                <img src={isLogin} alt='프로필' style={{ width: '30px' }} />
+                <img
+                  src={isLogin}
+                  alt='프로필'
+                  style={{ width: '30px' }}
+                  onClick={() => {
+                    setProfileDropdown(!profileDropdown);
+                  }}
+                />
               ) : (
-                <p>{isLogin}</p>
+                <p
+                  onClick={() => {
+                    props.navigate('/login');
+                  }}
+                >
+                  {isLogin}
+                </p>
               )}
+              {profileDropdown === true ? (
+                <Card
+                  style={{
+                    width: '10rem',
+                    marginTop: '5px',
+                    marginLeft: '-120px',
+                    position: 'absolute',
+                    zIndex: 1000,
+                  }}
+                >
+                  <ListGroup variant='flush'>
+                    <ListGroup.Item
+                      onClick={() => {
+                        setProfileDropdown(!profileDropdown);
+                      }}
+                    >
+                      내 프로젝트
+                    </ListGroup.Item>
+                    <ListGroup.Item
+                      onClick={() => {
+                        setProfileDropdown(!profileDropdown);
+                      }}
+                    >
+                      설정
+                    </ListGroup.Item>
+                    <ListGroup.Item
+                      onClick={() => {
+                        setProfileDropdown(!profileDropdown);
+                        firebase.auth().signOut();
+                      }}
+                    >
+                      로그아웃
+                    </ListGroup.Item>
+                  </ListGroup>
+                </Card>
+              ) : null}
             </Nav.Link>
           </Nav>
         </Container>

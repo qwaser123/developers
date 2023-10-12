@@ -270,7 +270,7 @@ p {
   width: 100%;
 }
 .projectWriteMainContainer {
-  width: 100%;
+  width: 100vw;
   padding: 50px;
 }
 .projectWriteMainCenter {

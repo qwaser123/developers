@@ -45,11 +45,21 @@ function ProjectDetail() {
 
   return (
     <>
-      <p>{projectInfo.제목}</p>
-      <p>{projectInfo.스택}</p>
-      <p>{projectInfo.요약}</p>
-      <p>{projectInfo.소개}</p>
-      <p>{projectInfo.마감일}</p>
+      <div className='projectWriteMainContainer'>
+        <div className='projectWriteMainCenter'>
+        <h1 style={{marginTop:'100px'}}>{projectInfo.제목}</h1><br/><hr/>
+        <p>{projectInfo.스택}</p>
+        <p>{projectInfo.요약}</p>
+        
+        <p>{projectInfo.마감일}</p>
+        <p>소개</p>
+        <hr/>
+        <p>{projectInfo.소개}</p>
+        <button> 신청하기 </button>
+        </div>
+
+      </div>
+
       {/* 다른 프로젝트 정보를 표시할 수 있도록 여기에 추가 */}
     </>
   );
