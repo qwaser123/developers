@@ -8,6 +8,7 @@ import logoImg from './img/devLogo.PNG';
 import mainIntroProject from './img/mainIntroProject.PNG';
 import penImg from './img/pencil.png';
 import Footer from './pages/Footer.js';
+import ProjectDetail from './pages/ProjectDetail.js';
 import MyLogin from './pages/Login';
 import MyProjectWrite from './pages/ProjectWrite';
 import ProjectPage from './pages/ProjectMain';
@@ -24,6 +25,7 @@ import {
   InputGroup,
 } from 'react-bootstrap';
 import { Routes, Route, useNavigate } from 'react-router-dom';
+
 
 function App() {
   const [isModal, setIsModal] = useState(false);
@@ -157,7 +159,7 @@ function App() {
         ></Route>
         <Route path='/main' element={<div>로그인후 메인페이지</div>} />
         <Route path='/project' element={<ProjectPage />} />
-        <Route path='/project/detail/:id' element={<ProjectPage />} />
+        <Route path='/project/detail/:id' element={<ProjectDetail/>} />
         <Route path='/login' element={<MyLogin />} />
         <Route path='/signup' element={<div>회원가입페이지</div>} />
         <Route path='*' element={<div>경로가 올바르지 않습니다</div>} />

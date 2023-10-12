@@ -53,12 +53,14 @@ export default function ProjectPage() {
         <ListOfProject
           projectInfo={projectInfo}
           projectInfoKeys={projectInfoKeys}
+          navigate={navigate}
         />
         <h3 className='showProjectRank'> 전체 프로젝트 </h3>
         <ProjectFiltering />
         <ListOfProject
           projectInfo={projectInfo}
           projectInfoKeys={projectInfoKeys}
+          navigate={navigate}
         />
       </div>
     </>
@@ -102,13 +104,13 @@ function ProjectFiltering() {
   );
 }
 function ListOfProject(props) {
-  let { id } = useParams();
+
   return props.projectInfoKeys.map((key, i) => (
     <div className=' mt-4' key={key}>
       <div
         className='product'
         onClick={() => {
-          props.navigate(`/project/detail/${id}`);
+          props.navigate(`/project/detail/${key}`);
 
         }}
       >
