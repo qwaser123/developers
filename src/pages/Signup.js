@@ -2,6 +2,7 @@ import { useState } from "react";
 import 'firebase/firestore';
 import firebase from 'firebase/app'; // 필요한 Firebase 모듈을 추가로 import할 수 있습니다.
 import 'firebase/auth';
+import { db } from '../index';
 import { Navigate } from "react-router-dom";
 function SignUp(props) {
     let [name, setName] = useState('');
@@ -28,8 +29,10 @@ function SignUp(props) {
 
         }}></input><br></br>
         <button type="submit" onClick={()=> {
-            firebase.auth().createUserWithEmailAndPassword(email, pwd).then( ()=> {
+            firebase.auth().createUserWithEmailAndPassword(email, pwd).then( (result)=> {
                 alert('완료');
+                var 유저정보 = {name: name, email: email}
+                db.collection('user').doc(result.user.uid).set(유저정보)
                 props.navigate('/project');
             })
         }}>등록하기</button>

@@ -1,19 +1,17 @@
 import { Button } from 'react-bootstrap';
-import { db } from '../index.js';
+import { db, storage } from '../index.js';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { stackOptions } from '../components/data.js';
 
-
-
 export default function MyProjectWrite() {
   const [formData, setFormData] = useState({});
   //TODO: formData로 따로 만들게 아니라 project info를 props해오면 더 깔끔하지않을까?
   const [isFrontend, setIsFrontend] = useState(false);
-
+  let [file, setFile] = useState('');
   let navigate = useNavigate();
-  //입력된 텍스트 null값 검사 
+  //입력된 텍스트 null값 검사
   let [textLen, setTextLen] = useState({
     제목: '',
     요약: '',
@@ -81,13 +79,18 @@ export default function MyProjectWrite() {
         ></input>
 
         <p>모집 포지션</p>
-        <input type='checkbox' id='position1' onClick={()=> {
-          setIsFrontend(!isFrontend);
-          console.log(isFrontend);
-          setFormData((data)=> ({
-            ...data, 포지션: 'a'
-          }))
-        }}/>
+        <input
+          type='checkbox'
+          id='position1'
+          onClick={() => {
+            setIsFrontend(!isFrontend);
+      
+            setFormData((data) => ({
+              ...data,
+              포지션: 'a',
+            }));
+          }}
+        />
         <label for='position1'>
           <span>프론트엔드</span>
         </label>
@@ -106,40 +109,42 @@ export default function MyProjectWrite() {
 
         <p>기술 스택</p>
 
-      <Select
-    defaultValue={[stackOptions[2]]}
-    isMulti
-    name="stackOption"
-    options={stackOptions}
-    className="basic-multi-select"
-    classNamePrefix="select"
-    onChange={(selectedOptions) => {
-      const selectedValues = selectedOptions.map((option) => option.value);
-      console.log(selectedValues);
-      setFormData((data) => ({
-        ...data, 
-        스택 : selectedValues +' '
-      }))
-    }}
-  />
+        <Select
+          defaultValue={[stackOptions[2]]}
+          isMulti
+          name='stackOption'
+          options={stackOptions}
+          className='basic-multi-select'
+          classNamePrefix='select'
+          onChange={(selectedOptions) => {
+            const selectedValues = selectedOptions.map(
+              (option) => option.value
+            );
+            setFormData((data) => ({
+              ...data,
+              스택: selectedValues + ' ',
+            }));
+          }}
+        />
         <p>모집 마감일</p>
-        <input type='date' id='projectDate'
-        onChange={(e)=> {
-          let value = e.target.value;
-          setFormData((data)=>({
-            ...data,
-            마감일: value
-          }))
-        }}/>
+        <input
+          type='date'
+          id='projectDate'
+          onChange={(e) => {
+            let value = e.target.value;
+            setFormData((data) => ({
+              ...data,
+              마감일: value,
+            }));
+          }}
+        />
 
-<p>썸네일</p> 
-<input type='file' accept='image/*' onChange={(e)=> {
-  let value = e.target.value;
-  setFormData((data)=>({
-    ...data,
-    썸네일: value
-  }))
-}}/>
+        <p>썸네일</p>
+        <input type='file' accept='image/*' onChange={(e)=> {
+          setFile(e.target.files[0]);
+        }} />
+
+
         <p>소개</p>
         <textarea
           type='text'
@@ -168,37 +173,51 @@ export default function MyProjectWrite() {
           }}
         ></textarea>
         <div className='btngroup'>
-        <Button variant="secondary" onClick={()=> {
-          navigate(-1) //뒤로가기
-        }}>취소</Button>{' '}
-        <Button
-          variant='dark'
-          type='submit'
-          className='ProjectSendBtn'
-          onClick={() => {
-            if (textLen.제목 === false) {
-              alert('제목을 입력해주세요 ');
-            } else if (textLen.요약 === false) {
-              alert('요약은 20자 이상 입력해주세요 ');
-            } else if (textLen.소개 === false) {
-              alert('소개칸은 100자 이상 입력해주세요 ');
-            } else {
-              db.collection('List').add(formData); //List라는 컬렉션에 formData 데이터 추가 
-              alert('등록 완료');
-              navigate('/project');
-            }
-          }}
-        >
-          {' '}
-          등록하기{' '}
-        </Button>
+          <Button
+            variant='secondary'
+            onClick={() => {
+              navigate(-1); //뒤로가기
+            }}
+          >
+            취소
+          </Button>{' '}
+          <Button
+            variant='dark'
+            type='submit'
+            className='ProjectSendBtn'
+            onClick={() => {
+              if (textLen.제목 === false) {
+                alert('제목을 입력해주세요 ');
+              } else if (textLen.요약 === false) {
+                alert('요약은 20자 이상 입력해주세요 ');
+              } else if (textLen.소개 === false) {
+                alert('소개칸은 100자 이상 입력해주세요 ');
+              } else {
+                var storageRef = storage.ref();
+                var 저장할경로 = storageRef.child('image/' + file.name );
+                var 업로드작업 = 저장할경로.put(file)
+
+                업로드작업.then((snapshot)=> {
+                  db.collection('List').add(formData); //List라는 컬렉션에 formData 데이터 추가
+                  alert('등록 완료');
+                  navigate('/project');
+                }).catch((error) => {
+                  console.error('파일 업로드 실패:', error);
+                  alert('실패');
+                })
+
+              }
+            }}
+          >
+            {' '}
+            등록하기{' '}
+          </Button>
         </div>
-        
       </div>
     </div>
   );
 }
 
-//TODO: 
+//TODO:
 //좋아요 버튼 추가
-// usestate쓸 때 const와 let 차이 
+// usestate쓸 때 const와 let 차이

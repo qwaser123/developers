@@ -1,9 +1,8 @@
 import { Carousel } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import { db } from '../index.js';
 import { useEffect, useState } from 'react';
-import UnityImg from '../img/Unity.jpg';
-import UnityImg1 from '../img/Unity1.jpg';
+
 
 export default function ProjectPage() {
   let navigate = useNavigate();
