@@ -1,10 +1,10 @@
 import { Button } from 'react-bootstrap';
 import { db, storage } from '../index.js';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { stackOptions } from '../components/data.js';
-
+import firebase from 'firebase/app'; 
 export default function MyProjectWrite() {
   const [formData, setFormData] = useState({});
   //TODO: formData로 따로 만들게 아니라 project info를 props해오면 더 깔끔하지않을까?
@@ -18,7 +18,14 @@ export default function MyProjectWrite() {
     포지션: [],
     소개: '',
   });
-
+useEffect(()=> {
+  firebase.auth().onAuthStateChanged((user)=> {
+    setFormData((data) => ({
+      ...data,
+      팀장: user.displayName,
+    }));
+   })
+},[])
   return (
     <div className='projectWriteMainContainer'>
       <div className='projectWriteMainCenter'>
@@ -84,7 +91,7 @@ export default function MyProjectWrite() {
           id='position1'
           onClick={() => {
             setIsFrontend(!isFrontend);
-      
+
             setFormData((data) => ({
               ...data,
               포지션: 'a',
@@ -140,10 +147,13 @@ export default function MyProjectWrite() {
         />
 
         <p>썸네일</p>
-        <input type='file' accept='image/*' onChange={(e)=> {
-          setFile(e.target.files[0]);
-        }} />
-
+        <input
+          type='file'
+          accept='image/*'
+          onChange={(e) => {
+            setFile(e.target.files[0]);
+          }}
+        />
 
         <p>소개</p>
         <textarea
@@ -193,19 +203,31 @@ export default function MyProjectWrite() {
               } else if (textLen.소개 === false) {
                 alert('소개칸은 100자 이상 입력해주세요 ');
               } else {
+
+
+
+
                 var storageRef = storage.ref();
-                var 저장할경로 = storageRef.child('image/' + file.name );
-                var 업로드작업 = 저장할경로.put(file)
+                var 저장할경로 = storageRef.child('image/' + file.name);
+                var 업로드작업 = 저장할경로.put(file);
 
-                업로드작업.then((snapshot)=> {
-                  db.collection('List').add(formData); //List라는 컬렉션에 formData 데이터 추가
-                  alert('등록 완료');
-                  navigate('/project');
-                }).catch((error) => {
-                  console.error('파일 업로드 실패:', error);
-                  alert('실패');
-                })
-
+                업로드작업.then((snapshot) => {
+                  업로드작업.snapshot.ref
+                    .getDownloadURL()
+                    .then((url) => {
+                      setFormData((data) => ({
+                        ...data,
+                        이미지: url,
+                      }));
+                      db.collection('List').add(formData); //List라는 컬렉션에 formData 데이터 추가
+                      alert('등록 완료');
+                      navigate('/project');
+                    })
+                    .catch((error) => {
+                      console.error('파일 업로드 실패:', error);
+                      alert('실패');
+                    });
+                });
               }
             }}
           >

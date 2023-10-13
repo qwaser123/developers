@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { db } from '../index';
+import firebase from 'firebase/app';
+
 function ProjectDetail() {
   let { id } = useParams();
   const [projectInfo1, setProjectInfo1] = useState(null);
@@ -19,6 +21,8 @@ function ProjectDetail() {
               요약: doc.data().요약,
               소개: doc.data().소개,
               스택: doc.data().스택,
+              팀장: doc.data().팀장,
+              팀원: doc.data().팀원,
               마감일: doc.data().마감일,
             };
           }
@@ -55,7 +59,17 @@ function ProjectDetail() {
         <p>소개</p>
         <hr/>
         <p>{projectInfo.소개}</p>
-        <button> 신청하기 </button>
+        <p>팀장</p>
+        <span>{projectInfo.팀장}</span>
+        <p>팀원</p>
+        <span>{projectInfo.팀원}</span>
+        <button onClick={()=> {
+          firebase.auth().onAuthStateChanged((user)=> {
+            // user.displayName
+          db.collection('List').doc(id).update({팀원: user.displayName});
+        
+          })
+        }}> 신청하기 </button>
         </div>
 
       </div>

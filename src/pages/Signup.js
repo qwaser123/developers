@@ -31,6 +31,7 @@ function SignUp(props) {
         <button type="submit" onClick={()=> {
             firebase.auth().createUserWithEmailAndPassword(email, pwd).then( (result)=> {
                 alert('완료');
+                result.user.updateProfile( {displayName : name} )
                 var 유저정보 = {name: name, email: email}
                 db.collection('user').doc(result.user.uid).set(유저정보)
                 props.navigate('/project');

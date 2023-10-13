@@ -8,6 +8,7 @@ import logoImg from './img/devLogo.PNG';
 import mainIntroProject from './img/mainIntroProject.PNG';
 import Footer from './pages/Footer.js';
 import ProjectDetail from './pages/ProjectDetail.js';
+import MyProject from './pages/MyProject.js';
 import MyLogin from './pages/Login';
 import MySignUp from './pages/Signup.js';
 import MyProjectWrite from './pages/ProjectWrite';
@@ -171,6 +172,7 @@ function App() {
         <Route path='/project/detail/:id' element={<ProjectDetail />} />
         <Route path='/login' element={<MyLogin />} />
         <Route path='/signup' element={<MySignUp navigate={navigate}/>} />
+        <Route path='/myproject' element={<MyProject navigate={navigate}/>} />
         <Route path='*' element={<div>경로가 올바르지 않습니다</div>} />
       </Routes>
     </div>
@@ -257,6 +259,7 @@ function MyNav(props) {
                     <ListGroup.Item
                       onClick={() => {
                         setProfileDropdown(!profileDropdown);
+                        props.navigate('/myproject')
                       }}
                     >
                       내 프로젝트
