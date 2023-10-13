@@ -3,7 +3,6 @@ import { db } from '../index.js';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
-import Dropdown from 'react-bootstrap/Dropdown';
 import { stackOptions } from '../components/data.js';
 
 
@@ -177,11 +176,11 @@ export default function MyProjectWrite() {
           type='submit'
           className='ProjectSendBtn'
           onClick={() => {
-            if (textLen.제목 == false) {
+            if (textLen.제목 === false) {
               alert('제목을 입력해주세요 ');
-            } else if (textLen.요약 == false) {
+            } else if (textLen.요약 === false) {
               alert('요약은 20자 이상 입력해주세요 ');
-            } else if (textLen.소개 == false) {
+            } else if (textLen.소개 === false) {
               alert('소개칸은 100자 이상 입력해주세요 ');
             } else {
               db.collection('List').add(formData); //List라는 컬렉션에 formData 데이터 추가 

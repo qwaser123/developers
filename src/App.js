@@ -6,10 +6,10 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logoImg from './img/devLogo.PNG';
 import mainIntroProject from './img/mainIntroProject.PNG';
-import penImg from './img/pencil.png';
 import Footer from './pages/Footer.js';
 import ProjectDetail from './pages/ProjectDetail.js';
 import MyLogin from './pages/Login';
+import MySignUp from './pages/Signup.js';
 import MyProjectWrite from './pages/ProjectWrite';
 import ProjectPage from './pages/ProjectMain';
 import profileImg from './img/profileImg.png';
@@ -20,9 +20,6 @@ import {
   Navbar,
   Container,
   Button,
-  Carousel,
-  Form,
-  InputGroup,
 } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -55,7 +52,7 @@ function App() {
   });
   return (
     <div className='App'>
-      {isModal == true ? (
+      {isModal === true ? (
         <Modal navigate={navigate} isModal={isModal} setIsModal={setIsModal} />
       ) : null}
       <MyNav
@@ -173,7 +170,7 @@ function App() {
         <Route path='/project' element={<ProjectPage />} />
         <Route path='/project/detail/:id' element={<ProjectDetail />} />
         <Route path='/login' element={<MyLogin />} />
-        <Route path='/signup' element={<div>회원가입페이지</div>} />
+        <Route path='/signup' element={<MySignUp navigate={navigate}/>} />
         <Route path='*' element={<div>경로가 올바르지 않습니다</div>} />
       </Routes>
     </div>
@@ -228,7 +225,7 @@ function MyNav(props) {
               새 글 쓰기
             </Nav.Link>
             <Nav.Link className='navItem rightNav' id='loginProfile'>
-              {isLogin == profileImg ? (
+              {isLogin === profileImg ? (
                 <img
                   src={isLogin}
                   alt='프로필'
@@ -312,7 +309,7 @@ function Modal(props) {
         >
           {' '}
           {/*이벤트 버블링 막음*/}
-          <img src={logoImg} alt='연필' className='white-bg-img' />
+          <img src={logoImg} alt='로고' className='white-bg-img' />
           <h4>글 유형을 골라주세요</h4>
           <div
             className='white-bg-box cursorPointer'
