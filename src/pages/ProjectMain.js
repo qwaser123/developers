@@ -21,6 +21,7 @@ export default function ProjectPage() {
             요약: doc.data().요약,
             소개: doc.data().소개,
             스택: doc.data().스택,
+            썸네일: doc.data().썸네일, //FIXME: 썸네일로 수정 
             마감일: doc.data().마감일,
           };
         });

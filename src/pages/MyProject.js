@@ -5,7 +5,6 @@ import { db } from '../index.js';
 function MyProject(props) {
   const [projectInfo, setProjectInfo] = useState(null); // 초기값을 null로 설정
   const [userName, setUserName] = useState(null);
-  useEffect(() => {}, []);
   useEffect(() => {
     db.collection('List')
       .get()
