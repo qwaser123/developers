@@ -17,8 +17,8 @@ function MyProject(props) {
           firebase.auth().onAuthStateChanged((user) => {
             setUserName(user.displayName);
             if (
-              doc.data().팀장 == user.displayName ||
-              doc.data().팀원 == user.displayName
+              doc.data().팀장 === user.displayName ||
+              (doc.data().팀원 && doc.data().팀원.includes(user.displayName))
             ) {
               newData[doc.id] = {
                 제목: doc.data().제목,
@@ -27,6 +27,8 @@ function MyProject(props) {
                 스택: doc.data().스택,
                 마감일: doc.data().마감일,
               };
+            } else {
+                console.log('a');
             }
           });
         });
@@ -49,7 +51,7 @@ function MyProject(props) {
           <div
             className='product'
             onClick={() => {
-              props.navigate(`/project/detail/${key}`);
+              props.navigate(`/project/myproject/${key}`);
     
             }}
           >

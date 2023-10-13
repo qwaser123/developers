@@ -25,6 +25,7 @@ import {
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import ProjectHub from './pages/ProjectHub.js';
 
 function App() {
   const [isModal, setIsModal] = useState(false);
@@ -172,7 +173,8 @@ function App() {
         <Route path='/project/detail/:id' element={<ProjectDetail />} />
         <Route path='/login' element={<MyLogin />} />
         <Route path='/signup' element={<MySignUp navigate={navigate}/>} />
-        <Route path='/myproject' element={<MyProject navigate={navigate}/>} />
+        <Route path='/project/myproject' element={<MyProject navigate={navigate}/>} />
+        <Route path='/project/myproject/:id' element={<ProjectHub />} />
         <Route path='*' element={<div>경로가 올바르지 않습니다</div>} />
       </Routes>
     </div>
@@ -259,7 +261,7 @@ function MyNav(props) {
                     <ListGroup.Item
                       onClick={() => {
                         setProfileDropdown(!profileDropdown);
-                        props.navigate('/myproject')
+                        props.navigate('/project/myproject')
                       }}
                     >
                       내 프로젝트
