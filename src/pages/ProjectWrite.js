@@ -3,7 +3,7 @@ import { db, storage } from '../index.js';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
-import { stackOptions } from '../components/data.js';
+import { stackOptions , menOptions} from '../components/data.js';
 import firebase from 'firebase/app';
 export default function MyProjectWrite() {
   const [formData, setFormData] = useState({});
@@ -154,6 +154,22 @@ useEffect(()=> {
             }));
           }}
         />
+        <p>모집 인원</p>
+             <Select
+        className="basic-single"
+        classNamePrefix="select"
+        defaultValue={menOptions[0]}
+        name="color"
+        options={menOptions}
+        onChange={(e)=> {
+          console.log(e.value);
+          const optionvalue =  e.value;
+          setFormData((data) => ({
+            ...data,
+            모집인원:optionvalue,
+          }));
+        }}
+      />
         <p>모집 마감일</p>
         <input
           type='date'
