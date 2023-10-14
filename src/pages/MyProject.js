@@ -45,9 +45,12 @@ function MyProject(props) {
   const projectInfoKeys = Object.keys(projectInfo);
 
   return <>
+   
+  <div className='myProjectbox'>
+   <p className='myProjectText'>내 프로젝트</p>
   {
     projectInfoKeys.map((key, i) => (
-        <div className=' mt-4' key={key}>
+        <div className='mt-4' key={key}>
           <div
             className='product'
             onClick={() => {
@@ -79,8 +82,8 @@ function MyProject(props) {
             </div>
           </div>
         </div>
-      )) };
- 
+      )) }
+ </div>
   </>;
 }
 
