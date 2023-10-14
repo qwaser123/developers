@@ -3,12 +3,12 @@ import { db, storage } from '../index.js';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
-import { stackOptions , menOptions} from '../components/data.js';
+import { stackOptions, menOptions } from '../components/data.js';
 import firebase from 'firebase/app';
 export default function MyProjectWrite() {
   const [formData, setFormData] = useState({});
   //TODO: formData로 따로 만들게 아니라 project info를 props해오면 더 깔끔하지않을까?
-  const [isFrontend, setIsFrontend] = useState(false);
+  const [position, setPosition] = useState([]);
   const [isStorage, setIsStorage] = useState(false);
   let [file, setFile] = useState('');
   let navigate = useNavigate();
@@ -19,6 +19,17 @@ export default function MyProjectWrite() {
     포지션: [],
     소개: '',
   });
+
+  const selectedPosition = (e) => {
+    console.log(position);
+    if (!position.includes(e.target)) {
+      position.push(e.target.id);
+      setFormData((data) => ({
+        ...data,
+        포지션: position,
+      }));
+    }
+  };
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       setFormData((data) => ({
@@ -27,25 +38,27 @@ export default function MyProjectWrite() {
       }));
     });
   }, []);
-  
-useEffect(()=> {
-  var storageRef = storage.ref();
-  var 저장할경로 = storageRef.child('image/' + file.name);
-  var 업로드작업 = 저장할경로.put(file);
 
-    업로드작업.snapshot.ref
-      .getDownloadURL()
-      .then((url) => {
-        console.log(url);
-        setFormData((data) => ({
-          ...data,
-          썸네일: url,
-        }));
-      })
-      .catch((error) => {
-        console.error('파일 업로드 실패:', error);
-      });
-},[file])
+  useEffect(() => {
+    if (file) {
+      var storageRef = storage.ref();
+      var 저장할경로 = storageRef.child('image/' + file.name);
+      var 업로드작업 = 저장할경로.put(file);
+
+      업로드작업.snapshot.ref
+        .getDownloadURL()
+        .then((url) => {
+          console.log(url);
+          setFormData((data) => ({
+            ...data,
+            썸네일: url,
+          }));
+        })
+        .catch((error) => {
+          console.error('파일 업로드 실패:', error);
+        });
+    }
+  }, [file]);
 
   return (
     <div className='projectWriteMainContainer'>
@@ -107,31 +120,20 @@ useEffect(()=> {
         ></input>
 
         <p>모집 포지션</p>
-        <input
-          type='checkbox'
-          id='position1'
-          onClick={() => {
-            setIsFrontend(!isFrontend);
-
-            setFormData((data) => ({
-              ...data,
-              포지션: 'a',
-            }));
-          }}
-        />
-        <label for='position1'>
+        <input type='checkbox' id='프론트엔드' onChange={selectedPosition} />
+        <label for='프론트엔드'>
           <span>프론트엔드</span>
         </label>
-        <input type='checkbox' id='position2' />
-        <label for='position2' className='checkboxMargin'>
+        <input type='checkbox' id='백엔드' onChange={selectedPosition} />
+        <label for='백엔드' className='checkboxMargin'>
           <span>백엔드</span>
         </label>
-        <input type='checkbox' id='position3' />
-        <label for='position3' className='checkboxMargin'>
-          <span>UI/UX</span>
+        <input type='checkbox' id='UI' onChange={selectedPosition} />
+        <label for='UI' className='checkboxMargin'>
+          <span>UI</span>
         </label>
-        <input type='checkbox' id='position4' />
-        <label for='position4' className='checkboxMargin'>
+        <input type='checkbox' id='기획' onChange={selectedPosition} />
+        <label for='기획' className='checkboxMargin'>
           <span>기획</span>
         </label>
 
@@ -155,21 +157,21 @@ useEffect(()=> {
           }}
         />
         <p>모집 인원</p>
-             <Select
-        className="basic-single"
-        classNamePrefix="select"
-        defaultValue={menOptions[0]}
-        name="color"
-        options={menOptions}
-        onChange={(e)=> {
-          console.log(e.value);
-          const optionvalue =  e.value;
-          setFormData((data) => ({
-            ...data,
-            모집인원:optionvalue,
-          }));
-        }}
-      />
+        <Select
+          className='basic-single'
+          classNamePrefix='select'
+          defaultValue={menOptions[0]}
+          name='color'
+          options={menOptions}
+          onChange={(e) => {
+            console.log(e.value);
+            const optionvalue = e.value;
+            setFormData((data) => ({
+              ...data,
+              모집인원: optionvalue,
+            }));
+          }}
+        />
         <p>모집 마감일</p>
         <input
           type='date'
@@ -240,7 +242,6 @@ useEffect(()=> {
               } else if (textLen.소개 === false) {
                 alert('소개칸은 100자 이상 입력해주세요 ');
               } else {
-
                 db.collection('List').add(formData); //List라는 컬렉션에 formData 데이터 추가
                 alert('등록 완료');
                 navigate('/project');
