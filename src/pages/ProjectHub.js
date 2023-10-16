@@ -10,18 +10,32 @@ import messageImg from '../img/message.png';
 function ProjectHub() {
   let { id } = useParams();
   let [message, setMessage] = useState({});
-  let [userMessage, setUserMessage] = useState('');
+  let [haveBeenChat, setHaveBeenChat] = useState(false);
+  let [messageContent, setMessageContent] = useState('');
+  let [isLogged, setIsLogged] = useState('left');
   useEffect(() => {
     db.collection('chatroom')
       .doc(id)
       .collection('messages')
-      .get()
-      .then((result) => {
+      .onSnapshot((result) => {
+        const newData = {};
         result.forEach((a) => {
-          setUserMessage(a.data().content); //배열로 만들어서 집어넣어야 할듯
-        });
+          newData[a.id] = {
+            content: a.data().content,
+            date: a.data().date,
+          };
+        }, setMessage(newData));
       });
-  }, [userMessage]);
+  }, []);
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        setIsLogged('right');
+      }
+    });
+  });
+  const messageKey = Object.keys(message);
+
   return (
     <>
       <div className='ProjectHubContainer'>
@@ -29,50 +43,65 @@ function ProjectHub() {
           {' '}
           <div className='ProjectHubFeature'>
             <p>
-              <img src={home} style={{ width: '20px' }} alt='홈' /> 홈
+              <img src={home} style={{ width: '35px' }} alt='홈' /> 홈
             </p>
           </div>
           <div className='ProjectHubFeature'>
             <p>
-              <img src={board} style={{ width: '20px' }} alt='보드' /> 보드
+              <img src={board} style={{ width: '35px' }} alt='보드' /> 보드
             </p>
           </div>
           <div className='ProjectHubFeature'>
             <p>
-              <img src={calendar} style={{ width: '20px' }} alt='캘린더' /> 일정
+              <img src={calendar} style={{ width: '35px' }} alt='캘린더' /> 일정
             </p>
           </div>
           <div className='ProjectHubFeature'>
             <p>
-              <img src={messageImg} style={{ width: '20px' }} alt='메시지' />{' '}
+              <img src={messageImg} style={{ width: '35px' }} alt='메시지' />{' '}
               메세지
             </p>
           </div>
         </div>
         <div className='ProjectHubMain'>
           <div className='ProjectHubMainChat'>
-            <div className='showChat'>
-              <p>{userMessage}</p>
+            <div className='showChat'  
+            // style={{float:isLogged}}
+            >
+              {messageKey.map((key, i) => (
+                <div className='messageBox'>
+                  <p>{message[key].content}</p>
+                </div>
+              ))}
             </div>
             <div className='inputChat'>
-              <textarea className='inputChatPlace'
+              <textarea
+                className='inputChatPlace'
                 placeholder='채팅을 입력하세요'
+                value={messageContent}
                 onChange={(e) => {
-                  var messageContent = e.target.value;
+                  setMessageContent(e.target.value);
                   setMessage((data) => ({
                     ...data,
                     content: messageContent,
+                    date: new Date(),
                   }));
                 }}
               />
               <button
                 type='submit'
-                style={{float:'right'}}
+                className='submitChatBtn'
                 onClick={(e) => {
-                  db.collection('chatroom')
-                    .doc(id)
-                    .collection('messages')
-                    .add(message);
+                  setMessageContent('');
+                  if (haveBeenChat === false) {
+                    db.collection('chatroom')
+                      .doc(id)
+                      .collection('messages')
+                      .add(message);
+                    setHaveBeenChat(true);
+                  } else {
+                    db.collection('chatroom').doc(id).update(message);
+                  }
                 }}
               >
                 전송{' '}
@@ -86,3 +115,5 @@ function ProjectHub() {
 }
 
 export default ProjectHub;
+
+//FIXME: 컬렉션이 계속 생김, 옆에 날짜 보이게, 메세지가 누적되서 박스 넘어가면 오래된순으로 없어지게, 메세지 최신순정렬안되고잇음, 챗을 누가 보냈는지도 

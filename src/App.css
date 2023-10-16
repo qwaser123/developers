@@ -342,48 +342,66 @@ input[type='checkbox'] + label > span {
 }
 
 .ProjectHubSidebar {
-  background-color: #161b25;
+  background-color: rgb(81, 81, 238);
   height: 100%;
-  width:9vw;
+  width: 6vw;
   border: 1px solid #f8fafc;
   padding-top: 3%;
   float: left;
 }
 .ProjectHubFeature {
   width: 100%;
-  height: 3%;
+  height: 10%;
   padding-left: 20px;
   font-size: 15px;
- 
   color: white;
 }
 .FeatureImo {
   font-size: 30px;
 }
 .ProjectHubContainer {
-  height: 94.68vh; 
+  height: 94.68vh;
   /* FIXME: 나중에 바꿉시다..? */
-  background-color: #d9dbdb;
+  background-color: #efefef;
 }
 .ProjectHubMain {
   padding-top: 30px;
-  padding-left: 200px;
-
+  padding-left: 160px;
 }
 .ProjectHubMainChat {
   width: 30%;
   background-color: white;
-  height: 88vh;
-  border-radius: 20px;
+  height: 84vh;
+  border-radius: 10px;
   padding: 10px;
 }
 
 .showChat {
-  height: 80%;
-  border-bottom: 2px solid rgb(150, 150, 226);
+  height: 78%;
+  border-bottom: 2px solid rgb(81, 81, 238);
 }
 .inputChatPlace {
-  height: 14vh;
+  height: 12vh;
   width: 100%;
   border: none;
+  clear: both;
+}
+.messageBox {
+  background-color: rgb(81, 81, 238);
+  color: white;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: fit-content;
+  min-height: 30px;
+  margin-top: 15px;
+}
+.submitChatBtn {
+  float: right;
+  background-color: rgb(81, 81, 238);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 10%;
+  padding: 4px;
 }
