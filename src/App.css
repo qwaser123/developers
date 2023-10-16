@@ -339,6 +339,51 @@ input[type='checkbox'] + label > span {
   /* transform: translate(-50%, -50%); */
   font-size: 30px;
   padding-top: 10px;
+}
 
+.ProjectHubSidebar {
+  background-color: #161b25;
+  height: 100%;
+  width:9vw;
+  border: 1px solid #f8fafc;
+  padding-top: 3%;
+  float: left;
+}
+.ProjectHubFeature {
+  width: 100%;
+  height: 3%;
+  padding-left: 20px;
+  font-size: 15px;
+ 
+  color: white;
+}
+.FeatureImo {
+  font-size: 30px;
+}
+.ProjectHubContainer {
+  height: 94.68vh; 
+  /* FIXME: 나중에 바꿉시다..? */
+  background-color: #d9dbdb;
+}
+.ProjectHubMain {
+  padding-top: 30px;
+  padding-left: 200px;
 
+}
+.ProjectHubMainChat {
+  width: 30%;
+  background-color: white;
+  height: 88vh;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.showChat {
+  height: 80%;
+  border-bottom: 2px solid rgb(150, 150, 226);
+}
+.inputChatPlace {
+  height: 14vh;
+  width: 100%;
+  border: none;
 }

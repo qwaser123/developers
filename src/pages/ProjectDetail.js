@@ -67,6 +67,7 @@ function ProjectDetail() {
           firebase.auth().onAuthStateChanged((user)=> {
             // user.displayName
           db.collection('List').doc(id).update({팀원: user.displayName});
+          db.collection('chatroom').doc(id).set({팀원uid: user.uid}); //FIXME: update문 추가 
         
           })
         }}> 신청하기 </button>

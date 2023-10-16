@@ -203,7 +203,7 @@ function MyNav(props) {
               props.navigate('/');
             }}
           >
-            <img src={logoImg} alt='logoImg' style={{ width: '120px' }} />
+            <img src={logoImg} alt='logoImg' style={{ width: '110px' }} />
           </Navbar.Brand>
 
           <Nav className='me-auto'>
