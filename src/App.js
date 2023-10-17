@@ -175,6 +175,7 @@ function App() {
         <Route path='/signup' element={<MySignUp navigate={navigate}/>} />
         <Route path='/project/myproject' element={<MyProject navigate={navigate}/>} />
         <Route path='/project/myproject/:id' element={<ProjectHub />} />
+        <Route path='/project/myproject/:id/chat' element={<ProjectHub />} />
         <Route path='*' element={<div>경로가 올바르지 않습니다</div>} />
       </Routes>
     </div>

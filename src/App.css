@@ -384,8 +384,10 @@ input[type='checkbox'] + label > span {
   height: 12vh;
   width: 100%;
   border: none;
+  outline: none;
   clear: both;
 }
+
 .messageBox {
   background-color: rgb(81, 81, 238);
   color: white;
@@ -402,6 +404,6 @@ input[type='checkbox'] + label > span {
   color: white;
   border: none;
   border-radius: 5px;
-  width: 10%;
+  width: 15%;
   padding: 4px;
 }
