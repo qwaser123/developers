@@ -6,9 +6,12 @@ import home from '../img/home.png';
 import board from '../img/board.png';
 import calendar from '../img/calendar.png';
 import messageImg from '../img/message.png';
+import { Calendar } from '@fullcalendar/core';
+// import dayGridPlugin from '@fullcalendar/daygrid';
+// import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-
 function ProjectHub() {
   return (
     <>
@@ -129,24 +132,45 @@ function HubChat(props) {
     </div>
   );
 }
-
-function HubCalendar() {
-
-
+function renderEventContent(eventInfo) {
   return (
     <>
-      <div
-        className='fullCalendar'
-        style={{ position: 'absolute', top: '100px', left: '700px' }}
-      >
-        <FullCalendar defaultView='dayGridMonth' plugins={[dayGridPlugin]} height={600}/>
-      </div>
+      <i>{eventInfo.event.title}</i>
+    </>
+  );
+}
+function HubCalendar() {
+  function renderEventContent(eventInfo) {
+    return (
+      <>
+        <i>{eventInfo.event.title}</i>
+      </>
+    );
+  }
+
+  const events = [
+    { title: '과제1', start: new Date('2023-10-29') },
+  	{ title: '과제2', start: new Date('2023-10-30') }
+  ]
+  return (
+    <><div className='calendar'>
+         <FullCalendar
+   plugins={[dayGridPlugin]}
+   initialView='dayGridMonth'
+   events={events}
+   eventContent={renderEventContent}
+/>
+
+    </div>
+ 
     </>
   );
 }
 function HubDashboard() {
   return <></>;
 }
+
+
 export default ProjectHub;
 
 //FIXME: 컬렉션이 계속 생김, 옆에 날짜 보이게, 메세지가 누적되서 박스 넘어가면 오래된순으로 없어지게, 메세지 최신순정렬안되고잇음,. 챗을 누가 보냈는지도- db에 메세지 작성자 uid도 같이 넣어야겠다. 본인이 보낸거 오른쪽으로 - 본인한테만 보이게 어떻게하지.
