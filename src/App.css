@@ -269,18 +269,42 @@ p {
   outline: none;
   width: 100%;
 }
-.projectWriteMainContainer {
+.projectWriteVw {
   width: 100vw;
+}
+.projectWriteMainContainer {
+  width: 100%;
   padding: 50px;
 }
 .projectWriteMainCenter {
   width: 50%;
-  margin: auto;
+  margin-left: 16%;
+}
+.projectWriteTopInfo {
+  padding-top: 40px;
+}
+.projectWriteTopInfoBox {
+  width: 50%;
+  display: inline-block;
 }
 .projectWriteMainCenter p {
   font-size: 20px;
   font-weight: bold;
   margin-top: 70px;
+}
+.teamApply {
+  float: right;
+  border: none;
+  border-radius: 10%;
+  background-color: #f27474;
+  color: white;
+  height: 40px;
+  width: 100px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+.projectWriteTopInfo {
+  text-align: center;
 }
 .btngroup {
   float: right;
@@ -419,5 +443,24 @@ input[type='checkbox'] + label > span {
 }
 .fc-direction-ltr {
   width: 600px;
-  height: 600px;
+  height: 740px;
+}
+
+.messageDate {
+  color: gray;
+  font-size: 12px;
+  margin-left: 10px;
+}
+.todo {
+  width: fit-content;
+  height: fit-content;
+  display: inline-block;
+  margin-left: 60px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+
+}
+.todo .fc-direction-ltr {
+  width:400px;
 }

@@ -152,7 +152,7 @@ export default function MyProjectWrite() {
             );
             setFormData((data) => ({
               ...data,
-              스택: selectedValues + ' ',
+              스택: selectedValues
             }));
           }}
         />

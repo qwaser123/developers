@@ -13,6 +13,8 @@ import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 function ProjectHub() {
+  let { id } = useParams();
+
   return (
     <>
       <div className='ProjectHubContainer'>
@@ -50,19 +52,21 @@ function ProjectHub() {
         <div className='ProjectHubMain'>
           <HubChat />
           <HubCalendar />
+          {/* <HubFileShare /> */}
         </div>
       </div>
     </>
   );
 }
 
-function HubChat(props) {
+export function HubChat(props) {
   let { id } = useParams();
   let [message, setMessage] = useState({});
   let [haveBeenChat, setHaveBeenChat] = useState(false);
   let [messageContent, setMessageContent] = useState('');
   let [isLogged, setIsLogged] = useState('left');
   const messageKey = Object.keys(message);
+
   useEffect(() => {
     db.collection('chatroom')
       .doc(id)
@@ -77,6 +81,7 @@ function HubChat(props) {
         }, setMessage(newData));
       });
   }, []);
+
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -91,8 +96,15 @@ function HubChat(props) {
         // style={{float:isLogged}}
       >
         {messageKey.map((key, i) => (
-          <div className='messageBox'>
-            <p>{message[key].content}</p>
+          <div className='messageContainer' key={i} style={{display:'flex', alignItems:'center'}}>
+            <div className='messageBox'>
+              <p>{message[key].content}</p>
+            </div>
+            {message[key].date && (
+              <span className='messageDate'>
+                {message[key].date.toDate().toLocaleString()}
+              </span>
+            )}
           </div>
         ))}
       </div>
@@ -139,37 +151,71 @@ function renderEventContent(eventInfo) {
     </>
   );
 }
+
+
 function HubCalendar() {
-  function renderEventContent(eventInfo) {
-    return (
-      <>
-        <i>{eventInfo.event.title}</i>
-      </>
-    );
-  }
+  const renderEventContent = (info) => {
+  // 사용자 정의 이벤트 데이터 가져오기
+  const status = info.event.extendedProps.status;
+
+  // 렌더링할 JSX 반환
+  return (
+    <div>
+      <div>{info.event.title}</div>
+      
+        <div
+          style={{
+            backgroundColor:' rgb(81, 81, 238)', // 배경색을 빨간색으로 변경
+            display: 'inline-block',
+            width: '10px',
+            height: '10px',
+            borderRadius: '50%',
+            marginLeft: '5px',
+          }}
+        ></div>
+      
+    </div>
+  );
+};
 
   const events = [
-    { title: '과제1', start: new Date('2023-10-29') },
-  	{ title: '과제2', start: new Date('2023-10-30') }
-  ]
+    { title: '과제1', start: new Date('2023-10-18') },
+    { title: '과제2', start: new Date('2023-10-15') },
+  ];
   return (
-    <><div className='calendar'>
-         <FullCalendar
-   plugins={[dayGridPlugin]}
-   initialView='dayGridMonth'
-   events={events}
-   eventContent={renderEventContent}
-/>
-
-    </div>
- 
+    <>
+      <div className='calendar'>
+        <FullCalendar
+          plugins={[dayGridPlugin]}
+          initialView='dayGridMonth'
+          events={events}
+          eventContent={renderEventContent}
+        />
+      </div>
+      <div className='todo'>
+      <FullCalendar
+          plugins={[listPlugin]}
+          initialView='listWeek'
+          events={events}
+          eventContent={renderEventContent}
+        />
+      </div>
+      
     </>
   );
 }
 function HubDashboard() {
   return <></>;
 }
-
+function HubFileShare() {
+  return (
+    <>
+      <div>
+        <input type='file' />
+      </div>
+    </>
+  );
+}
 
 export default ProjectHub;
 

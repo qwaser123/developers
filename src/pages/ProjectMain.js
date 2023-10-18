@@ -23,6 +23,7 @@ export default function ProjectPage() {
             스택: doc.data().스택,
             썸네일: doc.data().썸네일,
             마감일: doc.data().마감일,
+            팀장: doc.data().팀장
           };
         });
         // 데이터 로딩이 완료되면 state 업데이트
@@ -131,7 +132,8 @@ function ListOfProject(props) {
               <p className='date'>{props.projectInfo[key].요약}</p>
                 <p className='price'>{props.projectInfo[key].스택}</p>
               <hr></hr>
-              <p className='price'>마감일| {props.projectInfo[key].마감일}</p>
+
+              <p className='price'>{props.projectInfo[key].팀장} {props.projectInfo[key].마감일}</p>
               {/* <p className='floatEnd'>조회수 좋아요수 댓글수 </p> */}
             </div>
           </div>

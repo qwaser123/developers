@@ -54,7 +54,7 @@ function MyProject(props) {
           <div
             className='product'
             onClick={() => {
-              props.navigate(`/project/myproject/${key}`);
+              props.navigate(`/project/myproject/${key}/projectHub`);
     
             }}
           >

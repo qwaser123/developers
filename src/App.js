@@ -25,7 +25,7 @@ import {
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import ProjectHub from './pages/ProjectHub.js';
+import ProjectHub, { HubChat } from './pages/ProjectHub.js';
 
 function App() {
   const [isModal, setIsModal] = useState(false);
@@ -174,8 +174,8 @@ function App() {
         <Route path='/login' element={<MyLogin />} />
         <Route path='/signup' element={<MySignUp navigate={navigate}/>} />
         <Route path='/project/myproject' element={<MyProject navigate={navigate}/>} />
-        <Route path='/project/myproject/:id' element={<ProjectHub />} />
-        <Route path='/project/myproject/:id/chat' element={<ProjectHub />} />
+        <Route path='/project/myproject/:id/projectHub' element={<ProjectHub />} />
+        <Route path='/project/myproject/:id/projectHub/chat' element={<HubChat />} />
         <Route path='*' element={<div>경로가 올바르지 않습니다</div>} />
       </Routes>
     </div>
