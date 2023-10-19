@@ -5,6 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { stackOptions, menOptions } from '../components/data.js';
 import firebase from 'firebase/app';
+import styled from 'styled-components';
+
+let ProjectWriteTitle = styled.p`
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 70px;
+`;
 export default function MyProjectWrite() {
   const [formData, setFormData] = useState({});
   //TODO: formData로 따로 만들게 아니라 project info를 props해오면 더 깔끔하지않을까?
@@ -21,7 +28,6 @@ export default function MyProjectWrite() {
   });
 
   const selectedPosition = (e) => {
-    console.log(position);
     if (!position.includes(e.target)) {
       position.push(e.target.id);
       setFormData((data) => ({
@@ -63,7 +69,7 @@ export default function MyProjectWrite() {
   return (
     <div className='projectWriteMainContainer'>
       <div className='projectWriteMainCenter'>
-        <p>제목</p>
+        <ProjectWriteTitle>제목</ProjectWriteTitle>
         <input
           type='text'
           name='제목'
@@ -91,7 +97,7 @@ export default function MyProjectWrite() {
           }}
         ></input>
 
-        <p>요약</p>
+        <ProjectWriteTitle>요약</ProjectWriteTitle>
         <input
           type='text'
           name='요약'
@@ -119,7 +125,7 @@ export default function MyProjectWrite() {
           }}
         ></input>
 
-        <p>모집 포지션</p>
+        <ProjectWriteTitle>모집 포지션</ProjectWriteTitle>
         <input type='checkbox' id='프론트엔드' onChange={selectedPosition} />
         <label for='프론트엔드'>
           <span>프론트엔드</span>
@@ -137,7 +143,7 @@ export default function MyProjectWrite() {
           <span>기획</span>
         </label>
 
-        <p>기술 스택</p>
+        <ProjectWriteTitle>기술 스택</ProjectWriteTitle>
 
         <Select
           defaultValue={[stackOptions[2]]}
@@ -152,11 +158,11 @@ export default function MyProjectWrite() {
             );
             setFormData((data) => ({
               ...data,
-              스택: selectedValues
+              스택: selectedValues,
             }));
           }}
         />
-        <p>모집 인원</p>
+        <ProjectWriteTitle>모집 인원</ProjectWriteTitle>
         <Select
           className='basic-single'
           classNamePrefix='select'
@@ -172,7 +178,7 @@ export default function MyProjectWrite() {
             }));
           }}
         />
-        <p>모집 마감일</p>
+        <ProjectWriteTitle>모집 마감일</ProjectWriteTitle>
         <input
           type='date'
           id='projectDate'
@@ -185,7 +191,7 @@ export default function MyProjectWrite() {
           }}
         />
 
-        <p>썸네일</p>
+        <ProjectWriteTitle>썸네일</ProjectWriteTitle>
         <input
           type='file'
           accept='image/*'
@@ -194,7 +200,7 @@ export default function MyProjectWrite() {
           }}
         />
 
-        <p>소개</p>
+        <ProjectWriteTitle>소개</ProjectWriteTitle>
         <textarea
           type='text'
           name='소개'

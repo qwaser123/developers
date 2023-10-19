@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { db } from '../index.js';
 import firebase from 'firebase/app';
-import { Route, Routes, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import home from '../img/home.png';
 import board from '../img/board.png';
 import calendar from '../img/calendar.png';
 import messageImg from '../img/message.png';
-import { Calendar } from '@fullcalendar/core';
-// import dayGridPlugin from '@fullcalendar/daygrid';
+// import { Calendar } from '@fullcalendar/core';
 // import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
@@ -179,8 +178,9 @@ function HubCalendar() {
 };
 
   const events = [
-    { title: '과제1', start: new Date('2023-10-18') },
-    { title: '과제2', start: new Date('2023-10-15') },
+    { title: '[메인] main page UI 구현', start: new Date('2023-10-18') },
+    { title: '[공통] 헤더 UI 구현', start: new Date('2023-10-15') },
+    { title: '로그인/회원가입 페이지 UI 구현', start: new Date('2023-10-20') },
   ];
   return (
     <>
@@ -197,7 +197,7 @@ function HubCalendar() {
           plugins={[listPlugin]}
           initialView='listWeek'
           events={events}
-          eventContent={renderEventContent}
+          // eventContent={renderEventContent}
         />
       </div>
       

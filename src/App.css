@@ -228,41 +228,6 @@ p {
   background-color: rgb(186, 103, 39);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    -webkit-animation: App-logo-spin infinite 20s linear;
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-@-webkit-keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
 .inputTitle {
   border: none;
@@ -286,12 +251,9 @@ p {
 .projectWriteTopInfoBox {
   width: 50%;
   display: inline-block;
+  text-align: left;
 }
-.projectWriteMainCenter p {
-  font-size: 20px;
-  font-weight: bold;
-  margin-top: 70px;
-}
+
 .teamApply {
   float: right;
   border: none;
@@ -463,4 +425,7 @@ input[type='checkbox'] + label > span {
 }
 .todo .fc-direction-ltr {
   width:400px;
+}
+.fc-daygrid-day-frame  {
+  overflow: hidden;
 }

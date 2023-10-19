@@ -1,8 +1,8 @@
 import { Carousel } from 'react-bootstrap';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { db } from '../index.js';
 import { useEffect, useState } from 'react';
-
+import { GreyBox } from './ProjectDetail.js';
 
 export default function ProjectPage() {
   let navigate = useNavigate();
@@ -23,7 +23,7 @@ export default function ProjectPage() {
             스택: doc.data().스택,
             썸네일: doc.data().썸네일,
             마감일: doc.data().마감일,
-            팀장: doc.data().팀장
+            팀장: doc.data().팀장,
           };
         });
         // 데이터 로딩이 완료되면 state 업데이트
@@ -105,14 +105,12 @@ function ProjectFiltering() {
   );
 }
 function ListOfProject(props) {
-
   return props.projectInfoKeys.map((key, i) => (
     <div className=' mt-4' key={key}>
       <div
         className='product'
         onClick={() => {
           props.navigate(`/project/detail/${key}`);
-
         }}
       >
         <div className='thumbnail'>
@@ -125,15 +123,20 @@ function ListOfProject(props) {
               />
             </div>
             <div className='thumbnailInfo'>
-              {/* <div className='projectBox'>
-                <p>프로젝트</p>
-              </div> */}
               <h5 className='title'>{props.projectInfo[key].제목}</h5>
               <p className='date'>{props.projectInfo[key].요약}</p>
-                <p className='price'>{props.projectInfo[key].스택}</p>
+              {props.projectInfo[key].스택.map((stackItem, index) => (
+                <GreyBox key={index}>
+                  <p style={{ margin: '1px', fontSize: '12px' }}>{stackItem}</p>
+                </GreyBox>
+              ))}
+
+              {/* <p className='price'>{props.projectInfo[key].스택}</p> */}
               <hr></hr>
 
-              <p className='price'>{props.projectInfo[key].팀장} {props.projectInfo[key].마감일}</p>
+              <p className='price'>
+                {props.projectInfo[key].팀장} {props.projectInfo[key].마감일}
+              </p>
               {/* <p className='floatEnd'>조회수 좋아요수 댓글수 </p> */}
             </div>
           </div>

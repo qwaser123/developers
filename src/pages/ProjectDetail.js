@@ -3,9 +3,39 @@ import { useEffect, useState } from 'react';
 import { db } from '../index';
 import firebase from 'firebase/app';
 import { Button } from 'react-bootstrap';
+import styled from 'styled-components';
+import ProjectWriteTitle from './ProjectWrite'
 
+export let GreyBox = styled.div`
+  display: inline-block;
+  background-color: #efefef;
+  border-radius: 10px;
+  padding: 4px;
+  margin-left: 10px;
+  font-size: 12px;
+  height: fit-contents;
+`;
+let ProjectDetailTitle = styled.p`
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 70px;
+`;
+let SideTeamProfile = styled.div`
+width: 300px;
+height: 400px;
+background-color: white;
+position: absolute;
+top: 22%;
+left: 68%;
+border: 2px solid rgb(168, 168, 168);
+text-align: center;
+border-radius:20px;
+padding-top: 20px;
+`
 function ProjectDetail() {
   let { id } = useParams();
+
+  //FIXME: 박스 색 변경 적용 안 됨
   const [projectInfo1, setProjectInfo1] = useState(null);
 
   useEffect(() => {
@@ -16,7 +46,6 @@ function ProjectDetail() {
 
         snapshot.forEach((doc) => {
           if (doc.id === id) {
-            // 이 부분에서 수정
             newData[doc.id] = {
               제목: doc.data().제목,
               요약: doc.data().요약,
@@ -61,35 +90,47 @@ function ProjectDetail() {
             <div className='projectWriteTopInfo'>
               <div className='projectWriteTopInfoBox'>
                 <span>기술스택</span>{' '}
-            <div style={{ display: 'inline-block', backgroundColor:'#efefef', borderRadius:'10px',  padding:'4px'}}>    <p style={{margin:'1px',fontSize:'12px'}}>{projectInfo.스택[0]}</p></div>
-            <div style={{ display: 'inline-block', backgroundColor:'#efefef', borderRadius:'10px',  padding:'4px'}}>    <p style={{margin:'1px',fontSize:'12px'}}>{projectInfo.스택[1]}</p></div>
-            <div style={{ display: 'inline-block', backgroundColor:'#efefef', borderRadius:'10px',  padding:'4px'}}>    <p style={{margin:'1px',fontSize:'12px'}}>{projectInfo.스택[2]}</p></div>
-               
+                {projectInfo.스택.map((Item, index) => (
+                  <GreyBox key={index}>
+                    {' '}
+                    <p style={{ margin: '1px', fontSize: '12px' }}>{Item}</p>
+                  </GreyBox>
+                ))}
               </div>
               <div className='projectWriteTopInfoBox'>
-               <span>마감일</span>{' '}
-                <p style={{ display: 'inline-block', marginTop:'0px' }}>{projectInfo.마감일}</p>
+                <span>마감일</span>{' '}
+                <p style={{ display: 'inline-block', marginTop: '0px' }}>
+                  {projectInfo.마감일}
+                </p>
               </div>
               <div className='projectWriteTopInfoBox'>
                 {' '}
                 <span>모집인원</span>{' '}
-                <p style={{ display: 'inline-block', marginTop:'20px' }}>
+                <p style={{ display: 'inline-block', marginTop: '20px' }}>
                   {projectInfo.모집인원}
                 </p>
               </div>
               <div className='projectWriteTopInfoBox'>
                 {' '}
                 <span>포지션</span>{' '}
-                <p style={{ display: 'inline-block' , marginTop:'20px'}}>
-                  {projectInfo.포지션[0]}
-                </p>
-                <p style={{ display: 'inline-block' , marginTop:'20px'}}>
-                  {projectInfo.포지션[1]}
-                </p>
+                {projectInfo.포지션.map((Item, index) => (
+                  <GreyBox key={index}>
+                    <p
+                      style={{
+                        display: 'inline-block',
+                        marginTop: '20px',
+                        padding: '1px',
+                        fontSize: '12px',
+                      }}
+                    >
+                      {Item}
+                    </p>
+                  </GreyBox>
+                ))}
               </div>
             </div>
-
-            <p>소개</p>
+            {/* FIXME: 스타일드 겹치는거 해결  */}
+            <ProjectDetailTitle>소개</ProjectDetailTitle> 
             <hr />
             <div style={{ whiteSpace: 'pre-wrap' }}>
               <p>{projectInfo.소개}</p>
@@ -112,20 +153,7 @@ function ProjectDetail() {
               {' '}
               신청하기{' '}
             </Button>
-            <div
-              className='sideTeamProtile'
-              style={{
-                width: '300px',
-                height: '400px',
-                backgroundColor: 'white',
-                position: 'absolute',
-                top: '22%',
-                left: '68%',
-                border: '2px solid rgb(168, 168, 168)',
-                textAlign: 'center',
-                borderRadius: '20px',
-                paddingTop: '20px',
-              }}
+            <SideTeamProfile
             >
               <div
                 style={{
@@ -145,7 +173,7 @@ function ProjectDetail() {
               </div>
               <p style={{ marginTop: '40px' }}>팀원 목록</p>
               <span>{projectInfo.팀원}</span>
-            </div>
+            </SideTeamProfile>
           </div>
         </div>
       </div>
