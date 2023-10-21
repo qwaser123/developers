@@ -22,7 +22,7 @@
   height: 300px;
   border-radius: 20px;
   background-position: center;
-  border: solid 2px #c8c9c9;
+  border: solid 2px #c8c9c9; /* 삭제해보자 */
   overflow: hidden;
 }
 .thumbnailImg {
@@ -50,4 +50,45 @@
 .product .date {
   color: grey;
   font-size: 13px;
+}
+.searchBackground {
+  background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  height: 30vh;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.searchGroup {
+  width: 60%;
+  height: 60%;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: column;
+}
+
+.searchContainer {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 5px;
+  width: 100%;
+  height: 36%;
+  display: flex;
+  align-items: center;
+  border-bottom-left-radius: 0; /* 왼쪽 위 테두리만 0으로 설정 */
+  border-bottom-right-radius: 0; /* 오른쪽 위 테두리만 0으로 설정 */
+}
+
+.searchicon {
+  margin-right: 5px;
+}
+
+.searchinput {
+  border: none;
+  outline: none;
+  flex-grow: 1; /* 검색창이 남은 공간을 채우도록 설정합니다. */
 }
