@@ -4,7 +4,7 @@ import { db } from '../index';
 import firebase from 'firebase/app';
 import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
-import ProjectWriteTitle from './ProjectWrite'
+import ProjectWriteTitle from './ProjectWrite';
 
 export let GreyBox = styled.div`
   display: inline-block;
@@ -21,17 +21,26 @@ let ProjectDetailTitle = styled.p`
   margin-top: 70px;
 `;
 let SideTeamProfile = styled.div`
-width: 300px;
-height: 400px;
-background-color: white;
-position: absolute;
-top: 22%;
-left: 68%;
-border: 2px solid rgb(168, 168, 168);
-text-align: center;
-border-radius:20px;
-padding-top: 20px;
-`
+  width: 300px;
+  height: 400px;
+  background-color: white;
+  position: absolute;
+  top: 22%;
+  left: 68%;
+  border: 2px solid rgb(168, 168, 168);
+  text-align: center;
+  border-radius: 20px;
+  padding-top: 20px;
+`;
+let SideProfileLeader = styled.div`
+  background-color: skyblue;
+  border-radius: 100%;
+  width: 68%;
+  height: 50%;
+  text-align: center;
+  margin: auto;
+  padding-top: 60px;
+`;
 function ProjectDetail() {
   let { id } = useParams();
 
@@ -130,7 +139,7 @@ function ProjectDetail() {
               </div>
             </div>
             {/* FIXME: 스타일드 겹치는거 해결  */}
-            <ProjectDetailTitle>소개</ProjectDetailTitle> 
+            <ProjectDetailTitle>소개</ProjectDetailTitle>
             <hr />
             <div style={{ whiteSpace: 'pre-wrap' }}>
               <p>{projectInfo.소개}</p>
@@ -153,24 +162,13 @@ function ProjectDetail() {
               {' '}
               신청하기{' '}
             </Button>
-            <SideTeamProfile
-            >
-              <div
-                style={{
-                  backgroundColor: 'skyblue',
-                  borderRadius: '100%',
-                  width: '68%',
-                  height: '50%',
-                  textAlign: 'center',
-                  margin: 'auto',
-                  paddingTop: '60px',
-                }}
-              >
+            <SideTeamProfile>
+              <SideProfileLeader>
                 {' '}
                 <span style={{ color: 'white', fontSize: '40px' }}>
                   {teamLeaderName}
                 </span>
-              </div>
+              </SideProfileLeader>
               <p style={{ marginTop: '40px' }}>팀원 목록</p>
               <span>{projectInfo.팀원}</span>
             </SideTeamProfile>

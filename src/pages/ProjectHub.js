@@ -6,6 +6,7 @@ import home from '../img/home.png';
 import board from '../img/board.png';
 import calendar from '../img/calendar.png';
 import messageImg from '../img/message.png';
+import styles from '../css/ProjectHub.module.css'
 // import { Calendar } from '@fullcalendar/core';
 // import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
@@ -16,25 +17,25 @@ function ProjectHub() {
 
   return (
     <>
-      <div className='ProjectHubContainer'>
-        <div className='ProjectHubSidebar'>
+      <div className={styles.ProjectHubContainer}>
+        <div className={styles.ProjectHubSidebar}>
           {' '}
-          <div className='ProjectHubFeature'>
+          <div className={styles.ProjectHubFeature}>
             <p>
               <img src={home} style={{ width: '35px' }} alt='홈' /> 홈
             </p>
           </div>
-          <div className='ProjectHubFeature'>
+          <div className={styles.ProjectHubFeature}>
             <p>
               <img src={board} style={{ width: '35px' }} alt='보드' /> 보드
             </p>
           </div>
-          <div className='ProjectHubFeature'>
+          <div className={styles.ProjectHubFeature}>
             <p>
               <img src={calendar} style={{ width: '35px' }} alt='캘린더' /> 일정
             </p>
           </div>
-          <div className='ProjectHubFeature'>
+          <div className={styles.ProjectHubFeature}>
             <p>
               <img
                 src={messageImg}
@@ -48,7 +49,7 @@ function ProjectHub() {
             </p>
           </div>
         </div>
-        <div className='ProjectHubMain'>
+        <div className={styles.ProjectHubMain}>
           <HubChat />
           <HubCalendar />
           {/* <HubFileShare /> */}
@@ -89,27 +90,27 @@ export function HubChat(props) {
     });
   });
   return (
-    <div className='ProjectHubMainChat'>
+    <div className={styles.ProjectHubMainChat}>
       <div
-        className='showChat'
+        className={styles.showChat}
         // style={{float:isLogged}}
       >
         {messageKey.map((key, i) => (
-          <div className='messageContainer' key={i} style={{display:'flex', alignItems:'center'}}>
-            <div className='messageBox'>
+          <div className={styles.messageContainer} key={i} style={{display:'flex', alignItems:'center'}}>
+            <div className={styles.messageBox}>
               <p>{message[key].content}</p>
             </div>
             {message[key].date && (
-              <span className='messageDate'>
+              <span className={styles.messageDate}>
                 {message[key].date.toDate().toLocaleString()}
               </span>
             )}
           </div>
         ))}
       </div>
-      <div className='inputChat'>
+      <div className={styles.inputChat}>
         <textarea
-          className='inputChatPlace'
+          className={styles.inputChatPlace}
           placeholder='채팅을 입력하세요'
           value={messageContent}
           onChange={(e) => {
@@ -123,7 +124,7 @@ export function HubChat(props) {
         />
         <button
           type='submit'
-          className='submitChatBtn'
+          className={styles.submitChatBtn}
           onClick={(e) => {
             setMessageContent('');
             if (haveBeenChat === false) {
@@ -184,7 +185,7 @@ function HubCalendar() {
   ];
   return (
     <>
-      <div className='calendar'>
+      <div className={styles.calendar}>
         <FullCalendar
           plugins={[dayGridPlugin]}
           initialView='dayGridMonth'

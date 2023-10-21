@@ -6,26 +6,26 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logoImg from './img/devLogo.PNG';
 import mainIntroProject from './img/mainIntroProject.PNG';
-import Footer from './pages/Footer.js';
-import ProjectDetail from './pages/ProjectDetail.js';
-import MyProject from './pages/MyProject.js';
-import MyLogin from './pages/Login';
-import MySignUp from './pages/Signup.js';
-import MyProjectWrite from './pages/ProjectWrite';
-import ProjectPage from './pages/ProjectMain';
+
+import {
+  Footer,
+  MyLogin,
+  MyProject,
+  ProjectDetail,
+  ProjectHub,
+  HubChat,
+  ProjectPage,
+  MyProjectWrite,
+  SignUp,
+} from './pages';
+
 import profileImg from './img/profileImg.png';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import {
-  Nav,
-  Navbar,
-  Container,
-  Button,
-} from 'react-bootstrap';
+import { Nav, Navbar, Container, Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import ProjectHub, { HubChat } from './pages/ProjectHub.js';
 
 function App() {
   const [isModal, setIsModal] = useState(false);
@@ -172,10 +172,19 @@ function App() {
         <Route path='/project' element={<ProjectPage />} />
         <Route path='/project/detail/:id' element={<ProjectDetail />} />
         <Route path='/login' element={<MyLogin />} />
-        <Route path='/signup' element={<MySignUp navigate={navigate}/>} />
-        <Route path='/project/myproject' element={<MyProject navigate={navigate}/>} />
-        <Route path='/project/myproject/:id/projectHub' element={<ProjectHub />} />
-        <Route path='/project/myproject/:id/projectHub/chat' element={<HubChat />} />
+        <Route path='/signup' element={<SignUp navigate={navigate} />} />
+        <Route
+          path='/project/myproject'
+          element={<MyProject navigate={navigate} />}
+        />
+        <Route
+          path='/project/myproject/:id/projectHub'
+          element={<ProjectHub />}
+        />
+        <Route
+          path='/project/myproject/:id/projectHub/chat'
+          element={<HubChat />}
+        />
         <Route path='*' element={<div>경로가 올바르지 않습니다</div>} />
       </Routes>
     </div>
@@ -262,7 +271,7 @@ function MyNav(props) {
                     <ListGroup.Item
                       onClick={() => {
                         setProfileDropdown(!profileDropdown);
-                        props.navigate('/project/myproject')
+                        props.navigate('/project/myproject');
                       }}
                     >
                       내 프로젝트

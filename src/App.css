@@ -109,68 +109,9 @@ p {
   margin-top: 50px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-/* 프로젝트 리스트 넘어가는거 */
-.product {
-  display: flex;
-  z-index: 5;
-  float: left;
-  margin: 10px;
-}
-.product .thumbnail {
-  background-color: white;
-  width: 300px;
-  height: 300px;
-  border-radius: 20px;
-  background-position: center;
-  border: solid 2px #c8c9c9;
-  overflow: hidden;
-}
-.thumbnailImg {
-  width: 100%;
-  height: 140px;
-  border-top: 20px;
-}
-.thumbnailImg img {
-  height: 100%;
-}
-.thumbnailInfo {
-  padding: 12px;
-}
-.product .price {
-  font-size: 16px;
-  font-weight: 600;
-}
-.product .title {
-  font-size: 17px;
-  font-weight: 600;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
-.product .date {
-  color: grey;
-  font-size: 13px;
-}
-.showProjectRank {
-  clear: both;
-  padding-top: 40px;
-}
-/* ProjectMain.js */
-.showProjectList {
-  width: 68%;
-  margin: auto;
-}
-/* .projectBox {
-  background-color: rgb(235, 235, 235);
-  border-radius: 20px;
-  width: 40px;
-  height: 24px;
-  padding: 5px;
-} */
+
+
+
 
 .projectBox p {
   font-size: 12px;
@@ -327,105 +268,7 @@ input[type='checkbox'] + label > span {
   padding-top: 10px;
 }
 
-.ProjectHubSidebar {
-  background-color: rgb(81, 81, 238);
-  height: 100%;
-  width: 6vw;
-  border: 1px solid #f8fafc;
-  padding-top: 3%;
-  float: left;
-}
-.ProjectHubFeature {
-  width: 100%;
-  height: 10%;
-  padding-left: 20px;
-  font-size: 15px;
-  color: white;
-}
+
 .FeatureImo {
   font-size: 30px;
-}
-.ProjectHubContainer {
-  height: 94.68vh;
-  /* FIXME: 나중에 바꿉시다..? */
-  background-color: #efefef;
-}
-.ProjectHubMain {
-  padding-top: 30px;
-  padding-left: 160px;
-}
-.ProjectHubMainChat {
-  width: 30%;
-  background-color: white;
-  height: 84vh;
-  border-radius: 10px;
-  padding: 10px;
-  float: left;
-}
-
-.showChat {
-  height: 78%;
-  border-bottom: 2px solid rgb(81, 81, 238);
-}
-.inputChatPlace {
-  height: 12vh;
-  width: 100%;
-  border: none;
-  outline: none;
-  clear: both;
-}
-
-.messageBox {
-  background-color: rgb(81, 81, 238);
-  color: white;
-  border-radius: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  width: fit-content;
-  min-height: 30px;
-  margin-top: 15px;
-}
-.submitChatBtn {
-  float: right;
-  background-color: rgb(81, 81, 238);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  width: 15%;
-  padding: 4px;
-}
-.calendar {
-  width: fit-content;
-  height: fit-content;
-  display: inline-block;
-  margin-left: 60px;
-  background-color: white;
-  border-radius: 10px;
-  padding: 20px;
-}
-.fc-direction-ltr {
-  width: 600px;
-  height: 740px;
-}
-
-.messageDate {
-  color: gray;
-  font-size: 12px;
-  margin-left: 10px;
-}
-.todo {
-  width: fit-content;
-  height: fit-content;
-  display: inline-block;
-  margin-left: 60px;
-  background-color: white;
-  border-radius: 10px;
-  padding: 20px;
-
-}
-.todo .fc-direction-ltr {
-  width:400px;
-}
-.fc-daygrid-day-frame  {
-  overflow: hidden;
 }

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { db } from '../index.js';
 import { useEffect, useState } from 'react';
 import { GreyBox } from './ProjectDetail.js';
+import styles from '../css/ProjectMain.module.css';
 
 export default function ProjectPage() {
   let navigate = useNavigate();
@@ -13,7 +14,6 @@ export default function ProjectPage() {
       .get()
       .then((snapshot) => {
         const newData = {};
-
         snapshot.forEach((doc) => {
           // 새 데이터를 새 객체에 추가
           newData[doc.id] = {
@@ -42,21 +42,21 @@ export default function ProjectPage() {
       <div>
         <Slider />
       </div>
-      <div className='showProjectList'>
-        <h3 className='showProjectRank'>새로운 프로젝트 🎊</h3>
+      <div className={styles.showProjectList}>
+        <h3 className={styles.showProjectRank}>새로운 프로젝트 🎊</h3>
         {/* TODO: 컴포넌트 쓸 때마다 props로 넘겨줘야 하는 건가? */}
         <ListOfProject
           projectInfo={projectInfo}
           projectInfoKeys={projectInfoKeys}
           navigate={navigate}
         />
-        <h3 className='showProjectRank'> 인기 프로젝트 🔥</h3>
+        <h3 className={styles.showProjectRank}> 인기 프로젝트 🔥</h3>
         <ListOfProject
           projectInfo={projectInfo}
           projectInfoKeys={projectInfoKeys}
           navigate={navigate}
         />
-        <h3 className='showProjectRank'> 전체 프로젝트 </h3>
+        <h3 className={styles.showProjectRank}> 전체 프로젝트 </h3>
         <ProjectFiltering />
         <ListOfProject
           projectInfo={projectInfo}
@@ -67,7 +67,9 @@ export default function ProjectPage() {
     </>
   );
 }
-
+function PrevBtn() {
+  <img src='' alt='이전'></img>;
+}
 //캐러셀
 function Slider() {
   return (
@@ -108,36 +110,32 @@ function ListOfProject(props) {
   return props.projectInfoKeys.map((key, i) => (
     <div className=' mt-4' key={key}>
       <div
-        className='product'
+        className={styles.product}
         onClick={() => {
           props.navigate(`/project/detail/${key}`);
         }}
       >
-        <div className='thumbnail'>
+        <div className={styles.thumbnail}>
           <div className='flex-grow-1'>
-            <div className='thumbnailImg'>
+            <div className={styles.thumbnailImg}>
               <img
                 src={props.projectInfo[key].썸네일}
                 alt='썸네일 이미지'
                 style={{ width: '100%' }}
               />
             </div>
-            <div className='thumbnailInfo'>
-              <h5 className='title'>{props.projectInfo[key].제목}</h5>
-              <p className='date'>{props.projectInfo[key].요약}</p>
+            <div className={styles.thumbnailInfo}>
+              <h5 className={styles.title}>{props.projectInfo[key].제목}</h5>
+              <p className={styles.date}>{props.projectInfo[key].요약}</p>
               {props.projectInfo[key].스택.map((stackItem, index) => (
                 <GreyBox key={index}>
                   <p style={{ margin: '1px', fontSize: '12px' }}>{stackItem}</p>
                 </GreyBox>
               ))}
-
-              {/* <p className='price'>{props.projectInfo[key].스택}</p> */}
-              <hr></hr>
-
-              <p className='price'>
+              <hr />
+              <p className={styles.price}>
                 {props.projectInfo[key].팀장} {props.projectInfo[key].마감일}
               </p>
-              {/* <p className='floatEnd'>조회수 좋아요수 댓글수 </p> */}
             </div>
           </div>
         </div>

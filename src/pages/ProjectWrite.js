@@ -6,25 +6,31 @@ import Select from 'react-select';
 import { stackOptions, menOptions } from '../components/data.js';
 import firebase from 'firebase/app';
 import styled from 'styled-components';
+import InputContent from '../components/InputContent.js';
 
 let ProjectWriteTitle = styled.p`
   font-size: 20px;
   font-weight: bold;
   margin-top: 70px;
 `;
+
 export default function MyProjectWrite() {
-  const [formData, setFormData] = useState({});
   //TODO: formData로 따로 만들게 아니라 project info를 props해오면 더 깔끔하지않을까?
+  const [formData, setFormData] = useState({});
   const [position, setPosition] = useState([]);
-  const [isStorage, setIsStorage] = useState(false);
   let [file, setFile] = useState('');
   let navigate = useNavigate();
-  //입력된 텍스트 null값 검사
+  const [content, setContent] = useState('');
+
+  const onChangeInputContent = (e) => {
+    setContent(e.target.value);
+  };
   let [textLen, setTextLen] = useState({
-    제목: '',
-    요약: '',
+    //입력된 텍스트 null값 검사
+    제목: false,
+    요약: false,
     포지션: [],
-    소개: '',
+    소개: false,
   });
 
   const selectedPosition = (e) => {
@@ -36,7 +42,33 @@ export default function MyProjectWrite() {
       }));
     }
   };
+  const selectedInputValues = (e, field) => {
+    let value = e.target.value;
+    setFormData((data) => ({
+      ...data,
+      [field]: value,
+    }));
+    if (value.length > 10) {
+      setTextLen((data) => ({
+        ...data,
+        [field]: true,
+      }));
+    }
+  };
+
+  function inputCheckbox() {
+    return (
+      <>
+        <input type='checkbox' id='프론트엔드' onChange={selectedPosition} />
+        <label for='프론트엔드'>
+          <span>프론트엔드</span>
+        </label>
+      </>
+    );
+  }
+
   useEffect(() => {
+    // 이것도 app.js에 선언해놓고 가져다 쓰는건?
     firebase.auth().onAuthStateChanged((user) => {
       setFormData((data) => ({
         ...data,
@@ -54,7 +86,6 @@ export default function MyProjectWrite() {
       업로드작업.snapshot.ref
         .getDownloadURL()
         .then((url) => {
-          console.log(url);
           setFormData((data) => ({
             ...data,
             썸네일: url,
@@ -77,24 +108,7 @@ export default function MyProjectWrite() {
           placeholder='제목을 입력하세요 '
           className='inputTitle'
           id='title'
-          onChange={(e) => {
-            let value = e.target.value; // == this.value?
-            setFormData((data) => ({
-              ...data,
-              제목: value,
-            }));
-            if (value === null) {
-              setTextLen((data) => ({
-                ...data,
-                제목: false,
-              }));
-            } else {
-              setTextLen((data) => ({
-                ...data,
-                제목: 'true',
-              }));
-            }
-          }}
+          onChange={(e) => selectedInputValues(e, '제목')}
         ></input>
 
         <ProjectWriteTitle>요약</ProjectWriteTitle>
@@ -105,31 +119,11 @@ export default function MyProjectWrite() {
           placeholder='프로젝트 요약 '
           className='inputTitle'
           id='subtitle'
-          onChange={(e) => {
-            let value = e.target.value;
-            setFormData((data) => ({
-              ...data,
-              요약: value,
-            }));
-            if (value.length < 20) {
-              setTextLen((data) => ({
-                ...data,
-                요약: false,
-              }));
-            } else {
-              setTextLen((data) => ({
-                ...data,
-                요약: true,
-              }));
-            }
-          }}
+          onChange={(e) => selectedInputValues(e, '요약')}
         ></input>
 
         <ProjectWriteTitle>모집 포지션</ProjectWriteTitle>
-        <input type='checkbox' id='프론트엔드' onChange={selectedPosition} />
-        <label for='프론트엔드'>
-          <span>프론트엔드</span>
-        </label>
+        <inputCheckbox></inputCheckbox>
         <input type='checkbox' id='백엔드' onChange={selectedPosition} />
         <label for='백엔드' className='checkboxMargin'>
           <span>백엔드</span>
@@ -144,7 +138,6 @@ export default function MyProjectWrite() {
         </label>
 
         <ProjectWriteTitle>기술 스택</ProjectWriteTitle>
-
         <Select
           defaultValue={[stackOptions[2]]}
           isMulti
@@ -170,7 +163,6 @@ export default function MyProjectWrite() {
           name='color'
           options={menOptions}
           onChange={(e) => {
-            console.log(e.value);
             const optionvalue = e.value;
             setFormData((data) => ({
               ...data,
@@ -208,25 +200,20 @@ export default function MyProjectWrite() {
           placeholder='프로젝트를 소개해 주세요 '
           className='inputTitle introduce'
           id='introduce'
-          onChange={(e) => {
-            let value = e.target.value;
-            setFormData((data) => ({
-              ...data,
-              소개: value,
-            }));
-            if (value.length < 100) {
-              setTextLen((data) => ({
-                ...data,
-                소개: false,
-              }));
-            } else {
-              setTextLen((data) => ({
-                ...data,
-                소개: true,
-              }));
-            }
-          }}
+          onChange={(e) => selectedInputValues(e, '소개')}
         ></textarea>
+
+
+
+
+
+{/* 
+        <InputContent></InputContent>
+ */}
+
+
+
+
         <div className='btngroup'>
           <Button
             variant='secondary'
@@ -244,9 +231,9 @@ export default function MyProjectWrite() {
               if (textLen.제목 === false) {
                 alert('제목을 입력해주세요 ');
               } else if (textLen.요약 === false) {
-                alert('요약은 20자 이상 입력해주세요 ');
+                alert('요약은 10자 이상 입력해주세요 ');
               } else if (textLen.소개 === false) {
-                alert('소개칸은 100자 이상 입력해주세요 ');
+                alert('소개칸은 50자 이상 입력해주세요 ');
               } else {
                 db.collection('List').add(formData); //List라는 컬렉션에 formData 데이터 추가
                 alert('등록 완료');
