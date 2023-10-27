@@ -12,53 +12,67 @@ import styles from '../css/ProjectHub.module.css';
 import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import styled from 'styled-components';
 function ProjectHub() {
+  let ProjectHubBox = styled.div`
+    width: ${props => props.width};
+    background-color: white;
+    height: 84vh;
+    border-radius: 10px;
+    padding: 10px;
+    padding-bottom: 0;
+    margin-left: ${props => props.marginLeft}
+  `;
   let { id } = useParams();
 
   return (
     <>
       <div className={styles.ProjectHubContainer}>
-        <div className={styles.ProjectHubSidebar}>
-          {' '}
-          <div className={styles.ProjectHubFeature}>
-            <p>
-              <img src={home} style={{ width: '35px' }} alt='홈' /> 홈
-            </p>
-          </div>
-          <div className={styles.ProjectHubFeature}>
-            <p>
-              <img src={board} style={{ width: '35px' }} alt='보드' /> 보드
-            </p>
-          </div>
-          <div className={styles.ProjectHubFeature}>
-            <p>
-              <img src={calendar} style={{ width: '35px' }} alt='캘린더' /> 일정
-            </p>
-          </div>
-          <div className={styles.ProjectHubFeature}>
-            <p>
-              <img
-                src={messageImg}
-                style={{ width: '35px' }}
-                onClick={() => {
-                  // props.navigate('/project/myproject/:id/chat');
-                }}
-                alt='메시지'
-              />{' '}
-              메세지
-            </p>
-          </div>
-        </div>
+        <ProjectHubSidebar />
         <div className={styles.ProjectHubMain}>
-          <HubChat />
-          <HubCalendar />
+          <HubChat ProjectHubBox={ProjectHubBox}/>
+          <HubCalendar  ProjectHubBox={ProjectHubBox}/>
           {/* <HubFileShare /> */}
         </div>
       </div>
     </>
   );
 }
-
+function ProjectHubSidebar() {
+  return (
+    <div className={styles.ProjectHubSidebar}>
+      {' '}
+      <div className={styles.ProjectHubFeature}>
+        <p>
+          <img src={home} style={{ width: '32%' }} alt='홈' /> 홈
+        </p>
+      </div>
+      <div className={styles.ProjectHubFeature}>
+        <p>
+          <img src={board} style={{ width: '32%' }} alt='보드' /> 보드
+        </p>
+      </div>
+      <div className={styles.ProjectHubFeature}>
+        <p>
+          <img src={calendar} style={{ width: '32%' }} alt='캘린더' /> 일정
+        </p>
+      </div>
+      <div className={styles.ProjectHubFeature}>
+        <p>
+          <img
+            src={messageImg}
+            style={{ width: '32%' }}
+            onClick={() => {
+              // props.navigate('/project/myproject/:id/chat');
+            }}
+            alt='메시지'
+          />{' '}
+          메세지
+        </p>
+      </div>
+    </div>
+  );
+}
 export function HubChat(props) {
   let { id } = useParams();
   let [message, setMessage] = useState({});
@@ -82,15 +96,15 @@ export function HubChat(props) {
       });
   }, []);
 
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        setIsLogged('right');
-      }
-    });
-  });
+  // useEffect(() => {
+  //   firebase.auth().onAuthStateChanged((user) => {
+  //     if (user) {
+  //       setIsLogged('right');
+  //     }
+  //   });
+  // });
   return (
-    <div className={styles.ProjectHubMainChat}>
+    <props.ProjectHubBox width="30%">
       <div
         className={styles.showChat}
         // style={{float:isLogged}}
@@ -140,35 +154,35 @@ export function HubChat(props) {
             } else {
               db.collection('chatroom').doc(id).update(message);
             }
-            try {
-              const response = await fetch(
-                'https://api.openai.com/v1/chat/completions',
-                {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${'your-api-key-here'}`, // 여기에 실제 API 키를 입력하세요.
-                  },
-                  body: JSON.stringify({
-                    model: 'gpt-3.5-turbo',
-                    messages: [
-                      { role: 'user', content: 'Say this is a test!' },
-                    ],
-                    temperature: 0.7,
-                  }),
-                }
-              );
-              const data = await response.json();
-              console.log(data);
-            } catch (error) {
-              console.error('Error:', error);
-            }
+            // try {
+            //   const response = await fetch(
+            //     'https://api.openai.com/v1/chat/completions',
+            //     {
+            //       method: 'POST',
+            //       headers: {
+            //         'Content-Type': 'application/json',
+            //         Authorization: `Bearer ${'your-api-key-here'}`, // 여기에 실제 API 키를 입력하세요.
+            //       },
+            //       body: JSON.stringify({
+            //         model: 'gpt-3.5-turbo',
+            //         messages: [
+            //           { role: 'user', content: 'Say this is a test!' },
+            //         ],
+            //         temperature: 0.7,
+            //       }),
+            //     }
+            //   );
+            //   const data = await response.json();
+            //   console.log(data);
+            // } catch (error) {
+            //   console.error('Error:', error);
+            // }
           }}
         >
           전송{' '}
         </button>
       </div>
-    </div>
+    </props.ProjectHubBox>
   );
 }
 function renderEventContent(eventInfo) {
@@ -179,7 +193,7 @@ function renderEventContent(eventInfo) {
   );
 }
 
-function HubCalendar() {
+function HubCalendar(props) {
   const renderEventContent = (info) => {
     // 사용자 정의 이벤트 데이터 가져오기
     const status = info.event.extendedProps.status;
@@ -210,22 +224,22 @@ function HubCalendar() {
   ];
   return (
     <>
-      <div className={styles.calendar}>
+      <props.ProjectHubBox width="fit-content" marginLeft="50px">
         <FullCalendar
           plugins={[dayGridPlugin]}
           initialView='dayGridMonth'
           events={events}
           eventContent={renderEventContent}
         />
-      </div>
-      <div className={styles.todo}>
+      </props.ProjectHubBox>
+      <props.ProjectHubBox width="fit-content" marginLeft="50px">
         <FullCalendar
           plugins={[listPlugin]}
           initialView='listWeek'
           events={events}
           // eventContent={renderEventContent}
         />
-      </div>
+      </props.ProjectHubBox>
     </>
   );
 }

@@ -1,26 +1,26 @@
 .ProjectHubContainer {
   height: 94.68vh;
+  width: 100vw;
   /* FIXME: 나중에 바꿉시다..? */
   background-color: #efefef;
   display: flex;
-  width: 100vw;
 }
 .ProjectHubMain {
   padding: 60px;
   display: flex;
 }
-.ProjectHubMainChat {
-  width: 100%;
+/* .ProjectHubMainChat {
+  width: 30%;
   background-color: white;
   height: 84vh;
   border-radius: 10px;
   padding: 10px;
   padding-bottom: 0;
-}
+} */
 .ProjectHubSidebar {
   background-color: rgb(81, 81, 238);
   height: 100%;
-  width: 6vw;
+  width: 6%;
   border: 1px solid #f8fafc;
   padding-top: 3%;
 }
@@ -66,30 +66,5 @@
   color: gray;
   font-size: 12px;
   margin-left: 10px;
-}
-
-.calendar {
-  width: fit-content;
-  height: fit-content;
-  display: inline-block;
-  margin-left: 60px;
-  background-color: white;
-  border-radius: 10px;
-  padding: 20px;
-}
-/* .fc-direction-ltr {
-  width: 600px;
-  height: 740px;
-} */
-
-
-.todo {
-  width: fit-content;
-  height: fit-content;
-  display: inline-block;
-  margin-left: 60px;
-  background-color: white;
-  border-radius: 10px;
-  padding: 20px;
 }
 
