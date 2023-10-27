@@ -116,17 +116,7 @@ p {
 .projectBox p {
   font-size: 12px;
 }
-/*캐러셀*/
-.slidercontents {
- 
-  display: flex;
-  align-items: center;
-  padding-left: 100px;
-}
 
-.wrapText {
-  margin-left: 12%;
-}
 
 /* 로그인.js  */
 .loginBox {
@@ -266,4 +256,15 @@ input[type='checkbox'] + label > span {
 
 .FeatureImo {
   font-size: 30px;
+}
+
+.fc-direction-ltr {
+  width: 600px;
+  height: 740px;
+}
+.todo .fc-direction-ltr {
+  width: 400px;
+}
+.fc-daygrid-day-frame {
+  overflow: hidden;
 }

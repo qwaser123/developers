@@ -6,7 +6,7 @@ import home from '../img/home.png';
 import board from '../img/board.png';
 import calendar from '../img/calendar.png';
 import messageImg from '../img/message.png';
-import styles from '../css/ProjectHub.module.css'
+import styles from '../css/ProjectHub.module.css';
 // import { Calendar } from '@fullcalendar/core';
 // import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
@@ -96,7 +96,11 @@ export function HubChat(props) {
         // style={{float:isLogged}}
       >
         {messageKey.map((key, i) => (
-          <div className={styles.messageContainer} key={i} style={{display:'flex', alignItems:'center'}}>
+          <div
+            className={styles.messageContainer}
+            key={i}
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
             <div className={styles.messageBox}>
               <p>{message[key].content}</p>
             </div>
@@ -125,7 +129,7 @@ export function HubChat(props) {
         <button
           type='submit'
           className={styles.submitChatBtn}
-          onClick={(e) => {
+          onClick={async (e) => {
             setMessageContent('');
             if (haveBeenChat === false) {
               db.collection('chatroom')
@@ -135,6 +139,29 @@ export function HubChat(props) {
               setHaveBeenChat(true);
             } else {
               db.collection('chatroom').doc(id).update(message);
+            }
+            try {
+              const response = await fetch(
+                'https://api.openai.com/v1/chat/completions',
+                {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${'your-api-key-here'}`, // 여기에 실제 API 키를 입력하세요.
+                  },
+                  body: JSON.stringify({
+                    model: 'gpt-3.5-turbo',
+                    messages: [
+                      { role: 'user', content: 'Say this is a test!' },
+                    ],
+                    temperature: 0.7,
+                  }),
+                }
+              );
+              const data = await response.json();
+              console.log(data);
+            } catch (error) {
+              console.error('Error:', error);
             }
           }}
         >
@@ -152,20 +179,19 @@ function renderEventContent(eventInfo) {
   );
 }
 
-
 function HubCalendar() {
   const renderEventContent = (info) => {
-  // 사용자 정의 이벤트 데이터 가져오기
-  const status = info.event.extendedProps.status;
+    // 사용자 정의 이벤트 데이터 가져오기
+    const status = info.event.extendedProps.status;
 
-  // 렌더링할 JSX 반환
-  return (
-    <div>
-      <div>{info.event.title}</div>
-      
+    // 렌더링할 JSX 반환
+    return (
+      <div>
+        <div>{info.event.title}</div>
+
         <div
           style={{
-            backgroundColor:' rgb(81, 81, 238)', // 배경색을 빨간색으로 변경
+            backgroundColor: ' rgb(81, 81, 238)', // 배경색을 빨간색으로 변경
             display: 'inline-block',
             width: '10px',
             height: '10px',
@@ -173,10 +199,9 @@ function HubCalendar() {
             marginLeft: '5px',
           }}
         ></div>
-      
-    </div>
-  );
-};
+      </div>
+    );
+  };
 
   const events = [
     { title: '[메인] main page UI 구현', start: new Date('2023-10-18') },
@@ -193,15 +218,14 @@ function HubCalendar() {
           eventContent={renderEventContent}
         />
       </div>
-      <div className='todo'>
-      <FullCalendar
+      <div className={styles.todo}>
+        <FullCalendar
           plugins={[listPlugin]}
           initialView='listWeek'
           events={events}
           // eventContent={renderEventContent}
         />
       </div>
-      
     </>
   );
 }

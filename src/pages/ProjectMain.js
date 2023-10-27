@@ -51,7 +51,7 @@ export default function ProjectPage() {
       <div className={styles.searchBackground}>
         <div className={styles.searchGroup}>
           <SearchPage query={query} setQuery={setQuery} />
-          <DropDown />
+          
         </div>
       </div>
       <div className={styles.showProjectList}>
@@ -78,7 +78,6 @@ const BlackBtn = styled.button`
 function SearchPage(props) {
   const handleChange = (e) => {
     props.setQuery(e.target.value);
-    console.log(props.query);
   };
 
   return (

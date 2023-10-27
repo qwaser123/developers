@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import firebase from 'firebase/app';
 import { db } from '../index.js';
+import styles from '../css/Myproject.module.css'
 
 function MyProject(props) {
   const [projectInfo, setProjectInfo] = useState(null); // 초기값을 null로 설정
@@ -52,30 +53,30 @@ function MyProject(props) {
     projectInfoKeys.map((key, i) => (
         <div className='mt-4' key={key}>
           <div
-            className='product'
+            className={styles.product}
             onClick={() => {
               props.navigate(`/project/myproject/${key}/projectHub`);
     
             }}
           >
-            <div className='thumbnail'>
+            <div className={styles.thumbnail}>
               <div className='flex-grow-1'>
-                <div className='thumbnailImg'>
+                <div className={styles.thumbnailImg}>
                   <img
                     src={projectInfo[key].썸네일}
                     alt='썸네일 이미지'
                     style={{ width: '100%' }}
                   />
                 </div>
-                <div className='thumbnailInfo'>
+                <div className={styles.thumbnailInfo}>
                   {/* <div className='projectBox'>
                     <p>프로젝트</p>
                   </div> */}
-                  <h5 className='title'>{projectInfo[key].제목}</h5>
-                  <p className='date'>{projectInfo[key].요약}</p>
-                    <p className='price'>{projectInfo[key].스택}</p>
+                  <h5 className={styles.title}>{projectInfo[key].제목}</h5>
+                  <p className={styles.date}>{projectInfo[key].요약}</p>
+                    <p className={styles.price}>{projectInfo[key].스택}</p>
                   <hr></hr>
-                  <p className='price'>마감일| {projectInfo[key].마감일}</p>
+                  <p className={styles.price}>마감일| {projectInfo[key].마감일}</p>
                   {/* <p className='floatEnd'>조회수 좋아요수 댓글수 </p> */}
                 </div>
               </div>
