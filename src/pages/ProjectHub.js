@@ -79,6 +79,7 @@ export function HubChat(props) {
   let [haveBeenChat, setHaveBeenChat] = useState(false);
   let [messageContent, setMessageContent] = useState('');
   let [isLogged, setIsLogged] = useState('left');
+  let [MessageId, setMessageId] = useState('');
   const messageKey = Object.keys(message);
 
   useEffect(() => {
@@ -146,14 +147,16 @@ export function HubChat(props) {
           onClick={async (e) => {
             setMessageContent('');
             if (haveBeenChat === false) {
-              db.collection('chatroom')
+              const docRef = await db.collection('chatroom')
                 .doc(id)
                 .collection('messages')
-                .add(message);
-              setHaveBeenChat(true);
-            } else {
-              db.collection('chatroom').doc(id).update(message);
-            }
+                .doc('dd')
+                .set(message);
+              // setHaveBeenChat(true);
+              setMessageId(docRef.id);
+            }              //else {
+            //   db.collection('chatroom').doc(id).collection('messages').doc(MessageId).update(message);
+            // }
             // try {
             //   const response = await fetch(
             //     'https://api.openai.com/v1/chat/completions',
