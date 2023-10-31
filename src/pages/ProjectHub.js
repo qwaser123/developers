@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { db } from '../index.js';
 import firebase from 'firebase/app';
 import { useParams } from 'react-router-dom';
@@ -15,13 +15,13 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import styled from 'styled-components';
 function ProjectHub() {
   let ProjectHubBox = styled.div`
-    width: ${props => props.width};
+    width: ${(props) => props.width};
     background-color: white;
     height: 84vh;
     border-radius: 10px;
     padding: 10px;
     padding-bottom: 0;
-    margin-left: ${props => props.marginLeft}
+    margin-left: ${(props) => props.marginLeft};
   `;
   let { id } = useParams();
 
@@ -30,8 +30,8 @@ function ProjectHub() {
       <div className={styles.ProjectHubContainer}>
         <ProjectHubSidebar />
         <div className={styles.ProjectHubMain}>
-          <HubChat ProjectHubBox={ProjectHubBox}/>
-          <HubCalendar  ProjectHubBox={ProjectHubBox}/>
+          <HubChat ProjectHubBox={ProjectHubBox} />
+          <HubCalendar ProjectHubBox={ProjectHubBox} />
           {/* <HubFileShare /> */}
         </div>
       </div>
@@ -80,12 +80,14 @@ export function HubChat(props) {
   let [messageContent, setMessageContent] = useState('');
   let [isLogged, setIsLogged] = useState('left');
   let [MessageId, setMessageId] = useState('');
+  const scrollUpdate = useRef();
   const messageKey = Object.keys(message);
 
   useEffect(() => {
     db.collection('chatroom')
       .doc(id)
       .collection('messages')
+      .orderBy('date')
       .onSnapshot((result) => {
         const newData = {};
         result.forEach((a) => {
@@ -97,6 +99,12 @@ export function HubChat(props) {
       });
   }, []);
 
+  const scrollToBottom = () => {
+    scrollUpdate.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [message]);
   // useEffect(() => {
   //   firebase.auth().onAuthStateChanged((user) => {
   //     if (user) {
@@ -105,85 +113,102 @@ export function HubChat(props) {
   //   });
   // });
   return (
-    <props.ProjectHubBox width="30%">
-      <div
-        className={styles.showChat}
-        // style={{float:isLogged}}
-      >
-        {messageKey.map((key, i) => (
-          <div
-            className={styles.messageContainer}
-            key={i}
-            style={{ display: 'flex', alignItems: 'center' }}
-          >
-            <div className={styles.messageBox}>
-              <p>{message[key].content}</p>
-            </div>
-            {message[key].date && (
-              <span className={styles.messageDate}>
-                {message[key].date.toDate().toLocaleString()}
-              </span>
-            )}
-          </div>
-        ))}
-      </div>
-      <div className={styles.inputChat}>
-        <textarea
-          className={styles.inputChatPlace}
-          placeholder='채팅을 입력하세요'
-          value={messageContent}
-          onChange={(e) => {
-            setMessageContent(e.target.value);
-            setMessage((data) => ({
-              ...data,
-              content: messageContent,
-              date: new Date(),
-            }));
-          }}
-        />
-        <button
-          type='submit'
-          className={styles.submitChatBtn}
-          onClick={async (e) => {
-            setMessageContent('');
-            if (haveBeenChat === false) {
-              const docRef = await db.collection('chatroom')
-                .doc(id)
-                .collection('messages')
-                .doc('dd')
-                .set(message);
-              // setHaveBeenChat(true);
-              setMessageId(docRef.id);
-            }              //else {
-            //   db.collection('chatroom').doc(id).collection('messages').doc(MessageId).update(message);
-            // }
-            // try {
-            //   const response = await fetch(
-            //     'https://api.openai.com/v1/chat/completions',
-            //     {
-            //       method: 'POST',
-            //       headers: {
-            //         'Content-Type': 'application/json',
-            //         Authorization: `Bearer ${'your-api-key-here'}`, // 여기에 실제 API 키를 입력하세요.
-            //       },
-            //       body: JSON.stringify({
-            //         model: 'gpt-3.5-turbo',
-            //         messages: [
-            //           { role: 'user', content: 'Say this is a test!' },
-            //         ],
-            //         temperature: 0.7,
-            //       }),
-            //     }
-            //   );
-            //   const data = await response.json();
-            //   console.log(data);
-            // } catch (error) {
-            //   console.error('Error:', error);
-            // }
-          }}
+    <props.ProjectHubBox
+      width='20vw'
+      style={{ paddingRight: '0px', paddingTop: '0px' }}
+    >
+      <div className={styles.ChatContainer}>
+        <div
+          className={styles.showChat}
+          // style={{float:isLogged}}
         >
-          전송{' '}
-        </button>
+          {messageKey.map((key, i) => (
+            <div
+              className={styles.messageContainer}
+              key={i}
+              style={{ display: 'flex', alignItems: 'center' }}
+            >
+              <div className={styles.messageBox}  ref={scrollUpdate}>
+                <p>{message[key].content}</p>
+              </div>
+              {message[key].date && (
+                <>
+                  <span
+                    className={styles.messageDate}
+                    style={{ display: 'block' }}
+                  >
+                    {message[key].date.toDate().toLocaleDateString()}
+                  </span>
+                  <br></br>
+                  <span
+                    className={styles.messageDate}
+                    style={{ display: 'block' }}
+                  >
+                    {message[key].date.toDate().toLocaleTimeString()}
+                  </span>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className={styles.inputChat}>
+          <textarea
+            className={styles.inputChatPlace}
+            placeholder='채팅을 입력하세요'
+            value={messageContent}
+            onChange={(e) => {
+              setMessageContent(e.target.value);
+              setMessage((data) => ({
+                ...data,
+                content: messageContent,
+                date: new Date(),
+              }));
+            }}
+          />
+          <button
+            type='submit'
+            className={styles.submitChatBtn}
+            onClick={async (e) => {
+              setMessageContent('');
+              if (haveBeenChat === false) {
+                const docRef = await db
+                  .collection('chatroom')
+                  .doc(id)
+                  .collection('messages')
+                  .add(message);
+                // setHaveBeenChat(true);
+                setMessageId(docRef.id);
+              } //else {
+              //   db.collection('chatroom').doc(id).collection('messages').doc(MessageId).update(message);
+              // }
+              // try {
+              //   const response = await fetch(
+              //     'https://api.openai.com/v1/chat/completions',
+              //     {
+              //       method: 'POST',
+              //       headers: {
+              //         'Content-Type': 'application/json',
+              //         Authorization: `Bearer ${'your-api-key-here'}`, // 여기에 실제 API 키를 입력하세요.
+              //       },
+              //       body: JSON.stringify({
+              //         model: 'gpt-3.5-turbo',
+              //         messages: [
+              //           { role: 'user', content: 'Say this is a test!' },
+              //         ],
+              //         temperature: 0.7,
+              //       }),
+              //     }
+              //   );
+              //   const data = await response.json();
+              //   console.log(data);
+              // } catch (error) {
+              //   console.error('Error:', error);
+              // }
+            }}
+          >
+            전송{' '}
+          </button>
+        </div>
       </div>
     </props.ProjectHubBox>
   );
@@ -227,7 +252,7 @@ function HubCalendar(props) {
   ];
   return (
     <>
-      <props.ProjectHubBox width="fit-content" marginLeft="50px">
+      <props.ProjectHubBox width='fit-content' marginLeft='50px'>
         <FullCalendar
           plugins={[dayGridPlugin]}
           initialView='dayGridMonth'
@@ -235,7 +260,7 @@ function HubCalendar(props) {
           eventContent={renderEventContent}
         />
       </props.ProjectHubBox>
-      <props.ProjectHubBox width="fit-content" marginLeft="50px">
+      <props.ProjectHubBox width='fit-content' marginLeft='50px'>
         <FullCalendar
           plugins={[listPlugin]}
           initialView='listWeek'

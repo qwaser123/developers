@@ -9,14 +9,7 @@
   padding: 60px;
   display: flex;
 }
-/* .ProjectHubMainChat {
-  width: 30%;
-  background-color: white;
-  height: 84vh;
-  border-radius: 10px;
-  padding: 10px;
-  padding-bottom: 0;
-} */
+
 .ProjectHubSidebar {
   background-color: rgb(81, 81, 238);
   height: 100%;
@@ -33,15 +26,29 @@
 }
 .showChat {
   height: 78%;
+  overflow-y: auto;
   border-bottom: 2px solid rgb(81, 81, 238);
 }
-.inputChatPlace {
-  height: 13vh;
+.ChatContainer{
+  height: 100%;
+  background-color: white;
   width: 100%;
+}
+.inputChatPlace {
+ height: 100%;
+ width: 100%;
   border: none;
   outline: none;
+  display: flex;
+  transition: all 0.5s ease 0s;
+  transform: translateY(0px);
 }
-
+.inputChat {
+  height: 13vh;
+  width: 19vw;
+  background-color: darkblue;
+  position: absolute;
+}
 .messageBox {
   background-color: rgb(81, 81, 238);
   color: white;
@@ -52,6 +59,7 @@
   min-height: 30px;
   min-width: 50px;
   margin-top: 15px;
+
 }
 .submitChatBtn {
   float: right;
