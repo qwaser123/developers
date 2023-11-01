@@ -80,6 +80,7 @@ export function HubChat(props) {
   let [messageContent, setMessageContent] = useState('');
   let [isLogged, setIsLogged] = useState('left');
   let [MessageId, setMessageId] = useState('');
+  const [userUid, setUserUid] = useState('');
   const scrollUpdate = useRef();
   const messageKey = Object.keys(message);
 
@@ -94,6 +95,7 @@ export function HubChat(props) {
           newData[a.id] = {
             content: a.data().content,
             date: a.data().date,
+            userUid: a.data().user,
           };
         }, setMessage(newData));
       });
@@ -105,13 +107,12 @@ export function HubChat(props) {
   useEffect(() => {
     scrollToBottom();
   }, [message]);
-  // useEffect(() => {
-  //   firebase.auth().onAuthStateChanged((user) => {
-  //     if (user) {
-  //       setIsLogged('right');
-  //     }
-  //   });
-  // });
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      setUserUid(user.uid);
+    });
+  }, []);
   return (
     <props.ProjectHubBox
       width='20vw'
@@ -124,29 +125,39 @@ export function HubChat(props) {
         >
           {messageKey.map((key, i) => (
             <div
-              className={styles.messageContainer}
+              className={
+                message[key].userUid == userUid
+                  ? `${styles.messageContainer} ${styles.right}`
+                  : `${styles.messageContainer} ${styles.left}`
+              }
               key={i}
               style={{ display: 'flex', alignItems: 'center' }}
             >
-              <div className={styles.messageBox}  ref={scrollUpdate}>
+              <div className={styles.messageBox} ref={scrollUpdate}>
                 <p>{message[key].content}</p>
               </div>
               {message[key].date && (
-                <>
+                <div
+                  className={
+                    message[key].userUid == userUid
+                      ? `${styles.dateContainer} ${styles.left}`
+                      : null
+                  }
+                >
                   <span
                     className={styles.messageDate}
                     style={{ display: 'block' }}
                   >
                     {message[key].date.toDate().toLocaleDateString()}
                   </span>
-                  <br></br>
+                  {/* <br></br> */}
                   <span
                     className={styles.messageDate}
                     style={{ display: 'block' }}
                   >
                     {message[key].date.toDate().toLocaleTimeString()}
                   </span>
-                </>
+                </div>
               )}
             </div>
           ))}
@@ -162,6 +173,7 @@ export function HubChat(props) {
                 ...data,
                 content: messageContent,
                 date: new Date(),
+                user: userUid,
               }));
             }}
           />
