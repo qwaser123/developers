@@ -52,7 +52,7 @@
 .messageBox {
   background-color: rgb(81, 81, 238);
   color: white;
-  border-radius: 5px;
+  border-radius: 10px;
   padding-left: 10px;
   padding-right: 10px;
   width: fit-content;

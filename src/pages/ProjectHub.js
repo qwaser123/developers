@@ -155,7 +155,8 @@ export function HubChat(props) {
                     className={styles.messageDate}
                     style={{ display: 'block' }}
                   >
-                    {message[key].date.toDate().toLocaleTimeString()}
+                   {message[key].date.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+
                   </span>
                 </div>
               )}
