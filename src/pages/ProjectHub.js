@@ -14,6 +14,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import styled from 'styled-components';
 import interactionPlugin from '@fullcalendar/interaction';
+import timeGridPlugin from '@fullcalendar/timegrid'
 function ProjectHub() {
   let ProjectHubBox = styled.div`
     width: ${(props) => props.width};
@@ -282,14 +283,18 @@ function HubCalendar(props) {
     <>
       <props.ProjectHubBox width='fit-content' marginLeft='50px' height='84vh'>
         <FullCalendar
-          headerToolbar={{ left: 'prev', center: 'title', right: 'next,myCustomButton' }}
+          headerToolbar={{
+            left: 'prev',
+            center: 'title',
+            right: 'next,myCustomButton',
+          }}
           customButtons={{
             myCustomButton: {
               text: '+',
-              click:handleEventClick
-            }
+              click: handleEventClick,
+            },
           }}
-          plugins={[dayGridPlugin, interactionPlugin]}
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView='dayGridMonth'
           editable={true}
           locale='ko'
@@ -313,7 +318,7 @@ function HubCalendar(props) {
           locale='ko'
           contentHeight='650'
           events={events}
-          
+
           // eventContent={renderEventContent}
         />
       </props.ProjectHubBox>
