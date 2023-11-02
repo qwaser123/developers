@@ -13,11 +13,12 @@ import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import styled from 'styled-components';
+import interactionPlugin from '@fullcalendar/interaction';
 function ProjectHub() {
   let ProjectHubBox = styled.div`
     width: ${(props) => props.width};
     background-color: white;
-    height: 84vh;
+    height: ${(props) => props.height};
     border-radius: 10px;
     padding: 10px;
     padding-bottom: 0;
@@ -116,7 +117,8 @@ export function HubChat(props) {
   return (
     <props.ProjectHubBox
       width='20vw'
-      style={{ paddingRight: '0px', paddingTop: '0px' }}
+      height='84vh'
+      style={{ paddingTop: '0px' }}
     >
       <div className={styles.ChatContainer}>
         <div
@@ -155,8 +157,10 @@ export function HubChat(props) {
                     className={styles.messageDate}
                     style={{ display: 'block' }}
                   >
-                   {message[key].date.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-
+                    {message[key].date.toDate().toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
                   </span>
                 </div>
               )}
@@ -226,13 +230,13 @@ export function HubChat(props) {
     </props.ProjectHubBox>
   );
 }
-function renderEventContent(eventInfo) {
-  return (
-    <>
-      <i>{eventInfo.event.title}</i>
-    </>
-  );
-}
+// function renderEventContent(eventInfo) {
+//   return (
+//     <>
+//       <i>{eventInfo.event.title}</i>
+//     </>
+//   );
+// }
 
 function HubCalendar(props) {
   const renderEventContent = (info) => {
@@ -246,7 +250,7 @@ function HubCalendar(props) {
 
         <div
           style={{
-            backgroundColor: ' rgb(81, 81, 238)', // 배경색을 빨간색으로 변경
+            backgroundColor: ' rgb(0,0,0)', // 배경색을 빨간색으로 변경
             display: 'inline-block',
             width: '10px',
             height: '10px',
@@ -259,25 +263,57 @@ function HubCalendar(props) {
   };
 
   const events = [
-    { title: '[메인] main page UI 구현', start: new Date('2023-10-18') },
-    { title: '[공통] 헤더 UI 구현', start: new Date('2023-10-15') },
+    {
+      title: '[메인] main page UI 구현',
+      start: '2023-04-07',
+      end: '2023-04-10',
+    },
+    { title: '[공통] 헤더 UI 구현', start: new Date('2023-11-02') },
     { title: '로그인/회원가입 페이지 UI 구현', start: new Date('2023-10-20') },
   ];
+  const handleEventClick = (info) => {
+    alert('Event: ' + info.event.title);
+    alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+    alert('View: ' + info.view.type);
+    info.el.style.borderColor = 'red';
+  };
+
   return (
     <>
-      <props.ProjectHubBox width='fit-content' marginLeft='50px'>
+      <props.ProjectHubBox width='fit-content' marginLeft='50px' height='84vh'>
         <FullCalendar
-          plugins={[dayGridPlugin]}
+          headerToolbar={{ left: 'prev', center: 'title', right: 'next,myCustomButton' }}
+          customButtons={{
+            myCustomButton: {
+              text: '+',
+              click:handleEventClick
+            }
+          }}
+          plugins={[dayGridPlugin, interactionPlugin]}
           initialView='dayGridMonth'
+          editable={true}
+          locale='ko'
           events={events}
-          eventContent={renderEventContent}
+          // eventContent={renderEventContent}
+          eventClick={handleEventClick}
+          eventColor='#378006'
+          eventDisplay='block'
+          dayCellContent={(content) => content.date.getDate()}
         />
       </props.ProjectHubBox>
-      <props.ProjectHubBox width='fit-content' marginLeft='50px'>
+      <props.ProjectHubBox
+        width='fit-content'
+        marginLeft='50px'
+        className='calendarTodoToday'
+        height='42vh'
+      >
         <FullCalendar
           plugins={[listPlugin]}
-          initialView='listWeek'
+          initialView='listDay'
+          locale='ko'
+          contentHeight='650'
           events={events}
+          
           // eventContent={renderEventContent}
         />
       </props.ProjectHubBox>

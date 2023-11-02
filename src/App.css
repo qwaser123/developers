@@ -259,7 +259,7 @@ input[type='checkbox'] + label > span {
 }
 
 .fc-direction-ltr {
-  width: 30vw;
+  width: 46vw;
   height: 82vh;
 }
 
@@ -267,3 +267,36 @@ input[type='checkbox'] + label > span {
   overflow: hidden;
 }
 
+/* .fc-event-title.fc-sticky{
+  white-space: normal;
+} */
+.fc-daygrid-day-number {
+  text-decoration: none;
+  color: black;
+}
+.fc-col-header-cell-cushion {
+  text-decoration: none;
+  color: black;
+}
+.fc-toolbar-chunk {
+  font-size: 10px;
+
+}
+.fc-toolbar-title {
+  font-weight: bold;
+}
+/* todo 크기변경  */
+.calendarTodoToday .fc-direction-ltr {
+  height: 40vh !important;
+  width: 15vw !important;
+}
+/*todo 요일 글자 */
+.fc-list-day-text {
+  color: black;
+  text-decoration: none;
+}
+.fc-myCustomButton-button {
+  margin-left: 10px !important; 
+  background-color: rgb(81, 81, 238) !important; 
+  border-radius: 5px !important;
+}
