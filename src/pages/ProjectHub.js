@@ -385,7 +385,7 @@ function HubCalendar(props) {
           events={Object.values(TodoEvent)}
           // eventContent={renderEventContent}
           eventClick={handleEventClick}
-          eventColor='#378006'
+          eventColor='rgb(81, 81, 238)'
           eventDisplay='block'
           dayCellContent={(content) => content.date.getDate()}
         />
@@ -401,7 +401,7 @@ function HubCalendar(props) {
           initialView='listDay'
           locale='ko'
           contentHeight='650'
-          events={TodoEvent}
+          events={Object.values(TodoEvent)}
 
           // eventContent={renderEventContent}
         />
