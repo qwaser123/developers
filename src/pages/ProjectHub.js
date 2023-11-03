@@ -25,6 +25,20 @@ function ProjectHub() {
     padding-bottom: 0;
     margin-left: ${(props) => props.marginLeft};
   `;
+  let whiteModal = styled.div`
+    background: rgb(255, 255, 255);
+    width: ${(props)=> props.width};
+    height: ${(props) => props.height};
+    padding: 30px;
+    border-radius: 10px;
+    position: absolute;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    top: 55%;
+    left: 54.5%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+  `;
+
   let { id } = useParams();
 
   return (
@@ -33,7 +47,7 @@ function ProjectHub() {
         <ProjectHubSidebar />
         <div className={styles.ProjectHubMain}>
           <HubChat ProjectHubBox={ProjectHubBox} />
-          <HubCalendar ProjectHubBox={ProjectHubBox} />
+          <HubCalendar ProjectHubBox={ProjectHubBox} whiteModal={whiteModal} />
           {/* <HubFileShare /> */}
         </div>
       </div>
@@ -278,27 +292,39 @@ function HubCalendar(props) {
             end: a.data().end,
           };
         });
-        console.log(newData); // newData 출력
         setTodoEvent(newData);
-        console.log(TodoEvent); // newData 출력
-
       });
   }, []);
 
   const [TodoEvent, setTodoEvent] = useState({});
   let { id } = useParams();
   const [isModal, setIsModal] = useState(false);
+  const [isEventModal, setIsEventIsModal] = useState(false);
   const [TodoTitle, setTodoTitle] = useState('');
   const [TodoStartDate, setTodoStartDate] = useState('');
   const [TodoEndDate, setTodoEndDate] = useState('');
   const [Todo, setTodo] = useState({});
+  const [infoTitle, setInfoTitle] = useState('');
+  const [infoStart, setInfoStart] = useState('');
+  const [infoEnd, setInfoEnd] = useState('');
   const handleEventClick = (info) => {
-    alert('Event: ' + info.event.title);
-    alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-    alert('View: ' + info.view.type);
-    info.el.style.borderColor = 'red';
+    setInfoTitle(info.event.title);
+    const startDate = new Date(info.event.start);
+    let start = `${startDate.getFullYear()}년 ${
+      startDate.getMonth() + 1
+    }월 ${startDate.getDate()}일`;
+    setInfoStart(start);
+    const endDate = new Date(info.event.end);
+    let end = `${endDate.getFullYear()}년 ${
+      endDate.getMonth() + 1
+    }월 ${endDate.getDate()}일`;
+    setInfoEnd(end);
+    setIsEventIsModal(!isEventModal);
   };
   const handleEventModal = () => {
+    setIsEventIsModal(!isEventModal);
+  };
+  const handleAddModal = () => {
     setIsModal(!isModal);
   };
 
@@ -315,12 +341,12 @@ function HubCalendar(props) {
   return (
     <>
       {isModal ? (
-        <div className='white-bg2'>
+        <props.whiteModal width='28%' height='40%'>
           <div style={{ textAlign: 'right' }}>
             <button
               type='button'
               className={styles.xbutton}
-              onClick={handleEventModal}
+              onClick={handleAddModal}
             >
               X
             </button>
@@ -363,7 +389,34 @@ function HubCalendar(props) {
               등록
             </button>
           </form>
-        </div>
+        </props.whiteModal>
+      ) : null}
+
+      {isEventModal ? (
+        <props.whiteModal width='24%'>
+          {' '}
+          <div style={{ textAlign: 'right' }}>
+            <button
+              type='button'
+              className={styles.xbutton}
+              onClick={handleEventModal}
+            >
+              X
+            </button>
+          </div>
+          <div>
+            <div>
+              <p style={{ fontSize: '24px', fontWeight: 'bold' }}>
+                {infoTitle}
+              </p>
+            </div>
+            <div>
+              <p style={{ fontSize: '20px' }}>
+                {infoStart.toString()} ~ {infoEnd.toString()}
+              </p>
+            </div>
+          </div>
+        </props.whiteModal>
       ) : null}
       <props.ProjectHubBox width='fit-content' marginLeft='50px' height='84vh'>
         <FullCalendar
@@ -375,7 +428,7 @@ function HubCalendar(props) {
           customButtons={{
             myCustomButton: {
               text: '+',
-              click: handleEventModal,
+              click: handleAddModal,
             },
           }}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
