@@ -263,20 +263,35 @@ function HubCalendar(props) {
     );
   };
 
-  const events = [
-    {
-      title: '[메인] main page UI 구현',
-      start: '2023-04-07',
-      end: '2023-04-10',
-    },
-    { title: '[공통] 헤더 UI 구현', start: '2023-11-02', end: '2023-11-04' },
-    {
-      title: '로그인/회원가입 페이지 UI 구현',
-      start: '2023-10-20',
-      end: '2023-11-01',
-    },
-  ];
+  useEffect(() => {
+    db.collection('TodoList')
+      .doc(id)
+      .collection('Todo')
+      .get()
+      .then((result) => {
+        const newData = {};
+        result.forEach((a) => {
+          console.log(a.data());
+          newData[a.id] = {
+            title: a.data().title,
+            start: a.data().start,
+            end: a.data().end,
+          };
+        });
+        console.log(newData); // newData 출력
+        setTodoEvent(newData);
+        console.log(TodoEvent); // newData 출력
+
+      });
+  }, []);
+
+  const [TodoEvent, setTodoEvent] = useState({});
+  let { id } = useParams();
   const [isModal, setIsModal] = useState(false);
+  const [TodoTitle, setTodoTitle] = useState('');
+  const [TodoStartDate, setTodoStartDate] = useState('');
+  const [TodoEndDate, setTodoEndDate] = useState('');
+  const [Todo, setTodo] = useState({});
   const handleEventClick = (info) => {
     alert('Event: ' + info.event.title);
     alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
@@ -286,28 +301,67 @@ function HubCalendar(props) {
   const handleEventModal = () => {
     setIsModal(!isModal);
   };
+
+  const postTodoInfo = () => {
+    const newTodo = {
+      ...Todo,
+      title: TodoTitle,
+      start: TodoStartDate,
+      end: TodoEndDate,
+    };
+    db.collection('TodoList').doc(id).collection('Todo').add(newTodo);
+    setIsModal(!isModal);
+  };
   return (
     <>
       {isModal ? (
         <div className='white-bg2'>
-          <div style={ { textAlign: 'right'}}><button type='button' className={styles.xbutton} onClick={handleEventModal}>X</button></div>
+          <div style={{ textAlign: 'right' }}>
+            <button
+              type='button'
+              className={styles.xbutton}
+              onClick={handleEventModal}
+            >
+              X
+            </button>
+          </div>
           <form onSubmit={(event) => event.preventDefault()}>
-            <input placeholder='제목을 입력하세요' className={styles.inputModalTodo}></input>
+            <input
+              placeholder='제목을 입력하세요'
+              className={styles.inputModalTodo}
+              onChange={(e) => {
+                setTodoTitle(e.target.value);
+              }}
+            ></input>
             <div className={styles.todoInfoBox}>
               <span>시작일</span>
               <div className={styles.setTodoInfo}>
-                <input type='date'></input>
-                <input type='time'></input>
+                <input
+                  type='date'
+                  onChange={(e) => {
+                    setTodoStartDate(e.target.value);
+                  }}
+                ></input>
               </div>
             </div>
             <div className={styles.todoInfoBox}>
               <span>종료일</span>
               <div className={styles.setTodoInfo}>
-                <input type='date'></input>
-                <input type='time'></input>
+                <input
+                  type='date'
+                  onChange={(e) => {
+                    setTodoEndDate(e.target.value);
+                  }}
+                ></input>
               </div>
             </div>
-            <button className={styles.submitChatBtn} style={{marginTop:'20px'}}>등록</button>
+            <button
+              className={styles.submitChatBtn}
+              style={{ marginTop: '20px' }}
+              onClick={postTodoInfo}
+            >
+              등록
+            </button>
           </form>
         </div>
       ) : null}
@@ -328,7 +382,7 @@ function HubCalendar(props) {
           initialView='dayGridMonth'
           editable={true}
           locale='ko'
-          events={events}
+          events={Object.values(TodoEvent)}
           // eventContent={renderEventContent}
           eventClick={handleEventClick}
           eventColor='#378006'
@@ -347,7 +401,7 @@ function HubCalendar(props) {
           initialView='listDay'
           locale='ko'
           contentHeight='650'
-          events={events}
+          events={TodoEvent}
 
           // eventContent={renderEventContent}
         />
@@ -369,5 +423,3 @@ function HubFileShare() {
 }
 
 export default ProjectHub;
-
-//FIXME: 컬렉션이 계속 생김, 옆에 날짜 보이게, 메세지가 누적되서 박스 넘어가면 오래된순으로 없어지게, 메세지 최신순정렬안되고잇음,. 챗을 누가 보냈는지도- db에 메세지 작성자 uid도 같이 넣어야겠다. 본인이 보낸거 오른쪽으로 - 본인한테만 보이게 어떻게하지.
