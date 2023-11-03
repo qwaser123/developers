@@ -296,3 +296,17 @@ input[type='checkbox'] + label > span {
   background-color: rgb(81, 81, 238) !important; 
   border-radius: 5px !important;
 }
+
+.white-bg2 {
+  background: rgb(255, 255, 255);
+  width: 28%;
+  height: 40%;
+  padding: 30px;
+  border-radius: 10px;
+  position: absolute;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  top: 55%;
+  left: 54.5%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+} 

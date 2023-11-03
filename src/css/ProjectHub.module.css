@@ -27,6 +27,7 @@
 .showChat {
   height: 78%;
   overflow-y: auto;
+  overflow-x:hidden;
   border-bottom: 2px solid rgb(81, 81, 238);
 }
 .ChatContainer {
@@ -37,6 +38,7 @@
 .inputChatPlace {
   height: 100%;
   width: 100%;
+  padding: 15px;
   border: none;
   outline: none;
   display: flex;
@@ -59,9 +61,6 @@
   min-height: 30px;
   min-width: 50px;
   margin-top: 15px;
-  display: flex;  /* Flexbox를 사용하도록 설정 */
-  align-items: center;  /* 자식 요소를 수직 가운데 정렬 */
-  justify-content: center;  /* 자식 요소를 수평 가운데 정렬 */
 }
 .submitChatBtn {
   float: right;
@@ -104,3 +103,30 @@
   width: 100%;
 }
 
+.xbutton {
+  font-weight: bold;
+  background-color: transparent;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+.inputModalTodo {
+  border: none;
+  background-color: rgb(217, 216, 216);
+  padding: 8px 20px;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  font-size: 24px;
+}
+.setTodoInfo {
+  display: inline-block;
+  margin-left: 49px;
+}
+.todoInfoBox {
+  margin-top: 40px;
+  width: 100%;
+  height: 40px;
+  font-weight: bold;
+  font-size: 24px;
+}

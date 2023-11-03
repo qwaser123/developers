@@ -14,7 +14,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import styled from 'styled-components';
 import interactionPlugin from '@fullcalendar/interaction';
-import timeGridPlugin from '@fullcalendar/timegrid'
+import timeGridPlugin from '@fullcalendar/timegrid';
 function ProjectHub() {
   let ProjectHubBox = styled.div`
     width: ${(props) => props.width};
@@ -269,18 +269,48 @@ function HubCalendar(props) {
       start: '2023-04-07',
       end: '2023-04-10',
     },
-    { title: '[공통] 헤더 UI 구현', start: new Date('2023-11-02') },
-    { title: '로그인/회원가입 페이지 UI 구현', start: new Date('2023-10-20') },
+    { title: '[공통] 헤더 UI 구현', start: '2023-11-02', end: '2023-11-04' },
+    {
+      title: '로그인/회원가입 페이지 UI 구현',
+      start: '2023-10-20',
+      end: '2023-11-01',
+    },
   ];
+  const [isModal, setIsModal] = useState(false);
   const handleEventClick = (info) => {
     alert('Event: ' + info.event.title);
     alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
     alert('View: ' + info.view.type);
     info.el.style.borderColor = 'red';
   };
-
+  const handleEventModal = () => {
+    setIsModal(!isModal);
+  };
   return (
     <>
+      {isModal ? (
+        <div className='white-bg2'>
+          <div style={ { textAlign: 'right'}}><button type='button' className={styles.xbutton} onClick={handleEventModal}>X</button></div>
+          <form onSubmit={(event) => event.preventDefault()}>
+            <input placeholder='제목을 입력하세요' className={styles.inputModalTodo}></input>
+            <div className={styles.todoInfoBox}>
+              <span>시작일</span>
+              <div className={styles.setTodoInfo}>
+                <input type='date'></input>
+                <input type='time'></input>
+              </div>
+            </div>
+            <div className={styles.todoInfoBox}>
+              <span>종료일</span>
+              <div className={styles.setTodoInfo}>
+                <input type='date'></input>
+                <input type='time'></input>
+              </div>
+            </div>
+            <button className={styles.submitChatBtn} style={{marginTop:'20px'}}>등록</button>
+          </form>
+        </div>
+      ) : null}
       <props.ProjectHubBox width='fit-content' marginLeft='50px' height='84vh'>
         <FullCalendar
           headerToolbar={{
@@ -291,7 +321,7 @@ function HubCalendar(props) {
           customButtons={{
             myCustomButton: {
               text: '+',
-              click: handleEventClick,
+              click: handleEventModal,
             },
           }}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
