@@ -4,9 +4,7 @@ import firebase from 'firebase/app'; // 필요한 Firebase 모듈을 추가로 i
 import 'firebase/auth';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import logoImg from './img/devLogo.PNG';
 import mainIntroProject from './img/mainIntroProject.PNG';
-
 import {
   Footer,
   MyLogin,
@@ -18,13 +16,12 @@ import {
   MyProjectWrite,
   SignUp,
 } from './pages';
-
-import profileImg from './img/profileImg.png';
+import MyNav from './components/Mynav.js'
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import logoImg from './img/devLogo.PNG';
 import { Nav, Navbar, Container, Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
 function App() {
@@ -54,6 +51,17 @@ function App() {
   });
   return (
     <div className='App'>
+      <Routes>
+        {' '}
+        <Route
+          path='/project/myproject/:id/projectHub'
+          element={<ProjectHub />}
+        />
+        <Route
+          path='/project/myproject/:id/projectHub/chat'
+          element={<HubChat />}
+        />
+      </Routes>
       {isModal === true ? (
         <Modal navigate={navigate} isModal={isModal} setIsModal={setIsModal} />
       ) : null}
@@ -64,106 +72,7 @@ function App() {
       ></MyNav>
 
       <Routes>
-        <Route
-          path='/'
-          element={
-            <>
-              <div className='mainIntro'>
-                <div className='mainAnimation'>
-                  <p className='mainIntroText'>
-                    사이드 프로젝트를
-                    <br />
-                    구하는 가장 <br />
-                    쉽고 빠른 방법
-                    {/*이거 한줄씩 나오게 할까 */}
-                  </p>
-
-                  <Button
-                    className='startBtn'
-                    variant='dark'
-                    onClick={() => {
-                      navigate('/login');
-                    }}
-                  >
-                    지금 시작하기
-                  </Button>
-                </div>
-              </div>
-              <div className='mainIntro secondIntro'>
-                <div className='mainAnimation'>
-                  <div className='mainIntroLeft'>
-                    <p className='mainIntroText'>Project</p>
-                    <p style={{ fontSize: '30px' }}>
-                      사이드 프로젝트를 위한 팀원 모집 서비스.
-                    </p>
-                    <p style={{ fontSize: '20px' }}>
-                      아이디어를 현실로 만들기 위한 파트너를 찾아보세요.{' '}
-                    </p>
-                    <p style={{ fontSize: '15px' }}>
-                      함께 프로젝트를 시작하세요!{' '}
-                    </p>
-                    <Button
-                      className='startBtn'
-                      variant='dark'
-                      onClick={() => {
-                        navigate('/login');
-                      }}
-                    >
-                      자세히 보기
-                    </Button>
-                  </div>
-                  <div
-                    className='mainIntroRight'
-                    style={{ display: 'flex', alignItems: 'center' }}
-                  >
-                    {' '}
-                    <img
-                      src={mainIntroProject}
-                      alt='mainIntro 프로젝트 소개'
-                      style={{
-                        width: '50%',
-                        marginTop: '150px',
-                        marginLeft: '150px',
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className='mainIntro'>
-                <div className='mainAnimation'>
-                  <p className='mainIntroText'>Community</p>
-
-                  <Button
-                    className='startBtn'
-                    variant='dark'
-                    onClick={() => {
-                      navigate('/login');
-                    }}
-                  >
-                    지금 시작하기
-                  </Button>
-                </div>
-              </div>
-              <div className='mainIntro secondIntro'>
-                <div className='mainAnimation'>
-                  <p className='mainIntroText'>User</p>
-
-                  <Button
-                    className='startBtn'
-                    variant='dark'
-                    onClick={() => {
-                      navigate('/login');
-                    }}
-                  >
-                    지금 시작하기
-                  </Button>
-                </div>
-              </div>
-              <div className='main-project'></div>
-              <Footer></Footer>
-            </>
-          }
-        />
+        <Route path='/' element={<MainIntro navigate={navigate} />} />
         <Route
           path='/project/projectWrite'
           element={<MyProjectWrite />}
@@ -177,130 +86,112 @@ function App() {
           path='/project/myproject'
           element={<MyProject navigate={navigate} />}
         />
-        <Route
-          path='/project/myproject/:id/projectHub'
-          element={<ProjectHub />}
-        />
-        <Route
-          path='/project/myproject/:id/projectHub/chat'
-          element={<HubChat />}
-        />
+
         <Route path='*' element={<div>경로가 올바르지 않습니다</div>} />
       </Routes>
     </div>
   );
 }
 
-//nav바
-function MyNav(props) {
-  const [isLogin, setIsLogin] = useState('Log in');
-  let [profileDropdown, setProfileDropdown] = useState(false);
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        setIsLogin(profileImg);
-      } else {
-        setIsLogin('Log in'); //FIXME: 로그인 안 되어있을시 '로그인'텍스트로 변경
-      }
-    });
-  });
+function MainIntro(props) {
   return (
     <>
-      <Navbar className='myNavbar'>
-        <Container className='NavbarContainer'>
-          <Navbar.Brand
+      <div className='mainIntro'>
+        <div className='mainAnimation'>
+          <p className='mainIntroText'>
+            사이드 프로젝트를
+            <br />
+            구하는 가장 <br />
+            쉽고 빠른 방법
+            {/*이거 한줄씩 나오게 할까 */}
+          </p>
+
+          <Button
+            className='startBtn'
+            variant='dark'
             onClick={() => {
-              props.navigate('/');
+              props.navigate('/login');
             }}
           >
-            <img src={logoImg} alt='logoImg' style={{ width: '110px' }} />
-          </Navbar.Brand>
+            지금 시작하기
+          </Button>
+        </div>
+      </div>
+      <div className='mainIntro secondIntro'>
+        <div className='mainAnimation'>
+          <div className='mainIntroLeft'>
+            <p className='mainIntroText'>Project</p>
+            <p style={{ fontSize: '30px' }}>
+              사이드 프로젝트를 위한 팀원 모집 서비스.
+            </p>
+            <p style={{ fontSize: '20px' }}>
+              아이디어를 현실로 만들기 위한 파트너를 찾아보세요.{' '}
+            </p>
+            <p style={{ fontSize: '15px' }}>함께 프로젝트를 시작하세요! </p>
+            <Button
+              className='startBtn'
+              variant='dark'
+              onClick={() => {
+                props.navigate('/login');
+              }}
+            >
+              자세히 보기
+            </Button>
+          </div>
+          <div
+            className='mainIntroRight'
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
+            {' '}
+            <img
+              src={mainIntroProject}
+              alt='mainIntro 프로젝트 소개'
+              style={{
+                width: '50%',
+                marginTop: '150px',
+                marginLeft: '150px',
+              }}
+            />
+          </div>
+        </div>
+      </div>
+      <div className='mainIntro'>
+        <div className='mainAnimation'>
+          <p className='mainIntroText'>Community</p>
 
-          <Nav className='me-auto'>
-            <Nav.Link
-              className='navItem'
-              onClick={() => {
-                props.navigate('/project');
-              }}
-            >
-              프로젝트
-            </Nav.Link>
-            <Nav.Link className='navItem'>커뮤니티</Nav.Link>
-            <Nav.Link className='navItem'>유저</Nav.Link>
-          </Nav>
-          <Nav>
-            <Nav.Link
-              className='navItem rightNav'
-              onClick={() => {
-                props.setIsModal(!props.isModal);
-                // props.navigate('project/projectWrite');
-              }}
-            >
-              새 글 쓰기
-            </Nav.Link>
-            <Nav.Link className='navItem rightNav' id='loginProfile'>
-              {isLogin === profileImg ? (
-                <img
-                  src={isLogin}
-                  alt='프로필'
-                  style={{ width: '30px' }}
-                  onClick={() => {
-                    setProfileDropdown(!profileDropdown);
-                  }}
-                />
-              ) : (
-                <p
-                  onClick={() => {
-                    props.navigate('/login');
-                  }}
-                >
-                  {isLogin}
-                </p>
-              )}
-              {profileDropdown === true ? (
-                <Card
-                  style={{
-                    width: '10rem',
-                    marginTop: '5px',
-                    marginLeft: '-120px',
-                    position: 'absolute',
-                    zIndex: 1000,
-                  }}
-                >
-                  <ListGroup variant='flush'>
-                    <ListGroup.Item
-                      onClick={() => {
-                        setProfileDropdown(!profileDropdown);
-                        props.navigate('/project/myproject');
-                      }}
-                    >
-                      내 프로젝트
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                      onClick={() => {
-                        setProfileDropdown(!profileDropdown);
-                      }}
-                    >
-                      설정
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                      onClick={() => {
-                        setProfileDropdown(!profileDropdown);
-                        firebase.auth().signOut();
-                      }}
-                    >
-                      로그아웃
-                    </ListGroup.Item>
-                  </ListGroup>
-                </Card>
-              ) : null}
-            </Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
+          <Button
+            className='startBtn'
+            variant='dark'
+            onClick={() => {
+              props.navigate('/login');
+            }}
+          >
+            지금 시작하기
+          </Button>
+        </div>
+      </div>
+      <div className='mainIntro secondIntro'>
+        <div className='mainAnimation'>
+          <p className='mainIntroText'>User</p>
+
+          <Button
+            className='startBtn'
+            variant='dark'
+            onClick={() => {
+              props.navigate('/login');
+            }}
+          >
+            지금 시작하기
+          </Button>
+        </div>
+      </div>
+      <div className='main-project'></div>
+      <Footer></Footer>
     </>
   );
 }
+//nav바
+
 function Modal(props) {
   let [fade, setFade] = useState('');
   useEffect(() => {
@@ -344,8 +235,5 @@ function Modal(props) {
     </>
   );
 }
-//TODO: 프로젝트리스트들 자동으로 넘어가게, footer 간단한걸로 변경
-// 새글쓰기 : UI생성 - 프로젝트 or 스터디 or 커뮤니티
-// nav바 호버 이벤트 확실하게. 아래에 색깔표시도 고려
-//FIXME: navigate오류 ->useeffect 잘못 썼음
+//TODO: nav바 호버 이벤트 확실하게. 아래에 색깔표시도 고려
 export default App;
