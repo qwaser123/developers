@@ -210,32 +210,40 @@ export function HubChat(props) {
                   .add(message);
                 // setHaveBeenChat(true);
                 setMessageId(docRef.id);
-              } //else {
-              //   db.collection('chatroom').doc(id).collection('messages').doc(MessageId).update(message);
-              // }
-              // try {
-              //   const response = await fetch(
-              //     'https://api.openai.com/v1/chat/completions',
-              //     {
-              //       method: 'POST',
-              //       headers: {
-              //         'Content-Type': 'application/json',
-              //         Authorization: `Bearer ${'your-api-key-here'}`, // 여기에 실제 API 키를 입력하세요.
-              //       },
-              //       body: JSON.stringify({
-              //         model: 'gpt-3.5-turbo',
-              //         messages: [
-              //           { role: 'user', content: 'Say this is a test!' },
-              //         ],
-              //         temperature: 0.7,
-              //       }),
-              //     }
-              //   );
-              //   const data = await response.json();
-              //   console.log(data);
-              // } catch (error) {
-              //   console.error('Error:', error);
-              // }
+              } // Send the user's message to OpenAI GPT-3
+              try {
+                const response = await fetch(
+                  'https://api.openai.com/v1/chat/completions',
+                  {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      Authorization: `Bearer ${'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'}`, // Replace with your actual API key
+                    },
+                    body: JSON.stringify({
+                      model: 'gpt-3.5-turbo',
+                      messages: [{ role: 'user', content: '이름이 뭐야' }],
+                      temperature: 0.7,
+                    }),
+                  }
+                );
+                const data = await response.json();
+                console.log(data);
+
+                // Add the AI's response to the chat
+                const aiMessage = {
+                  content: data.choices[0].message.content,
+                  date: new Date(),
+                  user: 'AI', // Replace with the AI's identifier
+                };
+                const docRef = await db
+                  .collection('chatroom')
+                  .doc(id)
+                  .collection('messages')
+                  .add(aiMessage);
+              } catch (error) {
+                console.error('Error:', error);
+              }
             }}
           >
             전송{' '}
