@@ -1,7 +1,6 @@
-import { Carousel, Dropdown, DropdownButton } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../index.js';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { GreyBox } from './ProjectDetail.js';
 import styles from '../css/ProjectMain.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,30 +14,41 @@ export default function ProjectPage() {
   let navigate = useNavigate();
   const [projectInfo, setProjectInfo] = useState(null);
   const [query, setQuery] = useState('');
+  const [page, setPage] = useState(0);
+  const [lastDoc, setLastDoc] = useState(null);
   useEffect(() => {
-    db.collection('List')
-      .get()
-      .then((snapshot) => {
-        const newData = {};
-        snapshot.forEach((doc) => {
-          // 새 데이터를 새 객체에 추가
+    let dbQuery = db.collection('List').limit(5);
 
-          if (doc.data().제목.includes(query)) {
-            newData[doc.id] = {
-              제목: doc.data().제목,
-              요약: doc.data().요약,
-              소개: doc.data().소개,
-              스택: doc.data().스택,
-              썸네일: doc.data().썸네일,
-              마감일: doc.data().마감일,
-              팀장: doc.data().팀장,
-            };
-          }
-        });
-        // 데이터 로딩이 완료되면 state 업데이트
-        setProjectInfo(newData);
+    // 두 번째 페이지부터는 startAfter 메소드를 호출
+    if (lastDoc) {
+      dbQuery = dbQuery.startAfter(lastDoc);
+    }
+
+    dbQuery.get().then((snapshot) => {
+      const newData = {};
+      let newLastDoc = null;
+
+      snapshot.forEach((doc) => {
+        // 새 데이터를 새 객체에 추가
+        if (doc.data().제목.includes(query)) {
+          newData[doc.id] = {
+            제목: doc.data().제목,
+            요약: doc.data().요약,
+            소개: doc.data().소개,
+            스택: doc.data().스택,
+            썸네일: doc.data().썸네일,
+            마감일: doc.data().마감일,
+            팀장: doc.data().팀장,
+          };
+        }
+        newLastDoc = doc;
       });
-  }, [query]);
+
+      setLastDoc(newLastDoc);
+      // 기존 데이터에 새 데이터를 추가하여 state 업데이트
+      setProjectInfo((prevData) => ({ ...prevData, ...newData }));
+    });
+  }, [page]);
 
   // 데이터 로딩 중에는 아무것도 렌더링하지 않음
   if (projectInfo === null) {
@@ -51,7 +61,6 @@ export default function ProjectPage() {
       <div className={styles.searchBackground}>
         <div className={styles.searchGroup}>
           <SearchPage query={query} setQuery={setQuery} />
-          
         </div>
       </div>
       <div className={styles.showProjectList}>
@@ -60,6 +69,7 @@ export default function ProjectPage() {
           projectInfo={projectInfo}
           projectInfoKeys={projectInfoKeys}
           navigate={navigate}
+          setPage={setPage}
         />
       </div>
     </>
@@ -112,8 +122,46 @@ function DropDown() {
 }
 
 function ListOfProject(props) {
+  const targetRef = useRef();
+  // 페이지 번호를 저장하는 상태 변수 선언
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // isIntersecting: false -> 스크롤 아래로, true -> 스크롤 위로
+          if (entry.isIntersecting === false) {
+            // 페이지 번호를 증가시킴
+            props.setPage((prevPage) => prevPage + 1);
+            console.log('Element is intersecting!');
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '0px', // 기존 '-10px'에서 '0px'로 변경
+        threshold: 0.1,
+      }
+    );
+
+    const target = targetRef.current;
+    if (target) {
+      observer.observe(target);
+    }
+
+    return () => {
+      if (target) {
+        observer.unobserve(target);
+      }
+    };
+  }, []);
+
   return props.projectInfoKeys.map((key, i) => (
-    <div className=' mt-4' key={key}>
+    <div
+      className=' mt-4'
+      key={key}
+      ref={i === props.projectInfoKeys.length - 1 ? targetRef : null}
+    >
       <div
         className={styles.product}
         onClick={() => {
@@ -148,5 +196,3 @@ function ListOfProject(props) {
     </div>
   ));
 }
-
-//TODO: 신규프로젝트, 인기프로젝트 넘어가는거 만들기 , 그 아래에 프로젝트 리스트, 무한스크롤
