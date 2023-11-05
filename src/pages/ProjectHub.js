@@ -27,7 +27,7 @@ function ProjectHub() {
   `;
   let whiteModal = styled.div`
     background: rgb(255, 255, 255);
-    width: ${(props)=> props.width};
+    width: ${(props) => props.width};
     height: ${(props) => props.height};
     padding: 30px;
     border-radius: 10px;
@@ -281,8 +281,7 @@ function HubCalendar(props) {
     db.collection('TodoList')
       .doc(id)
       .collection('Todo')
-      .get()
-      .then((result) => {
+      .onSnapshot((result) => {
         const newData = {};
         result.forEach((a) => {
           console.log(a.data());
@@ -307,20 +306,22 @@ function HubCalendar(props) {
   const [infoTitle, setInfoTitle] = useState('');
   const [infoStart, setInfoStart] = useState('');
   const [infoEnd, setInfoEnd] = useState('');
+
   const handleEventClick = (info) => {
-    setInfoTitle(info.event.title);
     const startDate = new Date(info.event.start);
     let start = `${startDate.getFullYear()}년 ${
       startDate.getMonth() + 1
     }월 ${startDate.getDate()}일`;
-    setInfoStart(start);
     const endDate = new Date(info.event.end);
     let end = `${endDate.getFullYear()}년 ${
       endDate.getMonth() + 1
     }월 ${endDate.getDate()}일`;
+    setInfoTitle(info.event.title);
+    setInfoStart(start);
     setInfoEnd(end);
     setIsEventIsModal(!isEventModal);
   };
+
   const handleEventModal = () => {
     setIsEventIsModal(!isEventModal);
   };

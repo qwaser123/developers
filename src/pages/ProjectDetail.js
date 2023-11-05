@@ -12,8 +12,9 @@ export let GreyBox = styled.div`
   border-radius: 10px;
   padding: 4px;
   margin-left: 10px;
+  margin-top: 20px;
   font-size: 12px;
-  height: fit-contents;
+  height: 3vh;
 `;
 let ProjectDetailTitle = styled.p`
   font-size: 20px;
@@ -115,7 +116,7 @@ function ProjectDetail() {
               <div className='projectWriteTopInfoBox'>
                 {' '}
                 <span>모집인원</span>{' '}
-                <p style={{ display: 'inline-block', marginTop: '20px' }}>
+                <p style={{ display: 'inline-block', marginTop: '0px' }}>
                   {projectInfo.모집인원}
                 </p>
               </div>
@@ -127,7 +128,6 @@ function ProjectDetail() {
                     <p
                       style={{
                         display: 'inline-block',
-                        marginTop: '20px',
                         padding: '1px',
                         fontSize: '12px',
                       }}
