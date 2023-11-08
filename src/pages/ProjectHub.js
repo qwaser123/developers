@@ -15,87 +15,110 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import styled from 'styled-components';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
-function ProjectHub() {
-  let ProjectHubBox = styled.div`
-    width: ${(props) => props.width};
-    background-color: white;
-    height: ${(props) => props.height};
-    border-radius: 10px;
-    padding: 10px;
-    padding-bottom: 0;
-    margin-left: ${(props) => props.marginLeft};
-  `;
-  let whiteModal = styled.div`
-    background: rgb(255, 255, 255);
-    width: ${(props) => props.width};
-    height: ${(props) => props.height};
-    padding: 30px;
-    border-radius: 10px;
-    position: absolute;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    top: 55%;
-    left: 54.5%;
-    transform: translate(-50%, -50%);
-    z-index: 5;
-  `;
+import { Route, Routes, useNavigate } from 'react-router-dom/dist/index.js';
+import { ProjectHubBox } from '../components/ProjectHubBox.js';
+import { WhiteModal } from '../components/WhiteModal.js';
+export function ProjectHub() {
+  // let ProjectHubBox = styled.div`
+  //   width: ${(props) => props.width};
+  //   background-color: white;
+  //   height: ${(props) => props.height};
+  //   border-radius: 10px;
+  //   padding: 10px;
+  //   padding-bottom: 0;
+  //   margin-left: ${(props) => props.marginLeft};
+  // `;
+  // let whiteModal = styled.div`
+  //   background: rgb(255, 255, 255);
+  //   width: ${(props) => props.width};
+  //   height: ${(props) => props.height};
+  //   padding: 30px;
+  //   border-radius: 10px;
+  //   position: absolute;
+  //   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  //   top: 55%;
+  //   left: 54.5%;
+  //   transform: translate(-50%, -50%);
+  //   z-index: 5;
+  // `;
 
   let { id } = useParams();
-
+  let navigate = useNavigate();
   return (
     <>
       <div className={styles.ProjectHubContainer}>
-        <ProjectHubSidebar />
+        <ProjectHubSidebar navigate={navigate} />
+        <Routes>
+          <Route
+            path='/project/myproject/:id/projectHub/chat'
+            element={<HubChat />}
+          />
+        </Routes>
         <div className={styles.ProjectHubMain}>
           <HubChat ProjectHubBox={ProjectHubBox} />
-          <HubCalendar ProjectHubBox={ProjectHubBox} whiteModal={whiteModal} />
+          <HubCalendar ProjectHubBox={ProjectHubBox} WhiteModal={WhiteModal} />
           {/* <HubFileShare /> */}
         </div>
       </div>
     </>
   );
 }
-function ProjectHubSidebar() {
+function ProjectHubSidebar(props) {
+  let { id } = useParams();
   return (
     <div className={styles.ProjectHubSidebar}>
       {' '}
-      <div className={styles.ProjectHubFeature}>
+      <div
+        className={styles.ProjectHubFeature}
+        onClick={() => {
+          props.navigate(`/project/myproject/${id}/projectHub/home`);
+        }}
+      >
         <p>
           <img src={home} style={{ width: '32%' }} alt='홈' /> 홈
         </p>
       </div>
-      <div className={styles.ProjectHubFeature}>
+      <div
+        className={styles.ProjectHubFeature}
+        onClick={() => {
+          props.navigate(`/project/myproject/${id}/projectHub/board`);
+        }}
+      >
         <p>
           <img src={board} style={{ width: '32%' }} alt='보드' /> 보드
         </p>
       </div>
-      <div className={styles.ProjectHubFeature}>
+      <div
+        className={styles.ProjectHubFeature}
+        onClick={() => {
+          props.navigate('calendar');
+        }}
+      >
         <p>
           <img src={calendar} style={{ width: '32%' }} alt='캘린더' /> 일정
         </p>
       </div>
-      <div className={styles.ProjectHubFeature}>
+      <div
+        className={styles.ProjectHubFeature}
+        onClick={() => {
+          props.navigate('chat');
+        }}
+      >
         <p>
-          <img
-            src={messageImg}
-            style={{ width: '32%' }}
-            onClick={() => {
-              // props.navigate('/project/myproject/:id/chat');
-            }}
-            alt='메시지'
-          />{' '}
-          메세지
+          <img src={messageImg} style={{ width: '32%' }} alt='메시지' /> 메세지
         </p>
       </div>
     </div>
   );
 }
-export function HubChat(props) {
+export function HubChat({ProjectHubBox}) {
   let { id } = useParams();
   let [message, setMessage] = useState({});
   let [haveBeenChat, setHaveBeenChat] = useState(false);
   let [messageContent, setMessageContent] = useState('');
   let [isLogged, setIsLogged] = useState('left');
   let [MessageId, setMessageId] = useState('');
+  const [sendChatGptContent, setSendChatGptContent] = useState('');
   const [userUid, setUserUid] = useState('');
   const scrollUpdate = useRef();
   const messageKey = Object.keys(message);
@@ -130,7 +153,7 @@ export function HubChat(props) {
     });
   }, []);
   return (
-    <props.ProjectHubBox
+    <ProjectHubBox
       width='20vw'
       height='84vh'
       style={{ paddingTop: '0px' }}
@@ -218,11 +241,11 @@ export function HubChat(props) {
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
-                      Authorization: `Bearer ${'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'}`, // Replace with your actual API key
+                      Authorization: `Bearer ${'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'}`, // Replace with your actual API key
                     },
                     body: JSON.stringify({
                       model: 'gpt-3.5-turbo',
-                      messages: [{ role: 'user', content: '이름이 뭐야' }],
+                      messages: [{ role: 'user', content: messageContent }],
                       temperature: 0.7,
                     }),
                   }
@@ -250,18 +273,11 @@ export function HubChat(props) {
           </button>
         </div>
       </div>
-    </props.ProjectHubBox>
+    </ProjectHubBox>
   );
 }
-// function renderEventContent(eventInfo) {
-//   return (
-//     <>
-//       <i>{eventInfo.event.title}</i>
-//     </>
-//   );
-// }
 
-function HubCalendar(props) {
+export function HubCalendar({ProjectHubBox, WhiteModal}) {
   const renderEventContent = (info) => {
     // 사용자 정의 이벤트 데이터 가져오기
     const status = info.event.extendedProps.status;
@@ -350,7 +366,7 @@ function HubCalendar(props) {
   return (
     <>
       {isModal ? (
-        <props.whiteModal width='28%' height='40%'>
+        <WhiteModal width='28%' height='40%'>
           <div style={{ textAlign: 'right' }}>
             <button
               type='button'
@@ -398,11 +414,11 @@ function HubCalendar(props) {
               등록
             </button>
           </form>
-        </props.whiteModal>
+        </WhiteModal>
       ) : null}
 
       {isEventModal ? (
-        <props.whiteModal width='24%'>
+        <WhiteModal width='24%' height='40%'>
           {' '}
           <div style={{ textAlign: 'right' }}>
             <button
@@ -425,9 +441,9 @@ function HubCalendar(props) {
               </p>
             </div>
           </div>
-        </props.whiteModal>
+        </WhiteModal>
       ) : null}
-      <props.ProjectHubBox width='fit-content' marginLeft='50px' height='84vh'>
+      <ProjectHubBox width='fit-content' marginLeft='50px' height='84vh'>
         <FullCalendar
           headerToolbar={{
             left: 'prev',
@@ -447,12 +463,12 @@ function HubCalendar(props) {
           events={Object.values(TodoEvent)}
           // eventContent={renderEventContent}
           eventClick={handleEventClick}
-          eventColor='rgb(81, 81, 238)'
+          eventColor='#585858'
           eventDisplay='block'
           dayCellContent={(content) => content.date.getDate()}
         />
-      </props.ProjectHubBox>
-      <props.ProjectHubBox
+      </ProjectHubBox>
+      <ProjectHubBox
         width='fit-content'
         marginLeft='50px'
         className='calendarTodoToday'
@@ -467,7 +483,7 @@ function HubCalendar(props) {
 
           // eventContent={renderEventContent}
         />
-      </props.ProjectHubBox>
+      </ProjectHubBox>
     </>
   );
 }
@@ -483,5 +499,3 @@ function HubFileShare() {
     </>
   );
 }
-
-export default ProjectHub;
