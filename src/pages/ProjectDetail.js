@@ -155,7 +155,9 @@ function ProjectDetail() {
                   db.collection('List')
                     .doc(id)
                     .update({ 팀원: user.displayName });
-                  db.collection('chatroom').doc(id).set({ 팀원uid: user.uid }); //FIXME: update문 추가
+                  db.collection('chatroom').doc(id).set({ 팀원uid: user.uid }).then(()=> {
+                    alert('신청 완료');
+                  }); //FIXME: update문 추가
                 });
               }}
             >

@@ -48,7 +48,7 @@ export default function MyProjectWrite() {
       ...data,
       [field]: value,
     }));
-    if (value.length > 10) {
+    if (value.length > 5) {
       setTextLen((data) => ({
         ...data,
         [field]: true,
@@ -56,16 +56,7 @@ export default function MyProjectWrite() {
     }
   };
 
-  function inputCheckbox() {
-    return (
-      <>
-        <input type='checkbox' id='프론트엔드' onChange={selectedPosition} />
-        <label for='프론트엔드'>
-          <span>프론트엔드</span>
-        </label>
-      </>
-    );
-  }
+
 
   useEffect(() => {
     // 이것도 app.js에 선언해놓고 가져다 쓰는건?
@@ -123,7 +114,10 @@ export default function MyProjectWrite() {
         ></input>
 
         <ProjectWriteTitle>모집 포지션</ProjectWriteTitle>
-        <inputCheckbox></inputCheckbox>
+        <input type='checkbox' id='프론트엔드' onChange={selectedPosition} />
+        <label for='프론트엔드'>
+          <span>프론트엔드</span>
+        </label>
         <input type='checkbox' id='백엔드' onChange={selectedPosition} />
         <label for='백엔드' className='checkboxMargin'>
           <span>백엔드</span>

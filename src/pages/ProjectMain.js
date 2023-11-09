@@ -48,7 +48,7 @@ export default function ProjectPage() {
       // 기존 데이터에 새 데이터를 추가하여 state 업데이트
       setProjectInfo((prevData) => ({ ...prevData, ...newData }));
     });
-  }, [page]);
+  }, [page, query]);
 
   // 데이터 로딩 중에는 아무것도 렌더링하지 않음
   if (projectInfo === null) {
@@ -60,7 +60,12 @@ export default function ProjectPage() {
     <>
       <div className={styles.searchBackground}>
         <div className={styles.searchGroup}>
-          <SearchPage query={query} setQuery={setQuery} />
+          <SearchPage
+            query={query}
+            setQuery={setQuery}
+            setPage={setPage}
+            setLastDoc={setLastDoc}
+          />
         </div>
       </div>
       <div className={styles.showProjectList}>
@@ -70,6 +75,7 @@ export default function ProjectPage() {
           projectInfoKeys={projectInfoKeys}
           navigate={navigate}
           setPage={setPage}
+          page={page}
         />
       </div>
     </>
@@ -88,6 +94,8 @@ const BlackBtn = styled.button`
 function SearchPage(props) {
   const handleChange = (e) => {
     props.setQuery(e.target.value);
+    props.setPage(0);
+    props.setLastDoc(null);
   };
 
   return (
@@ -126,35 +134,41 @@ function ListOfProject(props) {
   // 페이지 번호를 저장하는 상태 변수 선언
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          // isIntersecting: false -> 스크롤 아래로, true -> 스크롤 위로
-          if (entry.isIntersecting === false) {
-            // 페이지 번호를 증가시킴
-            props.setPage((prevPage) => prevPage + 1);
-            console.log('Element is intersecting!');
+    let observer;
+    const currentTarget = targetRef.current;
+
+    const observeTarget = async () => {
+      if (currentTarget) {
+        observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              // isIntersecting: true -> 스크롤이 관찰 대상에 도달했을 때
+              if (entry.isIntersecting) {
+                // 페이지 번호를 증가시킴
+                props.setPage((prevPage) => prevPage + 1);
+                console.log('Element is intersecting!');
+              }
+            });
+          },
+          {
+            root: null,
+            rootMargin: '50px', // 기존 '-10px'에서 '0px'로 변경
+            threshold: 0.1,
           }
-        });
-      },
-      {
-        root: null,
-        rootMargin: '0px', // 기존 '-10px'에서 '0px'로 변경
-        threshold: 0.1,
-      }
-    );
+        );
 
-    const target = targetRef.current;
-    if (target) {
-      observer.observe(target);
-    }
-
-    return () => {
-      if (target) {
-        observer.unobserve(target);
+        observer.observe(currentTarget);
       }
     };
-  }, []);
+
+    observeTarget();
+
+    return () => {
+      if (observer && currentTarget) {
+        observer.unobserve(currentTarget);
+      }
+    };
+  }, [props.page]);
 
   return props.projectInfoKeys.map((key, i) => (
     <div

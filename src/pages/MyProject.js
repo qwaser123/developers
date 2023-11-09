@@ -48,14 +48,14 @@ function MyProject(props) {
   return <>
    
   <div className='myProjectbox'>
-   <p className='myProjectText'>내 프로젝트</p>
+   <p className='myProjectText'>참여중인 프로젝트</p>
   {
     projectInfoKeys.map((key, i) => (
         <div className='mt-4' key={key}>
           <div
             className={styles.product}
             onClick={() => {
-              props.navigate(`/project/myproject/${key}/projectHub`);
+              props.navigate(`/project/myproject/${key}/projectHub/home`);
     
             }}
           >

@@ -11,22 +11,26 @@ import {
   MyProject,
   ProjectDetail,
   ProjectHub,
-  HubChat,
   ProjectPage,
   MyProjectWrite,
+  HubChat,
   SignUp,
 } from './pages';
-import MyNav from './components/Mynav.js'
+import MyNav from './components/Mynav.js';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import logoImg from './img/devLogo.PNG';
-import { Nav, Navbar, Container, Button } from 'react-bootstrap';
-import Card from 'react-bootstrap/Card';
+import { Button } from 'react-bootstrap';
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom/dist/index.js';
+import { HubCalendar } from './pages/ProjectHub.js';
+import { ProjectHubBox } from './components/ProjectHubBox.js';
+import { WhiteModal } from './components/WhiteModal.js';
 
 function App() {
   const [isModal, setIsModal] = useState(false);
   let navigate = useNavigate();
+  const location = useLocation();
   //텍스트 스크롤 애니메이션
   useEffect(() => {
     let observer = new IntersectionObserver((e) => {
@@ -54,23 +58,28 @@ function App() {
       <Routes>
         {' '}
         <Route
-          path='/project/myproject/:id/projectHub'
+          path='/project/myproject/:id/projectHub/home'
           element={<ProjectHub />}
         />
         <Route
-          path='/project/myproject/:id/projectHub/chat'
+          path='/project/myproject/:id/projectHub/home/chat'
           element={<HubChat />}
+        />
+        <Route
+          path='/project/myproject/:id/projectHub/home/calendar'
+          element={<HubCalendar ProjectHubBox={ProjectHubBox} WhiteModal={WhiteModal}/>}
         />
       </Routes>
       {isModal === true ? (
         <Modal navigate={navigate} isModal={isModal} setIsModal={setIsModal} />
       ) : null}
-      <MyNav
-        setIsModal={setIsModal}
-        isModal={isModal}
-        navigate={navigate}
-      ></MyNav>
-
+      {!location.pathname.startsWith('/project/myproject') && (
+        <MyNav
+          setIsModal={setIsModal}
+          isModal={isModal}
+          navigate={navigate}
+        ></MyNav>
+      )}
       <Routes>
         <Route path='/' element={<MainIntro navigate={navigate} />} />
         <Route

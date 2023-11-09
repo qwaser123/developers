@@ -246,7 +246,7 @@ input[type='checkbox'] + label > span {
 }
 .myProjectText {
   position: absolute;
-  top: 11%;
+  top: 6%;
   left: 18%;
   /* transform: translate(-50%, -50%); */
   font-size: 30px;
